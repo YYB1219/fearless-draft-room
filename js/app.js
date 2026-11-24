@@ -454,6 +454,7 @@
     renderDepletion();
     renderCopilot();
     saveSeries(); // persist the in-progress series on every render
+    if (window.Showcase) window.Showcase.sync(state);
   }
 
   /* anim: when the final filled slot is the action that just landed it

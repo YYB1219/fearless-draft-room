@@ -49,6 +49,13 @@
       "footer.sampleData": "The bundled scouting dataset is a clearly-labeled SAMPLE generated for demonstration (see tools/generate_sample_data.py). It is not real match data. The app is built to load GRID-derived aggregates in the same schema via tools/build_scouting_from_grid.py.",
       "footer.built": "Built for the Cloud9 × JetBrains \"Sky's The Limit\" Hackathon 2026 · Category 2 · Champion data © Riot Games via Data Dragon.",
 
+      /* ---- hero showcase ring (js/showcase.js) ---- */
+      "showcase.eyebrow": "FEARLESS SHOWCASE",
+      "showcase.subtitle": "The most-played champions of the GRID dataset, on one rotating stage.",
+      "showcase.note": "Drag to spin — the ring mirrors the live draft: picked champions light up, fearless bans dim.",
+      "showcase.stats": "{games} games · {wr}% WR",
+      "showcase.picked": "PICKED",
+
       /* ---- roles / phases / common ---- */
       "role.All": "All",
       "role.Top": "Top",
@@ -360,6 +367,13 @@
       "footer.gridData": "侦察数据来自 Cloud9 × JetBrains 黑客松官方 GRID 起始数据集（仅聚合结果；GRID 原始数据受许可限制，不随本项目分发）。",
       "footer.sampleData": "内置的侦察数据集是明确标注的样本数据，由脚本生成、仅供演示（见 tools/generate_sample_data.py），不是真实比赛数据。本应用可通过 tools/build_scouting_from_grid.py 加载同结构的 GRID 聚合数据。",
       "footer.built": "为 Cloud9 × JetBrains「Sky's The Limit」黑客松 2026 而作 · Category 2 · 英雄数据 © Riot Games（Data Dragon）。",
+
+      /* ---- 英雄展示环 (js/showcase.js) ---- */
+      "showcase.eyebrow": "无畏征召 · 英雄展示",
+      "showcase.subtitle": "GRID 数据集中出场最多的英雄，尽在一座旋转展示台。",
+      "showcase.note": "拖动旋转——展示环与实时 BP 同步：已选英雄亮起，无畏禁用的英雄变暗。",
+      "showcase.stats": "{games} 局 · 胜率 {wr}%",
+      "showcase.picked": "已选",
 
       /* ---- 位置 / 阶段 / 通用 ---- */
       "role.All": "全部",
