@@ -33,22 +33,34 @@
 (function (global) {
   "use strict";
 
+  /* Localization hook (js/i18n.js), resolved lazily at call time:
+   * error messages surface in the UI, and the narration request must
+   * instruct the model to answer in the active UI language. */
+  function T(key, params) {
+    var I = global.I18n;
+    return I && typeof I.t === "function" ? I.t(key, params) : key;
+  }
+  function currentLocale() {
+    var I = global.I18n;
+    return I && typeof I.getLocale === "function" ? I.getLocale() : "en";
+  }
+
   var STORAGE_KEY = "fdr.llm.config.v1";
 
   var PRESET_ORDER = ["bailian", "openai", "custom"];
+  /* Preset labels are NOT stored here — they live in i18n
+   * (llm.preset.bailian / .openai / .custom) so they follow the UI
+   * language: EN "Aliyun Bailian (DeepSeek)", ZH "阿里云百炼（DeepSeek）". */
   var PRESETS = {
     bailian: {
-      label: "阿里云百炼（DeepSeek）",
       baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
       model: "deepseek-v4.1-flash"
     },
     openai: {
-      label: "OpenAI",
       baseUrl: "https://api.openai.com/v1",
       model: "gpt-4o-mini"
     },
     custom: {
-      label: "自定义 OpenAI 兼容接口",
       baseUrl: "",
       model: ""
     }
@@ -101,6 +113,11 @@
       apiKey: (cfg.apiKey || "").trim(),
       model: (cfg.model || "").trim()
     };
+    // A non-empty endpoint must pass the URL policy; an invalid one
+    // throws a clear error and is NOT stored.
+    if (clean.baseUrl && !validateBaseUrl(clean.baseUrl)) {
+      throw new Error(T("llm.errBadUrl"));
+    }
     store.set(JSON.stringify(clean));
     return clean;
   }
@@ -113,6 +130,22 @@
   }
 
   /*
+   * Endpoint policy: https:// only — except plain http:// on
+   * localhost / 127.0.0.1, so a locally hosted model server still
+   * works. Anything else (e.g. http://evil.example) would send the
+   * user's API key in cleartext and is rejected.
+   */
+  function validateBaseUrl(baseUrl) {
+    if (typeof baseUrl !== "string" || !baseUrl) return false;
+    var u;
+    try { u = new URL(baseUrl); } catch (e) { return false; }
+    if (u.protocol === "https:") return true;
+    if (u.protocol === "http:" &&
+        (u.hostname === "localhost" || u.hostname === "127.0.0.1")) return true;
+    return false;
+  }
+
+  /*
    * narrate(factsText) -> Promise<string>
    * Sends ONLY the supplied structured facts to the configured model.
    * Rejects (without any network call) when not configured.
@@ -120,15 +153,25 @@
   function narrate(factsText) {
     var cfg = getConfig();
     if (!isConfigured(cfg)) {
-      return Promise.reject(new Error(
-        "No LLM configured — open AI settings and save your own endpoint + API key first."));
+      return Promise.reject(new Error(T("llm.errNoConfig")));
+    }
+    // Defense in depth: even a hand-edited stored config must obey
+    // the endpoint policy before any key leaves the machine.
+    if (!validateBaseUrl(cfg.baseUrl)) {
+      return Promise.reject(new Error(T("llm.errBadUrl")));
     }
     var fetchFn = global.fetch;
     if (typeof fetchFn !== "function") {
-      return Promise.reject(new Error("fetch is not available in this environment."));
+      return Promise.reject(new Error(T("llm.errNoFetch")));
     }
     var url = cfg.baseUrl.replace(/\/+$/, "") + "/chat/completions";
-    return fetchFn(url, {
+    // 30-second timeout: a hung endpoint must not spin forever.
+    var controller = typeof AbortController !== "undefined"
+      ? new AbortController() : null;
+    var timer = controller
+      ? setTimeout(function () { controller.abort(); }, 30000) : null;
+    var request = fetchFn(url, {
+      signal: controller ? controller.signal : undefined,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -146,7 +189,10 @@
               "into a short, sharp narrative (at most ~200 words). Use ONLY " +
               "the facts and numbers provided — never invent statistics, " +
               "matchups, or player names. If the facts include warnings, " +
-              "surface them prominently."
+              "surface them prominently. " +
+              (currentLocale() === "zh"
+                ? "Write the narrative in Simplified Chinese."
+                : "Write the narrative in English.")
           },
           { role: "user", content: factsText }
         ]
@@ -154,7 +200,7 @@
     }).then(function (res) {
       if (!res.ok) {
         return res.text().then(function (body) {
-          throw new Error("LLM request failed: HTTP " + res.status +
+          throw new Error(T("llm.errHttp", { status: res.status }) +
             (body ? " — " + body.slice(0, 160) : ""));
         });
       }
@@ -162,8 +208,18 @@
     }).then(function (json) {
       var content = json && json.choices && json.choices[0] &&
         json.choices[0].message && json.choices[0].message.content;
-      if (!content) throw new Error("LLM response contained no narrative.");
+      if (!content) throw new Error(T("llm.errEmpty"));
       return content.trim();
+    });
+    return request.then(function (v) {
+      if (timer) clearTimeout(timer);
+      return v;
+    }, function (err) {
+      if (timer) clearTimeout(timer);
+      if (err && err.name === "AbortError") {
+        throw new Error(T("llm.errTimeout"));
+      }
+      throw err;
     });
   }
 
@@ -176,6 +232,7 @@
     setConfig: setConfig,
     clearConfig: clearConfig,
     isConfigured: isConfigured,
+    validateBaseUrl: validateBaseUrl,
     narrate: narrate
   };
 

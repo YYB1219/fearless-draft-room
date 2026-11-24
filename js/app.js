@@ -2,11 +2,37 @@
  * app.js — UI wiring for Fearless Draft Room.
  * All draft rules live in draft.js (DraftCore) and all analytics in
  * scouting.js (Scouting); this file only renders state and forwards clicks.
+ *
+ * All UI text goes through js/i18n.js: static chrome via data-i18n /
+ * data-i18n-html / data-i18n-ph attributes in index.html (applied by
+ * applyStaticI18n), generated text via t() at render time. Switching
+ * language re-renders everything in place — no page reload. Champion
+ * display names follow the locale (nameZh in 中文 mode); search matches
+ * both the English and Chinese names.
  */
 (function () {
   "use strict";
 
   var $ = function (id) { return document.getElementById(id); };
+  var t = function (key, params) { return window.I18n.t(key, params); };
+  var roleName = function (r) { return window.I18n.role(r); };
+  /* Every user- or data-derived string spliced into innerHTML goes
+   * through esc() — team names are typed into inputs, and champion /
+   * player / team names come from data files. Dictionary templates and
+   * the structural HTML built here stay raw by design. */
+  var esc = function (s) { return window.I18n.esc(s); };
+
+  /* Icon fallback without inline handlers: when a champion icon fails
+   * to load, swap the <img> for an initial-letter div. Capture phase,
+   * because resource error events do not bubble. */
+  document.addEventListener("error", function (e) {
+    var el = e.target;
+    if (!el || el.tagName !== "IMG" || !el.hasAttribute("data-icon-fallback")) return;
+    var div = document.createElement("div");
+    div.className = "icon-fallback";
+    div.textContent = el.getAttribute("data-icon-fallback");
+    el.replaceWith(div);
+  }, true);
 
   var state = {
     champions: [],          // from data/champions.json
@@ -33,6 +59,7 @@
   }
 
   function init() {
+    applyStaticI18n();
     Promise.all([
       loadJSON("data/champions.json"),
       // Real GRID-derived aggregates ship as scouting.json; the labeled
@@ -50,14 +77,14 @@
       state.scouting = results[1];
       state.demo = results[2];
       renderDataBadge();
-      newSeries();
+      buildGrid(); // tiles are built once; later renders update in place
+      if (!restoreSavedSeries()) newSeries();
       buildScoutTeamOptions();
       buildCopilotOptions();
       initLLMSettings();
       renderScouting();
     }).catch(function (err) {
-      $("data-badge").textContent = "Failed to load data: " + err.message +
-        " — serve this folder over HTTP (see README).";
+      $("data-badge").textContent = t("app.loadError", { msg: err.message });
     });
   }
 
@@ -65,19 +92,55 @@
     var meta = state.scouting.meta || {};
     var badge = $("data-badge");
     if (meta.kind === "grid") {
-      badge.textContent = "Match data: GRID (official hackathon dataset)";
+      badge.textContent = t("badge.grid");
       badge.classList.add("real");
-      $("footer-data").textContent =
-        "Scouting data derived from the official GRID starter dataset for the " +
-        "Cloud9 × JetBrains Hackathon (aggregates only; raw GRID feeds are " +
-        "license-restricted and are not redistributed with this project).";
+      $("footer-data").textContent = t("footer.gridData");
     } else {
-      badge.textContent = "Match data: SAMPLE — demonstration only";
-      $("footer-data").textContent =
-        "The bundled scouting dataset is a clearly-labeled SAMPLE generated " +
-        "for demonstration (see tools/generate_sample_data.py). It is not " +
-        "real match data. The app is built to load GRID-derived aggregates " +
-        "in the same schema via tools/build_scouting_from_grid.py.";
+      badge.textContent = t("badge.sample");
+      $("footer-data").textContent = t("footer.sampleData");
+    }
+  }
+
+  /* ---------------- language switching ---------------- */
+
+  function applyStaticI18n() {
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      el.textContent = t(el.getAttribute("data-i18n"));
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      el.innerHTML = t(el.getAttribute("data-i18n-html"));
+    });
+    document.querySelectorAll("[data-i18n-ph]").forEach(function (el) {
+      el.placeholder = t(el.getAttribute("data-i18n-ph"));
+    });
+    document.title = t("app.title");
+    document.documentElement.lang =
+      window.I18n.getLocale() === "zh" ? "zh-CN" : "en";
+    $("wr-wrap").title = t("wr.title");
+    document.querySelectorAll("[data-lang-opt]").forEach(function (el) {
+      el.classList.toggle("active",
+        el.getAttribute("data-lang-opt") === window.I18n.getLocale());
+    });
+  }
+
+  function setLanguage(loc) {
+    window.I18n.setLocale(loc);
+    applyStaticI18n();
+    buildPresetOptions();
+    refreshLLMButtons();
+    // Demo buttons are JS-created; refresh their labels without
+    // disturbing a demo in progress (pause label included).
+    stepBtn.textContent = t("demo.step");
+    autoBtn.textContent = state.demoTimer ? t("demo.pause") : t("demo.autoplay");
+    if (state.series) renderDraft();
+    if (state.scouting) {
+      renderDataBadge(); // badge + footer provenance follow the language
+      // The copilot opponent select's placeholder option is localized;
+      // rebuild the options but keep the current selection.
+      var opp = $("copilot-opp").value;
+      buildCopilotOptions();
+      $("copilot-opp").value = opp;
+      renderScouting();
     }
   }
 
@@ -89,6 +152,7 @@
 
   function newSeries() {
     stopDemo();
+    clearSavedSeries(); // an explicit new series replaces the saved one
     state.series = DraftCore.createSeries({
       format: $("setup-format").value,
       blueName: $("setup-blue").value.trim() || "Blue",
@@ -99,14 +163,51 @@
     renderDraft();
   }
 
+  /* ---------------- series persistence (sessionStorage) ----------------
+   * The in-progress series is saved on every render and restored on
+   * load, so an accidental refresh mid-draft loses nothing. Storage is
+   * best-effort: any failure (private mode, quota) is ignored. */
+  var SERIES_KEY = "fdr.series.v1";
+  function saveSeries() {
+    try {
+      if (state.series) {
+        sessionStorage.setItem(SERIES_KEY,
+          JSON.stringify(DraftCore.serializeSeries(state.series)));
+      }
+    } catch (e) { /* persistence is best-effort */ }
+  }
+  function clearSavedSeries() {
+    try { sessionStorage.removeItem(SERIES_KEY); } catch (e) {}
+  }
+  function restoreSavedSeries() {
+    try {
+      var raw = sessionStorage.getItem(SERIES_KEY);
+      if (!raw) return false;
+      var s = DraftCore.restoreSeries(JSON.parse(raw), championStats());
+      if (!s) return false;
+      state.series = s;
+      // Reflect the restored series in the setup inputs.
+      $("setup-format").value = s.format;
+      $("setup-blue").value = s.teams[0];
+      $("setup-red").value = s.teams[1];
+      $("setup-patch").value = s.patch || "";
+      renderDraft();
+      return true;
+    } catch (e) { return false; }
+  }
+
+  /* Display name in the active locale (nameZh when in 中文 mode). */
   function champName(id) {
-    return state.champById[id] ? state.champById[id].name : id;
+    var c = state.champById[id];
+    if (!c) return id;
+    return window.I18n.getLocale() === "zh" && c.nameZh ? c.nameZh : c.name;
   }
 
   function iconHTML(c, cls) {
-    return '<img class="' + (cls || "") + '" src="' + c.icon + '" alt="' +
-      c.name + '" loading="lazy" onerror="this.outerHTML=' +
-      "'<div class=\\'icon-fallback\\'>' + '" + c.name.charAt(0) + "' + '</div>'\">";
+    var display = champName(c.id);
+    return '<img class="' + (cls || "") + '" src="' + esc(c.icon) + '" alt="' +
+      esc(display) + '" loading="lazy" data-icon-fallback="' +
+      esc(display.charAt(0)) + '">';
   }
 
   function phaseText() {
@@ -114,15 +215,17 @@
     var step = DraftCore.nextAction(s);
     var game = DraftCore.currentGame(s);
     if (!step) {
-      return "Game " + game.number + " draft complete — mark the winner, then advance.";
+      return t("phase.complete", { game: game.number });
     }
     var idx = game.actions.length;
-    var phase = idx < 6 ? "Ban Phase 1" : idx < 12 ? "Pick Phase 1"
-      : idx < 16 ? "Ban Phase 2" : "Pick Phase 2";
-    var team = step.side === "B" ? s.blueName : s.redName;
+    var phase = idx < 6 ? t("phase.ban1") : idx < 12 ? t("phase.pick1")
+      : idx < 16 ? t("phase.ban2") : t("phase.pick2");
+    var team = esc(step.side === "B" ? DraftCore.blueTeamName(s) : DraftCore.redTeamName(s));
+    var verb = step.type === "ban" ? t("common.banVerb") : t("common.pickVerb");
     var kind = step.type === "ban"
-      ? '<span class="phase-kind-ban">BAN</span>' : '<span class="phase-kind-pick">PICK</span>';
-    return phase + " — " + team + " to " + step.type + " " + kind +
+      ? '<span class="phase-kind-ban">' + t("kind.ban") + "</span>"
+      : '<span class="phase-kind-pick">' + t("kind.pick") + "</span>";
+    return t("phase.turn", { phase: phase, team: team, verb: verb, kind: kind }) +
       ' <span style="color:var(--muted);font-size:12px">(' + (idx + 1) + "/20)</span>";
   }
 
@@ -132,11 +235,14 @@
     var game = DraftCore.currentGame(s);
     var b = DraftCore.gameBreakdown(game);
 
-    $("name-blue").textContent = s.blueName;
-    $("name-red").textContent = s.redName;
-    $("series-score").textContent =
-      s.blueName + "  " + s.wins.blue + " – " + s.wins.red + "  " + s.redName +
-      "  ·  Game " + game.number + " of " + s.format;
+    // Panels show the CURRENT game's side assignment (teams may swap
+    // sides between games); the series score is per TEAM.
+    $("name-blue").textContent = DraftCore.blueTeamName(s);
+    $("name-red").textContent = DraftCore.redTeamName(s);
+    $("series-score").textContent = t("draft.scoreLine", {
+      blue: s.teams[0], bw: s.wins[0], rw: s.wins[1], red: s.teams[1],
+      game: game.number, format: s.format
+    });
     $("phase-label").innerHTML = phaseText();
 
     // Turn highlight
@@ -150,16 +256,19 @@
     renderSlots("picks-red", b.red.picks, 5, false);
     $("btn-win-blue").classList.toggle("won", game.winner === "blue");
     $("btn-win-red").classList.toggle("won", game.winner === "red");
-    $("btn-win-blue").textContent = game.winner === "blue" ? "✓ Won this game" : "Mark game won";
-    $("btn-win-red").textContent = game.winner === "red" ? "✓ Won this game" : "Mark game won";
+    $("btn-win-blue").textContent =
+      game.winner === "blue" ? t("draft.wonDone") : t("draft.wonBtn");
+    $("btn-win-red").textContent =
+      game.winner === "red" ? t("draft.wonDone") : t("draft.wonBtn");
 
     // Pool banner — the Fearless headline
     var ps = DraftCore.poolStats(s, state.champions.length);
     $("pool-banner").innerHTML =
-      "<div>Game <b>" + game.number + "</b>: <b>" + ps.fearlessCount +
-      "</b> champions fearless-banned from earlier games · pool at <b>" +
-      ps.percentAvailable + "%</b> (" + ps.availableAtStart + "/" +
-      ps.totalChampions + " available)</div>" +
+      "<div>" + t("pool.banner", {
+        game: game.number, count: ps.fearlessCount,
+        pct: ps.percentAvailable, avail: ps.availableAtStart,
+        total: ps.totalChampions
+      }) + "</div>" +
       '<div class="pool-meter"><div class="track"><div class="fill" style="width:' +
       ps.percentAvailable + '%"></div></div></div>';
 
@@ -168,8 +277,8 @@
     $("wr-blue").style.width = (p.blue * 100) + "%";
     $("wr-red").style.width = (p.red * 100) + "%";
     $("wr-text").textContent =
-      s.blueName + " " + Math.round(p.blue * 100) + "% — " +
-      Math.round(p.red * 100) + "% " + s.redName;
+      DraftCore.blueTeamName(s) + " " + Math.round(p.blue * 100) + "% — " +
+      Math.round(p.red * 100) + "% " + DraftCore.redTeamName(s);
 
     // Game tabs
     $("game-tabs").innerHTML = s.games.map(function (g, i) {
@@ -179,10 +288,15 @@
         (g.winner ? " ✓" : "") + "</span>";
     }).join("");
 
-    $("btn-next-game").disabled = !DraftCore.isGameComplete(s);
+    $("btn-next-game").disabled = !DraftCore.isGameComplete(s) ||
+      DraftCore.seriesDecided(s) ||
+      s.games.length >= DraftCore.FORMATS[s.format];
+    // Side swap is only legal before the current game's first action.
+    $("btn-swap-sides").disabled = game.actions.length > 0;
     renderGrid();
     renderSummary();
     renderCopilot();
+    saveSeries(); // persist the in-progress series on every render
   }
 
   function renderSlots(elId, ids, total, isBan) {
@@ -191,45 +305,90 @@
       if (i < ids.length) {
         var c = state.champById[ids[i]];
         html += '<div class="slot' + (isBan ? " ban-slot" : "") + '">' +
-          (c ? iconHTML(c) : "") + "<span>" + champName(ids[i]) + "</span></div>";
+          (c ? iconHTML(c) : "") + "<span>" + esc(champName(ids[i])) + "</span></div>";
       } else {
-        html += '<div class="slot empty">' + (isBan ? "— ban —" : "— pick —") + "</div>";
+        html += '<div class="slot empty">' +
+          (isBan ? t("slot.banEmpty") : t("slot.pickEmpty")) + "</div>";
       }
     }
     $(elId).innerHTML = html;
   }
 
-  function renderGrid() {
-    var s = state.series;
-    var fearless = DraftCore.fearlessPool(s);
-    var used = DraftCore.usedInCurrentGame(s);
-    var pickedBy = {};
-    DraftCore.currentGame(s).actions.forEach(function (a) {
-      if (a.type === "pick") pickedBy[a.championId] = a.side === "B" ? "blue" : "red";
-    });
-    var q = state.search.toLowerCase();
-    var html = "";
+  /* Champion grid: the tiles are built ONCE as real <button>s, cached
+   * by champion id. Filtering toggles `hidden`; draft-state and
+   * language changes update classes, badges, title and name text in
+   * place — no full innerHTML rebuilds after the first build. */
+  var tileCache = {};
+  var gridBuilt = false;
+  function buildGrid() {
+    var grid = $("champion-grid");
+    grid.innerHTML = "";
+    tileCache = {};
     state.champions.forEach(function (c) {
-      if (state.roleFilter !== "All" && c.roles.indexOf(state.roleFilter) === -1) return;
-      if (q && c.name.toLowerCase().indexOf(q) === -1) return;
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "tile";
+      b.dataset.champ = c.id;
+      b.innerHTML = iconHTML(c) +
+        '<span class="badge-slot"></span>' +
+        '<span class="tname"></span>';
+      grid.appendChild(b);
+      tileCache[c.id] = b;
+    });
+    gridBuilt = true;
+    updateGridTiles();
+  }
+
+  function updateGridTiles() {
+    if (!gridBuilt) return;
+    var s = state.series;
+    var fearless = s ? DraftCore.fearlessPool(s) : new Map();
+    var used = s ? DraftCore.usedInCurrentGame(s) : new Set();
+    var pickedBy = {}, bannedThisGame = {};
+    if (s) {
+      DraftCore.currentGame(s).actions.forEach(function (a) {
+        if (a.type === "pick") pickedBy[a.championId] = a.side === "B" ? "blue" : "red";
+        if (a.type === "ban") bannedThisGame[a.championId] = true;
+      });
+    }
+    var q = state.search.toLowerCase();
+    var anyVisible = false;
+    state.champions.forEach(function (c) {
+      var el = tileCache[c.id];
+      if (!el) return;
+      var visible = true;
+      if (state.roleFilter !== "All" && c.roles.indexOf(state.roleFilter) === -1) visible = false;
+      if (q && c.name.toLowerCase().indexOf(q) === -1 &&
+          (c.nameZh || "").toLowerCase().indexOf(q) === -1 &&
+          c.id.toLowerCase().indexOf(q) === -1) visible = false;
+      el.hidden = !visible;
+      if (visible) anyVisible = true;
       var cls = "tile";
       var badge = "";
       if (fearless.has(c.id)) {
         cls += " fearless";
         badge = '<span class="fearless-badge">F·G' + fearless.get(c.id) + "</span>";
       } else if (used.has(c.id)) {
-        cls += " used";
         if (pickedBy[c.id]) {
+          cls += " used picked";
           badge = '<span class="picked-badge ' + pickedBy[c.id] + '">' +
             (pickedBy[c.id] === "blue" ? "B" : "R") + "</span>";
+        } else if (bannedThisGame[c.id]) {
+          cls += " used banned";
+          badge = '<span class="banned-badge">' + t("kind.ban") + "</span>";
+        } else {
+          cls += " used";
         }
       }
-      html += '<div class="' + cls + '" data-champ="' + c.id + '" title="' +
-        c.name + " — " + c.roles.join("/") + '">' + iconHTML(c) + badge +
-        '<span class="tname">' + c.name + "</span></div>";
+      el.className = cls;
+      el.title = champName(c.id) + " — " + c.roles.map(roleName).join("/");
+      el.querySelector(".badge-slot").innerHTML = badge;
+      el.querySelector(".tname").textContent = champName(c.id);
     });
-    $("champion-grid").innerHTML = html || '<p style="color:var(--muted)">No champions match.</p>';
+    $("grid-empty").hidden = anyVisible;
   }
+
+  function renderGrid() { updateGridTiles(); }
 
   function renderSummary() {
     var s = state.series;
@@ -237,16 +396,30 @@
     $("series-summary").innerHTML = s.games.map(function (g) {
       var b = DraftCore.gameBreakdown(g);
       var fearlessAfter = DraftCore.fearlessPool(s, g.number);
-      var fmt = function (ids) { return ids.map(nameOf).join(", ") || "—"; };
-      return '<div class="game-summary"><h4>Game ' + g.number +
-        (g.winner ? " — " + (g.winner === "blue" ? s.blueName : s.redName) + " won" : "") +
+      var fmt = function (ids) {
+        return ids.map(function (id) { return esc(nameOf(id)); }).join(", ") || "—";
+      };
+      // Names follow THIS game's side assignment, not game 1's.
+      var gBlue = DraftCore.gameBlueName(s, g);
+      var gRed = DraftCore.gameRedName(s, g);
+      return '<div class="game-summary"><h4>' +
+        t("summary.game", { game: g.number }) +
+        (g.winner ? t("summary.wonSuffix", {
+          team: esc(g.winner === "blue" ? gBlue : gRed)
+        }) : "") +
         "</h4>" +
-        "<div><b style='color:var(--blue)'>" + s.blueName + "</b> picks: " + fmt(b.blue.picks) + "</div>" +
-        "<div><b style='color:var(--red)'>" + s.redName + "</b> picks: " + fmt(b.red.picks) + "</div>" +
-        "<div>Bans: " + fmt(b.blue.bans.concat(b.red.bans)) + "</div>" +
+        "<div><b style='color:var(--blue)'>" + esc(gBlue) + "</b> " +
+        t("summary.picksLabel") + ": " + fmt(b.blue.picks) + "</div>" +
+        "<div><b style='color:var(--red)'>" + esc(gRed) + "</b> " +
+        t("summary.picksLabel") + ": " + fmt(b.red.picks) + "</div>" +
+        "<div>" + t("summary.bansLine", {
+          list: fmt(b.blue.bans.concat(b.red.bans))
+        }) + "</div>" +
         (fearlessAfter.size
-          ? '<div class="fearless-line">Fearless-banned after this game (' +
-            fearlessAfter.size + "): " + fmt(Array.from(fearlessAfter.keys())) + "</div>"
+          ? '<div class="fearless-line">' + t("summary.fearlessAfter", {
+              count: fearlessAfter.size,
+              list: fmt(Array.from(fearlessAfter.keys()))
+            }) + "</div>"
           : "") +
         "</div>";
     }).join("");
@@ -259,7 +432,7 @@
    * applies one every 900ms. This is exactly the flow the demo video
    * script (docs/video-script.md) walks through. */
   function loadDemo() {
-    if (!state.demo) { alert("Demo data failed to load."); return; }
+    if (!state.demo) { toast(t("demo.noData")); return; }
     stopDemo();
     $("setup-format").value = state.demo.format;
     $("setup-blue").value = state.demo.meta.blueName;
@@ -289,7 +462,7 @@
       else if (step.kind === "advance") DraftCore.advanceGame(s);
     } catch (e) {
       stopDemo();
-      alert("Demo stopped: " + e.message);
+      toast(t("demo.stopped", { msg: e.message }));
       return false;
     }
     renderDraft();
@@ -300,15 +473,16 @@
     if (state.demoTimer) { clearInterval(state.demoTimer); state.demoTimer = null; }
     state.demoQueue = [];
     var a = $("btn-demo-auto"), st = $("btn-demo-step");
-    if (a) { a.style.display = "none"; a.textContent = "▶ Auto-play demo"; }
+    if (a) { a.style.display = "none"; a.textContent = t("demo.autoplay"); }
     if (st) st.style.display = "none";
   }
 
   /* ---------------- scouting view ---------------- */
 
   function buildScoutTeamOptions() {
-    $("scout-team").innerHTML = state.scouting.teams.map(function (t) {
-      return '<option value="' + t.id + '">' + t.name + " (" + t.tag + ")</option>";
+    $("scout-team").innerHTML = state.scouting.teams.map(function (tm) {
+      return '<option value="' + esc(tm.id) + '">' + esc(tm.name) +
+        " (" + esc(tm.tag) + ")</option>";
     }).join("");
   }
 
@@ -316,7 +490,7 @@
 
   function barRow(label, count, max, extra) {
     var w = max ? Math.round((count / max) * 100) : 0;
-    return "<tr><td>" + label + "</td><td>" + count + (extra || "") +
+    return "<tr><td>" + esc(label) + "</td><td>" + count + (extra || "") +
       '</td><td class="bar-cell"><div class="mini-track"><div class="mini-fill" style="width:' +
       w + '%"></div></div></td></tr>';
   }
@@ -327,9 +501,11 @@
     var teamId = $("scout-team").value || data.teams[0].id;
     var team = Scouting.teamById(data, teamId);
     var prof = Scouting.profile(data, teamId) || { games: 0, wins: 0 };
-    $("scout-meta").textContent = team.name + " — " + prof.games + " games in dataset · " +
-      prof.wins + " wins (" + (prof.games ? pct(prof.wins / prof.games) : "—") + ") · " +
-      (data.meta.label || "");
+    $("scout-meta").textContent = t("scout.meta", {
+      team: team.name, games: prof.games, wins: prof.wins,
+      pct: prof.games ? pct(prof.wins / prof.games) : "—",
+      label: data.meta.label || ""
+    });
 
     // First picks
     var fp = Scouting.firstPickFrequency(data, teamId, 5);
@@ -337,7 +513,8 @@
     $("scout-firstpicks").innerHTML =
       '<table class="tend">' + fp.rows.map(function (r) {
         return barRow(champName(r.champion), r.count, fpMax,
-          ' <span style="color:var(--muted)">(' + pct(r.count / fp.n) + " of " + fp.n + " games)</span>");
+          ' <span style="color:var(--muted)">' +
+          t("scout.fpExtra", { share: pct(r.count / fp.n), n: fp.n }) + "</span>");
       }).join("") + "</table>";
 
     // Banned against
@@ -346,7 +523,8 @@
     $("scout-banned").innerHTML =
       '<table class="tend">' + ba.rows.map(function (r) {
         return barRow(champName(r.champion), r.count, baMax,
-          ' <span style="color:var(--muted)">(in ' + pct(r.count / ba.n) + " of games vs them)</span>");
+          ' <span style="color:var(--muted)">' +
+          t("scout.baExtra", { share: pct(r.count / ba.n) }) + "</span>");
       }).join("") + "</table>";
 
     // Role pools
@@ -356,40 +534,48 @@
       var pool = pools[role];
       if (!pool) return "";
       var rows = pool.champions.map(function (c) {
-        return "<tr><td>" + champName(c.champion) + "</td><td>" + c.games +
+        return "<tr><td>" + esc(champName(c.champion)) + "</td><td>" + c.games +
           "</td><td>" + pct(c.winRate) + "</td></tr>";
       }).join("");
-      return '<div class="pool-role"><h4>' + role +
-        ' <span class="player">' + (pool.player || "") + " · " + pool.distinct +
-        ' distinct</span></h4><table class="tend"><tr><th>Champion</th><th>Games</th><th>WR</th></tr>' +
-        rows + "</table></div>";
+      return '<div class="pool-role"><h4>' + roleName(role) +
+        ' <span class="player">' + esc(pool.player || "") + " · " +
+        t("scout.distinct", { count: pool.distinct }) +
+        '</span></h4><table class="tend"><tr><th>' + t("scout.colChampion") +
+        "</th><th>" + t("scout.colGames") + "</th><th>" + t("scout.colWR") +
+        "</th></tr>" + rows + "</table></div>";
     }).join("");
 
     // Fearless shift
     var shift = Scouting.fearlessShift(data, teamId);
     if (!shift.byGame.length) {
-      $("scout-shift").innerHTML = '<p style="color:var(--muted)">No series of 3+ games for this team in the dataset.</p>';
+      $("scout-shift").innerHTML =
+        '<p style="color:var(--muted)">' + t("scout.noShift") + "</p>";
     } else {
       $("scout-shift").innerHTML =
-        '<table class="shift-table"><tr><th>Game</th><th>Their top picks in that game number</th>' +
-        "<th>Their own picks already fearless-banned (avg)</th><th>Shared pool removed (avg)</th></tr>" +
+        '<table class="shift-table"><tr><th>' + t("scout.shiftColGame") +
+        "</th><th>" + t("scout.shiftColTop") + "</th><th>" +
+        t("scout.shiftColOwn") + "</th><th>" + t("scout.shiftColShared") +
+        "</th></tr>" +
         shift.byGame.map(function (row) {
           return "<tr><td><b>G" + row.gameNumber + "</b></td><td>" +
-            row.topPicks.map(function (r) { return champName(r.champion) + " ×" + r.count; }).join(", ") +
-            "</td><td>" + row.removedCount + "</td><td>" + row.poolRemoved +
-            " champions</td></tr>";
+            row.topPicks.map(function (r) {
+              return esc(champName(r.champion)) + " ×" + r.count;
+            }).join(", ") +
+            "</td><td>" + row.removedCount + "</td><td>" +
+            t("scout.shiftUnit", { count: row.poolRemoved }) +
+            "</td></tr>";
         }).join("") + "</table>" +
-        '<p style="color:var(--muted);font-size:12px">Based on ' + shift.seriesCount +
-        " series that reached Game 3. By Game 5 the shared pool has lost up to 40 champions — " +
-        "every pick from Games 1–4 is gone for both teams.</p>";
+        '<p style="color:var(--muted);font-size:12px">' +
+        t("scout.shiftNote", { n: shift.seriesCount }) + "</p>";
     }
 
-    // Insights
-    var cards = Scouting.insights(data, teamId);
+    // Insights (champion names localized via champName)
+    var cards = Scouting.insights(data, teamId, champName);
     $("scout-insights").innerHTML = cards.length ? cards.map(function (c) {
-      return '<div class="insight ' + c.type + '"><h4>' + c.title + "</h4><p>" +
-        c.body + '</p><span class="n">sample: n=' + c.n + "</span></div>";
-    }).join("") : '<p style="color:var(--muted)">No insight rules fired for this team at the current thresholds.</p>';
+      return '<div class="insight ' + c.type + '"><h4>' + esc(c.title) + "</h4><p>" +
+        esc(c.body) + '</p><span class="n">' +
+        t("scout.sampleN", { n: c.n }) + "</span></div>";
+    }).join("") : '<p style="color:var(--muted)">' + t("scout.noInsights") + "</p>";
 
     renderBrief(teamId);
   }
@@ -397,66 +583,91 @@
   /* ---------------- AI brief ---------------- */
 
   function renderBrief(teamId) {
-    var brief = BriefGen.generateBrief(state.scouting, teamId, champName);
+    var brief = BriefGen.generateBrief(state.scouting, teamId, champName,
+      state.champions.length);
     state.brief = brief;
     var panel = $("brief-panel");
     if (!brief) {
-      panel.innerHTML = '<p style="color:var(--muted)">No profile available for this team.</p>';
+      panel.innerHTML =
+        '<p style="color:var(--muted)">' + t("brief.noProfile") + "</p>";
       return;
     }
     var o = brief.overview;
     var rows = function (list) {
       return list.map(function (r) {
-        return champName(r.champion) + " ×" + r.count + " (" + pct(r.share) + ")";
+        return t("brief.listItem", {
+          champ: champName(r.champion), count: r.count, share: pct(r.share)
+        });
       }).join(", ");
     };
+    var pts = function (x) {
+      return t("common.pts", { v: (x >= 0 ? "+" : "") + Math.round(x * 100) });
+    };
     var html = "";
-    html += '<div class="brief-sec"><h4>1 · Overall tendencies</h4><p>' +
-      brief.teamName + ": " + o.games + " games, " + o.wins + " wins (" +
-      pct(o.winRate) + "). Top first picks: " + rows(o.topFirstPicks) +
-      ". Most banned against them: " + rows(o.topBannedAgainst) + ".</p></div>";
-    html += '<div class="brief-sec"><h4>2 · Top 3 ban targets</h4>' +
-      brief.banTargets.map(function (t, i) {
-        return "<p><b>" + (i + 1) + ". " + champName(t.champion) + "</b> — won " +
-          pct(t.wrWith) + " in " + t.pickedGames + " picks vs. " + pct(t.wrWithout) +
-          " without (" + (t.diff >= 0 ? "+" : "") + Math.round(t.diff * 100) +
-          ' pts) <span class="n">n=' + t.n + "</span></p>";
+    html += '<div class="brief-sec"><h4>' + t("brief.sec1") + "</h4><p>" +
+      esc(t("brief.sec1Body", {
+        team: brief.teamName, games: o.games, wins: o.wins,
+        wr: pct(o.winRate), fp: rows(o.topFirstPicks),
+        ba: rows(o.topBannedAgainst)
+      })) + "</p></div>";
+    html += '<div class="brief-sec"><h4>' + t("brief.sec2") + "</h4>" +
+      brief.banTargets.map(function (tg, i) {
+        return "<p><b>" + (i + 1) + ". " +
+          esc(t("brief.banTargetLine", {
+            champ: champName(tg.champion), wrWith: pct(tg.wrWith),
+            picked: tg.pickedGames, wrWithout: pct(tg.wrWithout),
+            diff: pts(tg.diff)
+          })) + '</b> <span class="n">n=' + tg.n + "</span></p>";
       }).join("") + "</div>";
     var pr = brief.firstPick.priority;
-    html += '<div class="brief-sec"><h4>3 · First-pick priority</h4><p>' +
+    html += '<div class="brief-sec"><h4>' + t("brief.sec3") + "</h4><p>" +
       (pr
-        ? "<b>" + champName(pr.champion) + "</b> — first-picked " + pr.count +
-          "/" + pr.n + " games (" + pct(pr.teamShare) + "), " +
-          (Math.round(pr.ratio * 10) / 10) + "× the dataset-wide rate. Deny it or pre-draft the counter."
-        : "No champion clears the 2× dataset-rate bar; most common opener: " +
-          (brief.firstPick.rows.length
-            ? champName(brief.firstPick.rows[0].champion) + " (" +
-              brief.firstPick.rows[0].count + "/" + brief.firstPick.rows[0].n + ")"
-            : "—") + ".") +
+        ? "<b>" + esc(t("brief.sec3Priority", {
+            champ: champName(pr.champion), count: pr.count, n: pr.n,
+            share: pct(pr.teamShare),
+            ratio: Math.round(pr.ratio * 10) / 10
+          })) + "</b>"
+        : esc(t("brief.sec3None", {
+            opener: brief.firstPick.rows.length
+              ? t("brief.sec3Opener", {
+                  champ: champName(brief.firstPick.rows[0].champion),
+                  count: brief.firstPick.rows[0].count,
+                  n: brief.firstPick.rows[0].n
+                })
+              : "—"
+          }))) +
       "</p></div>";
     var r = brief.lateRisk;
-    html += '<div class="brief-sec"><h4>4 · Fearless late-series risk</h4>';
+    html += '<div class="brief-sec"><h4>' + t("brief.sec4") + "</h4>";
     if (r.longSeries > 0) {
-      html += "<p>Pool exhaustion: by Game 4 an average of <b>" + r.avgTop5GoneByG4 +
-        "</b> of their top-5 comfort picks (" + r.top5.map(champName).join(", ") +
-        ') are already fearless-banned <span class="n">n=' + r.longSeries +
-        " long series</span>. Dry roles first: " + (r.dryRoles.join(", ") || "—") + ".</p>";
+      html += "<p>" + esc(t("brief.exhaustion", {
+          avg: r.avgTop5GoneByG4, top5: r.top5.map(champName).join(", ")
+        })) + ' <span class="n">' +
+        t("brief.longSeriesN", { n: r.longSeries }) + "</span>" +
+        t("common.period") + " " +
+        esc(t("brief.dryRoles", {
+          roles: r.dryRoles.map(roleName).join(", ") || "—"
+        })) + "</p>";
     }
     if (r.g3RemovedAvg != null) {
-      html += "<p>By Game 3 they have lost an average of " + r.g3RemovedAvg +
-        " of their own picks; the shared pool is down " + r.g3PoolRemovedAvg +
-        ' champions <span class="n">n=' + r.seriesCount + " series</span>.</p>";
+      html += "<p>" + esc(t("brief.g3Line", {
+          removed: r.g3RemovedAvg, pool: r.g3PoolRemovedAvg
+        })) + ' <span class="n">' +
+        t("brief.seriesN", { n: r.seriesCount }) + "</span>" +
+        t("common.period") + "</p>";
     }
     r.shallowRoles.forEach(function (sh) {
-      html += "<p>Concentrated " + sh.role + " pool: " + champName(sh.champions[0]) +
-        " + " + champName(sh.champions[1]) + " cover " + pct(sh.top2Share) +
-        ' of its games <span class="n">n=' + sh.n + "</span>.</p>";
+      html += "<p>" + esc(t("brief.concentrated", {
+          role: roleName(sh.role), c1: champName(sh.champions[0]),
+          c2: champName(sh.champions[1]), share: pct(sh.top2Share)
+        })) + ' <span class="n">n=' + sh.n + "</span>" +
+        t("common.period") + "</p>";
     });
     html += "</div>";
-    html += '<div class="brief-sec"><h4>5 · Series plan (G1–G5)</h4>' +
+    html += '<div class="brief-sec"><h4>' + t("brief.sec5") + "</h4>" +
       brief.seriesPlan.map(function (step) {
-        return '<div class="brief-step"><b>' + step.title + "</b><ul>" +
-          step.points.map(function (pt) { return "<li>" + pt + "</li>"; }).join("") +
+        return '<div class="brief-step"><b>' + esc(step.title) + "</b><ul>" +
+          step.points.map(function (pt) { return "<li>" + esc(pt) + "</li>"; }).join("") +
           "</ul></div>";
       }).join("") + "</div>";
     panel.innerHTML = html;
@@ -466,9 +677,10 @@
 
   function buildCopilotOptions() {
     $("copilot-opp").innerHTML =
-      '<option value="">None — dataset-wide</option>' +
-      state.scouting.teams.map(function (t) {
-        return '<option value="' + t.id + '">' + t.name + " (" + t.tag + ")</option>";
+      '<option value="">' + t("copilot.noneOpp") + "</option>" +
+      state.scouting.teams.map(function (tm) {
+        return '<option value="' + esc(tm.id) + '">' + esc(tm.name) +
+          " (" + esc(tm.tag) + ")</option>";
       }).join("");
   }
 
@@ -486,19 +698,21 @@
     });
     state.lastAdvice = advice;
     $("copilot-headline").textContent = advice.headline;
-    var kindLabel = { pick: "PICK", ban: "BAN", watch: "WATCH" };
+    var kindLabel = {
+      pick: t("kind.pick"), ban: t("kind.ban"), watch: t("kind.watch")
+    };
     $("copilot-recs").innerHTML = advice.recommendations.length
       ? advice.recommendations.map(function (r, i) {
           var c = state.champById[r.champion];
-          return '<div class="rec"><div class="rec-rank">' + (i + 1) + '</div>' +
+          return '<div class="rec ' + r.kind + '"><div class="rec-rank">' + (i + 1) + '</div>' +
             (c ? iconHTML(c) : "") +
-            '<div class="rec-body"><div class="rec-top"><b>' + champName(r.champion) +
+            '<div class="rec-body"><div class="rec-top"><b>' + esc(champName(r.champion)) +
             '</b><span class="rec-kind ' + r.kind + '">' + kindLabel[r.kind] +
-            "</span></div><p>" + r.reason + "</p></div></div>";
+            "</span></div><p>" + esc(r.reason) + "</p></div></div>";
         }).join("")
-      : '<p style="color:var(--muted)">Draft complete — no further recommendations.</p>';
+      : '<p style="color:var(--muted)">' + t("copilot.complete") + "</p>";
     $("copilot-warnings").innerHTML = advice.warnings.map(function (w) {
-      return '<div class="copilot-warning">' + w + "</div>";
+      return '<div class="copilot-warning">' + esc(w) + "</div>";
     }).join("");
   }
 
@@ -506,11 +720,20 @@
 
   var toastTimer = null;
   function toast(msg) {
-    var t = $("toast");
-    t.textContent = msg;
-    t.hidden = false;
+    var el = $("toast");
+    el.textContent = msg;
+    el.hidden = false;
     if (toastTimer) clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { t.hidden = true; }, 4200);
+    toastTimer = setTimeout(function () { el.hidden = true; }, 4200);
+  }
+
+  function presetLabel(key) {
+    var labels = {
+      bailian: t("llm.preset.bailian"),
+      openai: t("llm.preset.openai"),
+      custom: t("llm.preset.custom")
+    };
+    return labels[key] || key;
   }
 
   function refreshLLMButtons() {
@@ -519,31 +742,37 @@
       b.disabled = !ok;
     });
     document.querySelectorAll(".llm-hint").forEach(function (h) {
-      h.textContent = ok
-        ? "Sends only the structured facts above to your configured model."
-        : "Configure your own model in ⚙ AI settings (BYOK) to enable narration.";
+      h.textContent = ok ? t("llm.hintOn") : t("llm.hintOff");
     });
     var cfg = LLM.getConfig();
     $("llm-status").textContent = ok
-      ? "Saved: " + LLM.PRESETS[cfg.preset].label + " · " + cfg.model + " · " + cfg.baseUrl
-      : "Not configured — the brief and copilot still work fully, offline.";
+      ? t("llm.statusSaved", {
+          preset: presetLabel(cfg.preset), model: cfg.model, url: cfg.baseUrl
+        })
+      : t("llm.statusNone");
+  }
+
+  function buildPresetOptions() {
+    var sel = $("llm-preset");
+    var current = sel.value;
+    sel.innerHTML = LLM.PRESET_ORDER.map(function (k) {
+      return '<option value="' + k + '">' + presetLabel(k) + "</option>";
+    }).join("");
+    if (current && LLM.PRESETS[current]) sel.value = current;
   }
 
   function initLLMSettings() {
-    var sel = $("llm-preset");
-    sel.innerHTML = LLM.PRESET_ORDER.map(function (k) {
-      return '<option value="' + k + '">' + LLM.PRESETS[k].label + "</option>";
-    }).join("");
+    buildPresetOptions();
     var cfg = LLM.getConfig();
     if (cfg) {
-      sel.value = cfg.preset;
+      $("llm-preset").value = cfg.preset;
       $("llm-baseurl").value = cfg.baseUrl;
       $("llm-model").value = cfg.model;
       $("llm-apikey").value = cfg.apiKey;
     } else {
       // Default preset: Aliyun Bailian (DeepSeek) — endpoint + model
       // prefilled, key left empty for the user to paste their own.
-      sel.value = LLM.DEFAULT_PRESET;
+      $("llm-preset").value = LLM.DEFAULT_PRESET;
       applyPreset(LLM.DEFAULT_PRESET);
     }
     refreshLLMButtons();
@@ -556,36 +785,75 @@
     $("llm-model").value = p.model;
   }
 
-  function narrateInto(outId, facts) {
+  /* Per-panel request ids: if the user re-asks (or switches opponent)
+   * while a request is in flight, the stale response is discarded
+   * instead of overwriting the newer panel state. */
+  var narrateSeq = {};
+  function narrateInto(outId, btnId, facts) {
     var out = $(outId);
+    var btn = $(btnId);
+    var my = (narrateSeq[outId] = (narrateSeq[outId] || 0) + 1);
     out.hidden = false;
-    out.textContent = "Asking your model…";
+    out.textContent = t("llm.asking");
+    btn.disabled = true;
     LLM.narrate(facts).then(function (text) {
+      if (my !== narrateSeq[outId]) return; // stale: a newer request owns it
       out.textContent = text;
     }).catch(function (err) {
+      if (my !== narrateSeq[outId]) return;
       out.hidden = true;
-      toast("AI narration failed: " + err.message);
+      toast(t("llm.failed", { msg: err.message }));
+    }).then(function () {
+      if (my === narrateSeq[outId]) btn.disabled = false;
     });
+  }
+
+  /* Hide + clear a narration panel and invalidate its in-flight
+   * request (used when the selected opponent changes). */
+  function clearNarrate(outId) {
+    narrateSeq[outId] = (narrateSeq[outId] || 0) + 1;
+    var out = $(outId);
+    out.textContent = "";
+    out.hidden = true;
+  }
+
+  /* Draft errors carry {code, championId}: render the localized
+   * message with the champion's display name in the CURRENT language
+   * (never the raw English message baked in by draft.js). */
+  function draftErrorText(err) {
+    var keys = { fearless: "err.fearless", used: "err.used", invalid: "err.invalid" };
+    if (err && err.code && keys[err.code] && err.championId) {
+      return t(keys[err.code], { champ: champName(err.championId) });
+    }
+    return err && err.message ? err.message : String(err);
   }
 
   /* ---------------- events ---------------- */
 
   document.querySelectorAll(".tab").forEach(function (tab) {
     tab.addEventListener("click", function () {
-      document.querySelectorAll(".tab").forEach(function (t) { t.classList.remove("active"); });
+      document.querySelectorAll(".tab").forEach(function (tb) {
+        tb.classList.remove("active");
+        tb.setAttribute("aria-selected", "false");
+      });
       document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("active"); });
       tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
       $("view-" + tab.dataset.view).classList.add("active");
     });
+  });
+
+  $("btn-lang").addEventListener("click", function () {
+    setLanguage(window.I18n.getLocale() === "zh" ? "en" : "zh");
   });
 
   // Demo controls are injected next to the header demo button's flow:
   var controlsHost = document.querySelector(".draft-controls");
   var stepBtn = document.createElement("button");
-  stepBtn.id = "btn-demo-step"; stepBtn.className = "btn"; stepBtn.textContent = "Demo step →";
+  stepBtn.id = "btn-demo-step"; stepBtn.className = "btn"; stepBtn.textContent = t("demo.step");
   stepBtn.style.display = "none";
   var autoBtn = document.createElement("button");
-  autoBtn.id = "btn-demo-auto"; autoBtn.className = "btn btn-accent"; autoBtn.textContent = "▶ Auto-play demo";
+  autoBtn.id = "btn-demo-auto"; autoBtn.className = "btn btn-accent"; autoBtn.textContent = t("demo.autoplay");
   autoBtn.style.display = "none";
   controlsHost.appendChild(stepBtn);
   controlsHost.appendChild(autoBtn);
@@ -594,23 +862,30 @@
   autoBtn.addEventListener("click", function () {
     if (state.demoTimer) {
       clearInterval(state.demoTimer); state.demoTimer = null;
-      autoBtn.textContent = "▶ Auto-play demo";
+      autoBtn.textContent = t("demo.autoplay");
       return;
     }
-    autoBtn.textContent = "⏸ Pause demo";
+    autoBtn.textContent = t("demo.pause");
     state.demoTimer = setInterval(function () {
-      if (!demoStep()) { clearInterval(state.demoTimer); state.demoTimer = null; autoBtn.textContent = "▶ Auto-play demo"; }
+      if (!demoStep()) { clearInterval(state.demoTimer); state.demoTimer = null; autoBtn.textContent = t("demo.autoplay"); }
     }, 900);
   });
 
   $("btn-demo").addEventListener("click", loadDemo);
   $("btn-new-series").addEventListener("click", newSeries);
-  $("btn-undo").addEventListener("click", function () { DraftCore.undo(state.series); renderDraft(); });
-  $("btn-reset-game").addEventListener("click", function () { DraftCore.resetGame(state.series); renderDraft(); });
+  $("btn-undo").addEventListener("click", function () { stopDemo(); DraftCore.undo(state.series); renderDraft(); });
+  $("btn-swap-sides").addEventListener("click", function () {
+    stopDemo();
+    try {
+      DraftCore.swapSides(state.series);
+      renderDraft();
+    } catch (err) { toast(draftErrorText(err)); }
+  });
+  $("btn-reset-game").addEventListener("click", function () { stopDemo(); DraftCore.resetGame(state.series); renderDraft(); });
   $("btn-reset-series").addEventListener("click", newSeries);
   $("btn-next-game").addEventListener("click", function () {
     if (DraftCore.advanceGame(state.series)) renderDraft();
-    else alert("Series is complete (or the format has no more games).");
+    else toast(t("alert.seriesComplete"));
   });
   $("btn-win-blue").addEventListener("click", function () { DraftCore.setWinner(state.series, "blue"); renderDraft(); });
   $("btn-win-red").addEventListener("click", function () { DraftCore.setWinner(state.series, "red"); renderDraft(); });
@@ -624,22 +899,31 @@
     if (!e.target.dataset.role) return;
     state.roleFilter = e.target.dataset.role;
     document.querySelectorAll("#role-filters .chip").forEach(function (ch) {
-      ch.classList.toggle("active", ch.dataset.role === state.roleFilter);
+      var on = ch.dataset.role === state.roleFilter;
+      ch.classList.toggle("active", on);
+      ch.setAttribute("aria-pressed", on ? "true" : "false");
     });
     renderGrid();
   });
   $("champion-grid").addEventListener("click", function (e) {
     var tile = e.target.closest(".tile");
     if (!tile || tile.classList.contains("fearless") || tile.classList.contains("used")) return;
+    stopDemo(); // a manual pick takes the series out of the demo script
     try {
       DraftCore.applyAction(state.series, tile.dataset.champ);
       renderDraft();
-    } catch (err) { alert(err.message); }
+    } catch (err) { toast(draftErrorText(err)); }
   });
-  $("scout-team").addEventListener("change", renderScouting);
+  $("scout-team").addEventListener("change", function () {
+    clearNarrate("brief-llm-out"); // the old opponent's narration is stale
+    renderScouting();
+  });
 
   // AI copilot controls
-  $("copilot-opp").addEventListener("change", renderCopilot);
+  $("copilot-opp").addEventListener("change", function () {
+    clearNarrate("copilot-llm-out");
+    renderCopilot();
+  });
   $("copilot-side").addEventListener("change", renderCopilot);
 
   // AI brief actions
@@ -647,16 +931,17 @@
     if (!state.brief) return;
     var text = BriefGen.briefToText(state.brief, champName);
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(function () { toast("Brief copied."); });
+      navigator.clipboard.writeText(text).then(function () { toast(t("toast.briefCopied")); });
     }
   });
   $("btn-brief-llm").addEventListener("click", function () {
     if (!state.brief) return;
-    narrateInto("brief-llm-out", BriefGen.briefToText(state.brief, champName));
+    narrateInto("brief-llm-out", "btn-brief-llm",
+      BriefGen.briefToText(state.brief, champName));
   });
   $("btn-copilot-llm").addEventListener("click", function () {
     if (!state.lastAdvice) return;
-    narrateInto("copilot-llm-out",
+    narrateInto("copilot-llm-out", "btn-copilot-llm",
       Copilot.summarize(state.series, state.lastAdvice, champName));
   });
 
@@ -671,22 +956,27 @@
     applyPreset(e.target.value);
   });
   $("btn-llm-save").addEventListener("click", function () {
-    LLM.setConfig({
-      preset: $("llm-preset").value,
-      baseUrl: $("llm-baseurl").value,
-      apiKey: $("llm-apikey").value,
-      model: $("llm-model").value
-    });
+    try {
+      LLM.setConfig({
+        preset: $("llm-preset").value,
+        baseUrl: $("llm-baseurl").value,
+        apiKey: $("llm-apikey").value,
+        model: $("llm-model").value
+      });
+    } catch (err) {
+      toast(err.message); // e.g. the https:// endpoint policy
+      return;
+    }
     refreshLLMButtons();
     toast(LLM.isConfigured()
-      ? "AI settings saved (this browser only)."
-      : "Saved, but endpoint, model and key are all required to enable narration.");
+      ? t("toast.settingsSaved")
+      : t("toast.settingsIncomplete"));
   });
   $("btn-llm-clear").addEventListener("click", function () {
     LLM.clearConfig();
     $("llm-apikey").value = "";
     initLLMSettings();
-    toast("AI settings cleared from this browser.");
+    toast(t("toast.settingsCleared"));
   });
 
   init();

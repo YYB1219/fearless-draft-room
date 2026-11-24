@@ -42,18 +42,32 @@
   function Draft() { return global.DraftCore; }
   function Scout() { return global.Scouting; }
 
+  /* Localization hooks (js/i18n.js), resolved lazily at call time.
+   * Every readout, reason and warning below is a dictionary template;
+   * only the numbers and names interpolated into it change. */
+  function T(key, params) {
+    var I = global.I18n;
+    return I && typeof I.t === "function" ? I.t(key, params) : key;
+  }
+  function roleName(r) {
+    var I = global.I18n;
+    return I && typeof I.role === "function" ? I.role(r) : r;
+  }
+
   function pct(x) { return Math.round(x * 100) + "%"; }
 
-  /* Same shrinkage as draft.js: WR' = (W + 2) / (G + 4). */
+  /* WR' is DraftCore.shrunkWinRate (prior m = 16) — the exact same
+   * shrunk rate the win-rate bar uses. No local copy: two shrinkage
+   * formulas in one app would silently disagree. */
   function wrPrime(stats, id) {
     var s = stats[id];
     if (!s || !s.games) return { wr: 0.5, games: 0 };
-    return { wr: (s.wins + 2) / (s.games + 4), games: s.games };
+    return { wr: Draft().shrunkWinRate(s), games: s.games };
   }
 
   function phaseName(actionsDone) {
-    return actionsDone < 6 ? "Ban Phase 1" : actionsDone < 12 ? "Pick Phase 1"
-      : actionsDone < 16 ? "Ban Phase 2" : "Pick Phase 2";
+    return actionsDone < 6 ? T("phase.ban1") : actionsDone < 12 ? T("phase.pick1")
+      : actionsDone < 16 ? T("phase.ban2") : T("phase.pick2");
   }
 
   function advise(input) {
@@ -70,23 +84,27 @@
     var theirs = breakdown[ourSide === "B" ? "red" : "blue"];
     var oppTeam = input.opponentId ? S.teamById(data, input.opponentId) : null;
     var opp = input.opponentId ? S.profile(data, input.opponentId) : null;
-    var oppName = oppTeam ? oppTeam.name : "the opponent";
+    var oppName = oppTeam ? oppTeam.name : T("copilot.theOpponent");
     var ps = D.poolStats(series, input.championIds.length);
 
-    var headline = "Game " + game.number + " · " +
-      (step ? phaseName(game.actions.length) : "Draft complete") +
-      " · Pool at " + ps.percentAvailable + "% (" + ps.fearlessCount +
-      " fearless-banned)";
+    var headline = T("copilot.gameLabel", { game: game.number }) + " · " +
+      (step ? phaseName(game.actions.length) : T("phase.draftComplete")) +
+      " · " + T("copilot.poolPart", {
+        pct: ps.percentAvailable, count: ps.fearlessCount
+      });
     if (step) {
-      var actor = step.side === ourSide ? "Your " +
-        (step.side === "B" ? series.blueName : series.redName) :
-        (step.side === "B" ? series.blueName : series.redName);
-      headline += " · " + actor + " to " + step.type + ".";
+      // Names follow the CURRENT game's side assignment.
+      var actorName = step.side === "B" ? D.blueTeamName(series) : D.redTeamName(series);
+      var action = step.type === "ban" ? T("common.banVerb") : T("common.pickVerb");
+      headline += " · " + (step.side === ourSide
+        ? T("copilot.turnOurs", { team: actorName, action: action })
+        : T("copilot.turnTheirs", { team: actorName, action: action }));
     }
     var prob = D.heuristicWinProbability(series);
-    headline += " Heuristic: " + series.blueName + " " +
-      Math.round(prob.blue * 100) + "% – " + Math.round(prob.red * 100) +
-      "% " + series.redName + " (estimate).";
+    headline += " " + T("copilot.heuristic", {
+      blue: D.blueTeamName(series), bp: Math.round(prob.blue * 100),
+      rp: Math.round(prob.red * 100), red: D.redTeamName(series)
+    });
 
     var warnings = computeWarnings(input, D, S, {
       game: game, opp: opp, oppName: oppName, ours: ours, theirs: theirs,
@@ -113,6 +131,9 @@
       opp: opp, oppName: oppName, ours: ours, theirs: theirs,
       rolesOf: input.rolesOf || {}
     };
+    // Ban Phase 2 = actions 13-16 (indices 12-15) of the sequence.
+    ctx.banPhase2 = game.actions.length >= 12 && game.actions.length < 16;
+    ctx.oppFilledRoles = opponentFilledRoles(ctx);
 
     var scored;
     if (mode === "our-pick" || mode === "watch-ban") {
@@ -158,12 +179,39 @@
     return v;
   }
 
+  /* Roles we have already filled. A role counts as filled ONLY by a
+   * picked champion's PRIMARY role (roles[0]): a flex pick (e.g.
+   * Maokai, Jungle/Support/Top) locks the lane it was drafted for,
+   * not every lane it could theoretically play. */
   function openRoles(ctx) {
     var filled = {};
     ctx.ours.picks.forEach(function (id) {
-      (ctx.rolesOf[id] || []).forEach(function (r) { filled[r] = true; });
+      var roles = ctx.rolesOf[id] || [];
+      if (roles.length) filled[roles[0]] = true;
     });
     return filled;
+  }
+
+  /* Primary roles the OPPONENT has already locked in with their picks. */
+  function opponentFilledRoles(ctx) {
+    var filled = {};
+    ctx.theirs.picks.forEach(function (id) {
+      var roles = ctx.rolesOf[id] || [];
+      if (roles.length) filled[roles[0]] = true;
+    });
+    return filled;
+  }
+
+  /* Ban Phase 2 penalty: banning a champion whose primary role the
+   * opponent has already filled is close to wasted — they cannot pick
+   * a second champion for that lane. Strongly down-weight those so
+   * phase-2 bans target the roles the opponent still has to fill. */
+  var BAN_PHASE2_FILLED_ROLE_PENALTY = 40;
+  function banPhase2Penalty(ctx, id) {
+    if (!ctx.banPhase2) return 0;
+    var primary = (ctx.rolesOf[id] || [])[0];
+    return primary && ctx.oppFilledRoles[primary]
+      ? BAN_PHASE2_FILLED_ROLE_PENALTY : 0;
   }
 
   function scorePick(ctx, id) {
@@ -187,7 +235,8 @@
     if (!t) {
       // No opponent profile (or no history on this champion): fall back
       // to raw dataset strength — still an evidence-based ordering.
-      return { champion: id, score: (w.wr - 0.5) * 100, games: w.games,
+      return { champion: id, score: (w.wr - 0.5) * 100 - banPhase2Penalty(ctx, id),
+               games: w.games,
                wr: w.wr, denial: 0, roleNeed: 0, role: (ctx.rolesOf[id] || [])[0] || null,
                tendency: null };
     }
@@ -202,6 +251,7 @@
       var wrWhenBanned = t.bannedAgainstWins / t.bannedAgainstGames;
       if (wrWhenBanned >= baseline + 0.05) score -= 25;
     }
+    score -= banPhase2Penalty(ctx, id);
     return { champion: id, score: score, games: t.pickedGames, wr: wrWith,
              denial: 0, roleNeed: 0, role: (ctx.rolesOf[id] || [])[0] || null,
              tendency: t };
@@ -213,53 +263,59 @@
     var t = s.tendency;
     if (mode === "our-pick") {
       if (t && s.denial >= 6) {
-        return "Denies " + ctx.oppName + ": they won " +
-          pct(t.pickedWins / t.pickedGames) + " on " + name + " across " +
-          t.pickedGames + " picks (n=" + t.pickedGames + ")" +
-          (s.roleNeed > 0 ? ", and it fills an open role for us." : ".");
+        return T("reason.deny", {
+          opp: ctx.oppName, wr: pct(t.pickedWins / t.pickedGames),
+          champ: name, picks: t.pickedGames, n: t.pickedGames
+        }) + (s.roleNeed > 0 ? T("reason.suffixRole") : T("common.period"));
       }
       if (s.roleNeed > 0 && s.role) {
-        return "Fills our open " + s.role + " slot; dataset WR′ " + pct(s.wr) +
-          " over " + s.games + " games (n=" + s.games + ").";
+        return T("reason.fillRole", {
+          role: roleName(s.role), wr: pct(s.wr), games: s.games
+        });
       }
       if (s.games > 0) {
-        return "Highest-rated available" + (s.role ? " " + s.role : "") +
-          ": WR′ " + pct(s.wr) + " over " + s.games + " games (n=" + s.games + ").";
+        return s.role
+          ? T("reason.highestRole", { role: roleName(s.role), wr: pct(s.wr), games: s.games })
+          : T("reason.highest", { wr: pct(s.wr), games: s.games });
       }
-      return "No dataset sample on " + name + " yet — rated on role fit only.";
+      return T("reason.noSample", { champ: name });
     }
     if (mode === "our-ban") {
       if (t && t.pickedGames) {
         var wrW = t.pickedWins / t.pickedGames;
         var wrWo = t.unpickedGames ? t.unpickedWins / t.unpickedGames : 0;
-        return "Remove the comfort: " + ctx.oppName + " won " + pct(wrW) +
-          " with " + name + " vs. " + pct(wrWo) + " without (n=" +
-          t.pickedGames + " picks).";
+        return T("reason.removeComfort", {
+          opp: ctx.oppName, wrWith: pct(wrW), champ: name,
+          wrWithout: pct(wrWo), n: t.pickedGames
+        });
       }
       if (ctx.opp && ctx.opp.firstPicks && ctx.opp.firstPicks[s.champion] >= 5) {
-        return "Their first-pick priority: " + ctx.opp.firstPicks[s.champion] +
-          " first picks in " + ctx.opp.games + " games (n=" + ctx.opp.games +
-          ") — deny the opener.";
+        return T("reason.firstPickPriority", {
+          count: ctx.opp.firstPicks[s.champion], games: ctx.opp.games
+        });
       }
-      return "Strongest open champion in the dataset: WR′ " + pct(s.wr) +
-        " over " + s.games + " games (n=" + s.games + ") — don't hand it over.";
+      return T("reason.strongestOpen", { wr: pct(s.wr), games: s.games });
     }
     if (mode === "watch-pick") {
       if (t && t.pickedGames) {
-        return "Watch: " + ctx.oppName + " may take " + name + " — their " +
-          "comfort at " + pct(t.pickedWins / t.pickedGames) + " WR in " +
-          t.pickedGames + " picks (n=" + t.pickedGames +
-          "). Have the counter or the trade ready.";
+        return T("reason.watchComfort", {
+          opp: ctx.oppName, champ: name,
+          wr: pct(t.pickedWins / t.pickedGames), picks: t.pickedGames
+        });
       }
-      return "Watch: " + name + " is the strongest open champion by " +
-        "dataset WR′ (" + pct(s.wr) + ", n=" + s.games +
-        ") — expect it to be contested.";
+      return T("reason.watchStrongest", {
+        champ: name, wr: pct(s.wr), games: s.games
+      });
     }
     // watch-ban: opponent is about to ban; these are OUR priorities to protect.
-    return "Protect: " + name + " is our best remaining" +
-      (s.role ? " " + s.role : "") + " option (WR′ " + pct(s.wr) + ", n=" +
-      s.games + ") — expect " + ctx.oppName +
-      " to consider banning it; keep a backup ready.";
+    return s.role
+      ? T("reason.protectRole", {
+          champ: name, role: roleName(s.role), wr: pct(s.wr),
+          games: s.games, opp: ctx.oppName
+        })
+      : T("reason.protect", {
+          champ: name, wr: pct(s.wr), games: s.games, opp: ctx.oppName
+        });
   }
 
   /* --- warnings ------------------------------------------------------------
@@ -281,12 +337,13 @@
         var left = top.filter(function (ch) { return avail(ch.champion); });
         var totalGames = top.reduce(function (s, ch) { return s + ch.games; }, 0);
         if (left.length <= PINCH_LEFT_AT) {
-          warnings.push("⚠ " + c.oppName + "'s " + role +
-            " comfort pool is nearly dry: only " + left.length + " of their " +
-            "top-5 " + role + " picks remain (" +
-            (left.map(function (ch) { return (input.nameOf || function (x) { return x; })(ch.champion); }).join(", ") || "none") +
-            ") — one more targeted ban closes the role (pool sample n=" +
-            totalGames + " games).");
+          warnings.push(T("warn.pinch", {
+            opp: c.oppName, role: roleName(role), left: left.length,
+            names: left.map(function (ch) {
+              return (input.nameOf || function (x) { return x; })(ch.champion);
+            }).join(", ") || T("warn.none"),
+            n: totalGames
+          }));
         }
       });
     }
@@ -304,10 +361,9 @@
       });
       Object.keys(metaLeft).forEach(function (role) {
         if (metaLeft[role] <= META_DRY_AT) {
-          warnings.push("⚠ Meta " + role + " pool nearly dry: only " +
-            metaLeft[role] + " champions with " + META_MIN_GAMES +
-            "+ dataset games remain available in this role — draft depth " +
-            "decides this game.");
+          warnings.push(T("warn.metaDry", {
+            role: roleName(role), left: metaLeft[role], min: META_MIN_GAMES
+          }));
         }
       });
     }
@@ -320,19 +376,23 @@
     nameOf = nameOf || function (id) { return id; };
     if (!advice) return "";
     var lines = [];
-    lines.push("DRAFT STATE — " + series.blueName + " vs. " + series.redName +
-      " (" + series.format + "), series score " + series.wins.blue + "–" +
-      series.wins.red + ".");
+    lines.push(T("sum.title", {
+      blue: series.teams[0], red: series.teams[1], format: series.format,
+      bw: series.wins[0], rw: series.wins[1]
+    }));
     lines.push(advice.headline);
-    lines.push("Mode: " + advice.mode + ".");
+    lines.push(T("sum.mode", { mode: advice.mode }));
     if (advice.recommendations.length) {
-      lines.push("Copilot recommendations:");
+      lines.push(T("sum.recs"));
       advice.recommendations.forEach(function (r, i) {
-        lines.push("  " + (i + 1) + ". [" + r.kind + "] " + nameOf(r.champion) +
-          " — " + r.reason);
+        lines.push(T("sum.recLine", {
+          rank: i + 1, kind: r.kind, champ: nameOf(r.champion), reason: r.reason
+        }));
       });
     }
-    advice.warnings.forEach(function (w) { lines.push("Warning: " + w); });
+    advice.warnings.forEach(function (w) {
+      lines.push(T("sum.warning", { text: w }));
+    });
     return lines.join("\n");
   }
 

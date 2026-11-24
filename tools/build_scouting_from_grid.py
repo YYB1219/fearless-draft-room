@@ -171,7 +171,7 @@ def main():
             continue
         key = (row["series_id"], int(row["game_number"]), row["team_id"],
                norm_name(row["character_name"]))
-        rosters.setdefault(key, row["player_name"])
+        rosters.setdefault(key, (row["player_name"] or "").strip() or None)
 
     series_csv = {r["series_id"]: r for r in read_csv("lol/series.csv")}
 

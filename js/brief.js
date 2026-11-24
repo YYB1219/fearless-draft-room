@@ -23,6 +23,18 @@
 (function (global) {
   "use strict";
 
+  /* Localization hooks (js/i18n.js), resolved lazily at call time.
+   * All template sentences below are dictionary entries; the numbers
+   * interpolated into them are the same aggregates in every locale. */
+  function T(key, params) {
+    var I = global.I18n;
+    return I && typeof I.t === "function" ? I.t(key, params) : key;
+  }
+  function roleName(r) {
+    var I = global.I18n;
+    return I && typeof I.role === "function" ? I.role(r) : r;
+  }
+
   var RULES = {
     banTargetMinPicked: 5,     // preferred evidence floor for a ban target
     banTargetFallbacks: [3, 1],// relax the floor until targets exist
@@ -46,7 +58,7 @@
   }
 
   function pct(x) { return Math.round(x * 100) + "%"; }
-  function pts(x) { return (x >= 0 ? "+" : "") + Math.round(x * 100) + " pts"; }
+  function pts(x) { return T("common.pts", { v: (x >= 0 ? "+" : "") + Math.round(x * 100) }); }
 
   /* --- Section 2: ban targets -------------------------------------------
    * Ranked by win-rate differential (with vs. without the champion),
@@ -156,7 +168,7 @@
   /* --- Section 5: the Game 1–5 plan --------------------------------------
    * Each step is assembled from the sections above; every point string
    * embeds the numbers it rests on. */
-  function seriesPlan(data, p, n, targets, fp, risk, nameOf, teamName) {
+  function seriesPlan(data, p, n, targets, fp, risk, nameOf, teamName, totalChampions) {
     var shift = p.fearlessShift || { byGame: [] };
     var g1Row = shift.byGame.find(function (r) { return r.gameNumber === 1; });
     var g3Row = shift.byGame.find(function (r) { return r.gameNumber === 3; });
@@ -165,24 +177,30 @@
     // Game 1 — full pool: hit the #1 comfort pick, contest the opener.
     var g1 = [];
     if (targets.length) {
-      g1.push("Open the ban phase on " + nameOf(targets[0].champion) + ": " +
-        teamName + " won " + pct(targets[0].wrWith) + " in " + targets[0].pickedGames +
-        " picks with it vs. " + pct(targets[0].wrWithout) + " without (" +
-        pts(targets[0].diff) + ", n=" + targets[0].pickedGames + ").");
+      g1.push(T("plan.g1Ban", {
+        champ: nameOf(targets[0].champion), team: teamName,
+        wrWith: pct(targets[0].wrWith), picked: targets[0].pickedGames,
+        wrWithout: pct(targets[0].wrWithout), diff: pts(targets[0].diff),
+        n: targets[0].pickedGames
+      }));
     }
     if (fp.priority) {
-      g1.push("Deny the first-pick priority " + nameOf(fp.priority.champion) +
-        " (first-picked " + fp.priority.count + "/" + n + " games, " +
-        Math.round(fp.priority.ratio * 10) / 10 + "× the dataset rate) — " +
-        "ban it or take it away.");
+      g1.push(T("plan.g1Deny", {
+        champ: nameOf(fp.priority.champion), count: fp.priority.count, n: n,
+        ratio: Math.round(fp.priority.ratio * 10) / 10
+      }));
     } else if (fp.rows.length) {
-      g1.push("Their most common opener is " + nameOf(fp.rows[0].champion) +
-        " (" + fp.rows[0].count + "/" + n + " first picks) — have the " +
-        "counter or the trade prepared.");
+      g1.push(T("plan.g1Opener", {
+        champ: nameOf(fp.rows[0].champion), count: fp.rows[0].count, n: n
+      }));
     }
-    g1.push("Full 173-champion pool: this is the only game where their " +
-      "whole comfort pool is available, so spend bans on evidence, not habits.");
-    plan.push({ game: 1, title: "Game 1 — hit the comfort picks", points: g1 });
+    // The pool size is wired in by the caller (the app passes the
+    // champion roster length); never hardcoded here. Without a wired
+    // count, the point falls back to the number-free wording.
+    g1.push(totalChampions
+      ? T("plan.g1Full", { total: totalChampions })
+      : T("plan.g1FullBare"));
+    plan.push({ game: 1, title: T("plan.g1Title"), points: g1 });
 
     // Game 2 — their Game-1 identity is fearless-banned.
     var g2 = [];
@@ -190,97 +208,105 @@
       var gone = sortedCounts(g1Row.topPicks, 3).map(function (r) {
         return nameOf(r.champion) + " ×" + r.count;
       }).join(", ");
-      g2.push("10 champions are fearless-banned now. Their most-picked " +
-        "Game-1 champions across " + (g1Row.seriesN || risk.seriesCount) +
-        " series (" + gone + ") are exactly the ones that disappear first.");
+      g2.push(T("plan.g2Gone", {
+        series: g1Row.seriesN || risk.seriesCount, gone: gone
+      }));
     }
     if (targets.length > 1) {
-      g2.push("Promote ban target #2, " + nameOf(targets[1].champion) +
-        " (" + pts(targets[1].diff) + " differential, n=" + targets[1].pickedGames +
-        "), if it survived Game 1 unpicked.");
+      g2.push(T("plan.g2Promote", {
+        champ: nameOf(targets[1].champion), diff: pts(targets[1].diff),
+        n: targets[1].pickedGames
+      }));
     }
-    g2.push("Expect their draft to slide one tier down the same roles — " +
-      "keep the Game-1 ban plan, re-ranked, rather than reinventing it.");
-    plan.push({ game: 2, title: "Game 2 — same plan, one tier down", points: g2 });
+    g2.push(T("plan.g2Slide"));
+    plan.push({ game: 2, title: T("plan.g2Title"), points: g2 });
 
     // Game 3 — the measured Fearless shift.
     var g3 = [];
     if (g3Row) {
-      g3.push("Measured shift: entering Game 3 they have already lost an " +
-        "average of " + g3Row.removedAvg + " of their own earlier picks, " +
-        "and the shared pool is down " + g3Row.poolRemovedAvg + " champions " +
-        "(across " + (g3Row.seriesN || risk.seriesCount) + " series).");
+      g3.push(T("plan.g3Shift", {
+        removed: g3Row.removedAvg, pool: g3Row.poolRemovedAvg,
+        series: g3Row.seriesN || risk.seriesCount
+      }));
       var g3Top = sortedCounts(g3Row.topPicks, 3).map(function (r) {
         return nameOf(r.champion) + " ×" + r.count;
       }).join(", ");
-      if (g3Top) g3.push("Their Game-3 drafts migrate toward: " + g3Top +
-        ". Pre-draft answers for those, not for their Game-1 selves.");
+      if (g3Top) g3.push(T("plan.g3Migrate", { list: g3Top }));
     }
     if (risk.shallowRoles.length) {
       var sh = risk.shallowRoles[0];
-      g3.push("Start pinching the " + sh.role + " pool: " + nameOf(sh.champions[0]) +
-        " + " + nameOf(sh.champions[1]) + " cover " + pct(sh.top2Share) +
-        " of its " + sh.total + " games (n=" + sh.n + ") — phase-2 bans bite now.");
+      g3.push(T("plan.g3Pinch", {
+        role: roleName(sh.role), c1: nameOf(sh.champions[0]),
+        c2: nameOf(sh.champions[1]), share: pct(sh.top2Share),
+        total: sh.total, n: sh.n
+      }));
     }
-    plan.push({ game: 3, title: "Game 3 — draft against the migrated pool", points: g3.length ? g3 : [
-      "No Game-3 series sample for this team in the dataset — plan from " +
-      "the ban targets and role depth above."] });
+    plan.push({ game: 3, title: T("plan.g3Title"), points: g3.length ? g3 : [
+      T("plan.g3None")] });
 
     // Game 4 — pool exhaustion is now the opponent's problem.
     var g4 = [];
     if (risk.longSeries > 0 && risk.avgTop5GoneByG4 > 0) {
-      g4.push("In " + risk.longSeries + " series that reached Game 4+, an " +
-        "average of " + risk.avgTop5GoneByG4 + " of their top-5 comfort " +
-        "picks (" + risk.top5.map(nameOf).join(", ") + ") were already " +
-        "fearless-banned by Game 4 (n=" + risk.longSeries + " series).");
+      g4.push(T("plan.g4Exhaust", {
+        series: risk.longSeries, avg: risk.avgTop5GoneByG4,
+        top5: risk.top5.map(nameOf).join(", "), n: risk.longSeries
+      }));
     }
     if (risk.dryRoles.length) {
-      g4.push("Roles that run dry first for them: " + risk.dryRoles.join(", ") +
-        " — aim the second ban phase there and force off-comfort picks.");
+      g4.push(T("plan.g4Dry", {
+        roles: risk.dryRoles.map(roleName).join(", ")
+      }));
     }
     if (risk.thinnestRoles.length) {
-      g4.push("Thinnest pools by distinct champions played: " +
-        risk.thinnestRoles.map(function (r) {
-          return r.role + " (" + r.distinct + " distinct)";
-        }).join(", ") + ".");
+      g4.push(T("plan.g4Thin", {
+        list: risk.thinnestRoles.map(function (r) {
+          return T("plan.thinItem", { role: roleName(r.role), distinct: r.distinct });
+        }).join(", ")
+      }));
     }
-    plan.push({ game: 4, title: "Game 4 — attack the dry roles", points: g4.length ? g4 : [
-      "No Game-4+ series sample for this team in the dataset — keep " +
-      "pressure on the shallowest role pools from section 4."] });
+    plan.push({ game: 4, title: T("plan.g4Title"), points: g4.length ? g4 : [
+      T("plan.g4None")] });
 
     // Game 5 — the decider is won in preparation.
     var g5 = [];
-    g5.push("40 champions are fearless-banned before this draft starts" +
-      (risk.g5PoolRemovedAvg != null
-        ? " (their series history shows an average shared-pool loss of " +
-          risk.g5PoolRemovedAvg + " champions by Game 5)"
-        : "") + ".");
+    g5.push(T("plan.g5Gone", {
+      extra: risk.g5PoolRemovedAvg != null
+        ? T("plan.g5Extra", { pool: risk.g5PoolRemovedAvg })
+        : ""
+    }));
     if (risk.dryRoles.length) {
-      g5.push("Have two pocket picks rehearsed in " + risk.dryRoles.join(" and ") +
-        " — those roles decide Game 5 for both teams.");
+      g5.push(T("plan.g5Pocket", {
+        roles: risk.dryRoles.map(roleName).join(T("common.andJoin"))
+      }));
     }
     if (targets.length > 2) {
-      g5.push("If " + nameOf(targets[2].champion) + " is somehow still " +
-        "available (" + pts(targets[2].diff) + ", n=" + targets[2].pickedGames +
-        "), it is the highest-value remaining ban or takeaway.");
+      g5.push(T("plan.g5Target", {
+        champ: nameOf(targets[2].champion), diff: pts(targets[2].diff),
+        n: targets[2].pickedGames
+      }));
     }
-    g5.push("Draft for comfort over meta: with the pool at ~77%, the team " +
-      "that prepared deeper pools wins this game in the draft room.");
-    plan.push({ game: 5, title: "Game 5 — depth wins the decider", points: g5 });
+    g5.push(T("plan.g5Comfort"));
+    plan.push({ game: 5, title: T("plan.g5Title"), points: g5 });
 
     return plan;
   }
 
   /*
-   * generateBrief(data, teamId, nameOf?) -> brief object or null.
+   * generateBrief(data, teamId, nameOf?, totalChampions?) -> brief or null.
    * nameOf maps champion ids to display names (defaults to identity).
+   * totalChampions is the full champion-pool size, wired in by the
+   * caller (or data.totalChampions); it is never hardcoded here.
    */
-  function generateBrief(data, teamId, nameOf) {
+  function generateBrief(data, teamId, nameOf, totalChampions) {
     nameOf = nameOf || function (id) { return id; };
     var team = teamOf(data, teamId);
     var p = profileOf(data, teamId);
     if (!team || !p || !p.games) return null;
     var n = p.games;
+    var total = (typeof totalChampions === "number" && totalChampions > 0)
+      ? totalChampions
+      : (typeof data.totalChampions === "number" && data.totalChampions > 0
+          ? data.totalChampions : null);
 
     var fpRows = sortedCounts(p.firstPicks, 3).map(function (r) {
       return { champion: r.champion, count: r.count, share: r.count / n, n: n };
@@ -291,7 +317,7 @@
     var targets = banTargets(p, n);
     var fp = { rows: fpRows, priority: firstPickPriority(data, p, n) };
     var risk = lateRisk(p);
-    var plan = seriesPlan(data, p, n, targets, fp, risk, nameOf, team.name);
+    var plan = seriesPlan(data, p, n, targets, fp, risk, nameOf, team.name, total);
 
     return {
       teamId: teamId,
@@ -315,63 +341,79 @@
     if (!brief) return "";
     var o = brief.overview;
     var lines = [];
-    lines.push("PRE-MATCH BRIEF — vs. " + brief.teamName + " (" + brief.tag + ")");
-    lines.push("Dataset: " + o.games + " games, " + o.wins + " wins (" +
-      pct(o.winRate) + "). Generated locally from aggregate data; every " +
-      "number below carries its sample size.");
+    lines.push(T("brief.textTitle", { team: brief.teamName, tag: brief.tag }));
+    lines.push(T("brief.textDataset", {
+      games: o.games, wins: o.wins, wr: pct(o.winRate)
+    }));
     lines.push("");
-    lines.push("1) OVERALL TENDENCIES");
-    lines.push("   Top first picks: " + o.topFirstPicks.map(function (r) {
-      return nameOf(r.champion) + " ×" + r.count + " (" + pct(r.share) + " of " + r.n + ")";
-    }).join(", "));
-    lines.push("   Most banned against them: " + o.topBannedAgainst.map(function (r) {
-      return nameOf(r.champion) + " ×" + r.count + " (" + pct(r.share) + " of games)";
-    }).join(", "));
+    lines.push(T("brief.textSec1"));
+    lines.push(T("brief.textFpLine", {
+      list: o.topFirstPicks.map(function (r) {
+        return T("brief.fpItem", {
+          champ: nameOf(r.champion), count: r.count, share: pct(r.share), n: r.n
+        });
+      }).join(", ")
+    }));
+    lines.push(T("brief.textBaLine", {
+      list: o.topBannedAgainst.map(function (r) {
+        return T("brief.baItem", {
+          champ: nameOf(r.champion), count: r.count, share: pct(r.share)
+        });
+      }).join(", ")
+    }));
     lines.push("");
-    lines.push("2) TOP 3 BAN TARGETS");
+    lines.push(T("brief.textSec2"));
     brief.banTargets.forEach(function (t, i) {
-      lines.push("   " + (i + 1) + ". " + nameOf(t.champion) + " — picked " +
-        t.pickedGames + "×, won " + pct(t.wrWith) + " with it vs. " +
-        pct(t.wrWithout) + " without (" + pts(t.diff) + ", n=" + t.n + ")");
+      lines.push(T("brief.textBanLine", {
+        rank: i + 1, champ: nameOf(t.champion), picked: t.pickedGames,
+        wrWith: pct(t.wrWith), wrWithout: pct(t.wrWithout),
+        diff: pts(t.diff), n: t.n
+      }));
     });
     lines.push("");
-    lines.push("3) FIRST-PICK PRIORITY");
+    lines.push(T("brief.textSec3"));
     if (brief.firstPick.priority) {
       var pr = brief.firstPick.priority;
-      lines.push("   " + nameOf(pr.champion) + ": first-picked " + pr.count +
-        "/" + pr.n + " games (" + pct(pr.teamShare) + ") — " +
-        (Math.round(pr.ratio * 10) / 10) + "× the dataset-wide rate (" +
-        pct(pr.globalShare) + "). Deny or pre-draft the counter.");
+      lines.push(T("brief.textPriority", {
+        champ: nameOf(pr.champion), count: pr.count, n: pr.n,
+        share: pct(pr.teamShare), ratio: Math.round(pr.ratio * 10) / 10,
+        global: pct(pr.globalShare)
+      }));
     } else {
-      lines.push("   No champion clears the 2× dataset-rate priority bar; " +
-        "their most common opener is " +
-        (brief.firstPick.rows.length
-          ? nameOf(brief.firstPick.rows[0].champion) + " (" +
-            brief.firstPick.rows[0].count + "/" + brief.firstPick.rows[0].n + ")"
-          : "—") + ".");
+      lines.push(T("brief.textNoPriority", {
+        opener: brief.firstPick.rows.length
+          ? T("brief.sec3Opener", {
+              champ: nameOf(brief.firstPick.rows[0].champion),
+              count: brief.firstPick.rows[0].count,
+              n: brief.firstPick.rows[0].n
+            })
+          : "—"
+      }));
     }
     lines.push("");
-    lines.push("4) FEARLESS LATE-SERIES RISK");
+    lines.push(T("brief.textSec4"));
     var r = brief.lateRisk;
     if (r.longSeries > 0) {
-      lines.push("   Pool exhaustion: by Game 4, an average of " +
-        r.avgTop5GoneByG4 + " of their top-5 comfort picks (" +
-        r.top5.map(nameOf).join(", ") + ") are fearless-banned (n=" +
-        r.longSeries + " long series). Dry roles first: " +
-        (r.dryRoles.join(", ") || "—") + ".");
+      lines.push(T("brief.textExhaustion", {
+        avg: r.avgTop5GoneByG4, top5: r.top5.map(nameOf).join(", "),
+        n: r.longSeries,
+        roles: r.dryRoles.length ? r.dryRoles.map(roleName).join(", ") : "—"
+      }));
     }
     if (r.g3RemovedAvg != null) {
-      lines.push("   By Game 3 they have lost an average of " + r.g3RemovedAvg +
-        " of their own picks; shared pool down " + r.g3PoolRemovedAvg +
-        " (n=" + r.seriesCount + " series).");
+      lines.push(T("brief.textG3", {
+        removed: r.g3RemovedAvg, pool: r.g3PoolRemovedAvg, n: r.seriesCount
+      }));
     }
     r.shallowRoles.forEach(function (sh) {
-      lines.push("   Concentrated " + sh.role + " pool: " +
-        nameOf(sh.champions[0]) + " + " + nameOf(sh.champions[1]) + " = " +
-        pct(sh.top2Share) + " of " + sh.total + " games (n=" + sh.n + ").");
+      lines.push(T("brief.textConcentrated", {
+        role: roleName(sh.role), c1: nameOf(sh.champions[0]),
+        c2: nameOf(sh.champions[1]), share: pct(sh.top2Share),
+        total: sh.total, n: sh.n
+      }));
     });
     lines.push("");
-    lines.push("5) SERIES PLAN (G1–G5)");
+    lines.push(T("brief.textSec5"));
     brief.seriesPlan.forEach(function (step) {
       lines.push("   " + step.title);
       step.points.forEach(function (pt) { lines.push("     - " + pt); });

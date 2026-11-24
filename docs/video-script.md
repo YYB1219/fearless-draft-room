@@ -71,8 +71,8 @@ Q1 "对手的选禁倾向是什么？" / Q2 "无畏征召打到第 3/4/5 局，B
 |---|---|
 | **Screen** | Scroll to the **Fearless Shift** table for T1 (top picks by game number; removed counts rising to G5), then cut back to the Draft Room at Game 5 with the pool banner — and the Copilot panel showing the gold warning: **"⚠ Meta ADC pool nearly dry: only 12 champions with 30+ dataset games remain available in this role"**. Caption: 「评委问题二：打到第四、第五局，BP 会怎么变？」 |
 | **Action** | Point at the G4/G5 rows; cut to the Game-5 draft board; hold one beat on the Copilot pool-dry warning; finish the last picks of the demo. |
-| **Narration** | 「第二个问题：系列赛打长了，BP 怎么变？这张表按局数拆开：T1 打到第四局的系列赛里，他们最舒服的五个英雄平均已经没了 3.5 个，上单和中单最先见底。回到第五局的棋盘——池子只剩 77%，副驾的枯竭预警已经亮了：ADC 的版本英雄池只剩十二个。但教练不用再对着表格手算哪些英雄已经出局，系统替他记着。」 |
-| **Subtitle** | Q2: By Game 4, an average of 3.5 of T1's top-5 comfort picks are already gone. The system tracks it — the coach doesn't have to. |
+| **Narration** | 「第二个问题：系列赛打长了，BP 怎么变？这张表按局数拆开：T1 打到第四局的系列赛里，他们最舒服的五个英雄平均已经没了 3.6 个，打野、中单、上单、ADC 四个位置都接近见底。回到第五局的棋盘——池子只剩 77%，副驾的枯竭预警已经亮了：ADC 的版本英雄池只剩十二个。但教练不用再对着表格手算哪些英雄已经出局，系统替他记着。」 |
+| **Subtitle** | Q2: By Game 4, an average of 3.6 of T1's top-5 comfort picks are already gone. The system tracks it — the coach doesn't have to. |
 
 ### 2:50–3:00 — Close
 
@@ -90,6 +90,6 @@ Q1 "对手的选禁倾向是什么？" / Q2 "无畏征召打到第 3/4/5 局，B
 - [ ] Pre-load the app via a local static server (`python3 -m http.server 8000`) so icons and data load instantly; record at 1080p, browser zoom 100%.
 - [ ] Rehearse the demo auto-play once end-to-end (it is deterministic: the demo BO5 always ends 3–2).
 - [ ] Set the Copilot panel to **Opponent = T1, We are = Blue side** before recording; leave the demo running to Game 2 for the Copilot segment (T1's Jungle pinch warning appears there) and to Game 5 for the ADC meta-pool warning.
-- [ ] The numbers quoted in narration (40 champions / 77%, Pantheon 16 games / 81% vs 64%, T1 top-5 → 3.5 gone by G4, 12 meta ADC champions left in Game 5) come from the shipped GRID aggregates and the demo replay — if the dataset is rebuilt before recording, re-check these numbers in the Scouting tab and update the script.
+- [ ] The numbers quoted in narration (40 champions / 77%, Pantheon 16 games / 81% vs 64%, T1 top-5 → 3.6 gone by G4, 12 meta ADC champions left in Game 5) come from the shipped GRID aggregates and the demo replay — if the dataset is rebuilt before recording, re-check these numbers in the Scouting tab and update the script.
 - [ ] Keep every "heuristic" mention honest: the win-rate bar is labeled an estimate on screen and in narration.
 - [ ] English subtitles on for the full runtime (judges may not follow Chinese narration).

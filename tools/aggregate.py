@@ -167,30 +167,43 @@ def aggregate(records, teams_meta):
                 pick_totals[p["champion"]] += 1
         top5 = [c for c, _ in pick_totals.most_common(5)]
         very_long = {sid: gs for sid, gs in by_series.items() if len(gs) >= 4}
-        gone_total, gone_checks = 0, 0
+        gone4_total, gone4_checks = 0, 0
+        gone5_total, gone5_checks = 0, 0
         dry_role_votes = Counter()
         for sid, gs in very_long.items():
             gs_sorted = sorted(gs, key=lambda x: x[0]["gameNumber"])
             all_earlier = set()
             for r, g in gs_sorted:
-                if r["gameNumber"] >= 4:
-                    gone_total += len([c for c in top5 if c in all_earlier])
-                    gone_checks += 1
+                if r["gameNumber"] == 4:
+                    # Measured AT Game 4: all_earlier holds exactly the
+                    # picks of games 1-3 of this series at this point.
+                    gone4_total += len([c for c in top5 if c in all_earlier])
+                    gone4_checks += 1
                     for role in ROLES:
                         pool = role_pools_out.get(role)
                         if not pool:
                             continue
-                        champs = list(pool["champions"].keys())[:5]
+                        # The role's top 5 BY PLAY VOLUME (games desc,
+                        # wins desc, name) — not dict insertion order.
+                        champs = [c for c, _ in sorted(
+                            pool["champions"].items(),
+                            key=lambda kv: (-kv[1]["games"], -kv[1]["wins"],
+                                            kv[0]))[:5]]
                         if champs and sum(1 for c in champs if c in all_earlier) / len(champs) >= 0.5:
                             dry_role_votes[role] += 1
+                elif r["gameNumber"] == 5:
+                    # Measured AT Game 5: picks of games 1-4 are gone.
+                    gone5_total += len([c for c in top5 if c in all_earlier])
+                    gone5_checks += 1
                 for p in g["myPicks"] + g["oppPicks"]:
                     all_earlier.add(p["champion"])
         late_series = {
             "longSeries": len(very_long),
-            "avgTop5GoneByG4": round(gone_total / gone_checks, 1) if gone_checks else 0,
+            "avgTop5GoneByG4": round(gone4_total / gone4_checks, 1) if gone4_checks else 0,
+            "avgTop5GoneByG5": round(gone5_total / gone5_checks, 1) if gone5_checks else 0,
             "top5": top5,
             "dryRoles": [role for role, v in dry_role_votes.most_common()
-                         if gone_checks and v / gone_checks >= 0.5],
+                         if gone4_checks and v / gone4_checks >= 0.5],
         }
 
         profiles[team_id] = {

@@ -21,10 +21,23 @@
  *                               bannedAgainstWins } }
  *   fearlessShift:   { seriesCount, byGame: [{ gameNumber, topPicks,
  *                               removedAvg, poolRemovedAvg, seriesN }] }
- *   lateSeries:      { longSeries, avgTop5GoneByG4, top5, dryRoles }
+ *   lateSeries:      { longSeries, avgTop5GoneByG4, avgTop5GoneByG5,
+ *                      top5, dryRoles }
  */
 (function (global) {
   "use strict";
+
+  /* Localization hooks (js/i18n.js), resolved lazily like copilot.js
+   * resolves DraftCore. Card text is generated in the active locale;
+   * champion display names come from the optional nameOf argument. */
+  function T(key, params) {
+    var I = global.I18n;
+    return I && typeof I.t === "function" ? I.t(key, params) : key;
+  }
+  function roleName(r) {
+    var I = global.I18n;
+    return I && typeof I.role === "function" ? I.role(r) : r;
+  }
 
   var INSIGHT_RULES = {
     comfortMinTeamGames: 20,    // team sample needed for a comfort claim
@@ -118,7 +131,8 @@
 
   /* --- "How to Win" insight cards (rule-generated, evidence attached) -- */
 
-  function insights(data, teamId) {
+  function insights(data, teamId, nameOf) {
+    nameOf = nameOf || function (id) { return id; };
     var R = INSIGHT_RULES;
     var team = teamById(data, teamId);
     var p = profile(data, teamId);
@@ -153,13 +167,17 @@
         comfortChamps[c.champ] = true;
         cards.push({
           type: "ban-target",
-          title: "Ban " + c.champ,
-          body: teamName + " picked " + c.champ + " in " + c.t.pickedGames +
-            "/" + n + " games (" + pct(c.rate) + ") and won " + pct(c.wrWith) +
-            " of those. Without it: " + pct(c.wrWithout) + " over " +
-            c.t.unpickedGames + " games — " +
-            Math.round(c.diff * 100) + " points lower.",
-          n: n
+          title: T("insight.banTitle", { champ: nameOf(c.champ) }),
+          body: T("insight.banBody", {
+            team: teamName, champ: nameOf(c.champ), picked: c.t.pickedGames,
+            n: n, rate: pct(c.rate), wrWith: pct(c.wrWith),
+            wrWithout: pct(c.wrWithout), unpicked: c.t.unpickedGames,
+            diff: Math.round(c.diff * 100)
+          }),
+          // Sample badge = the champion's picked-games sample the
+          // differential rests on (matches brief.js ban targets),
+          // not the team's total game count.
+          n: c.t.pickedGames
         });
       });
     }
@@ -193,12 +211,13 @@
       if (best) {
         cards.push({
           type: "first-pick",
-          title: "First-pick priority: " + best.champ,
-          body: teamName + " first-picked " + best.champ + " in " + best.count +
-            "/" + n + " games (" + pct(best.teamShare) + ") — " +
-            Math.round(best.ratio * 10) / 10 + "× the dataset-wide rate (" +
-            pct(best.globalShare) + "). Deny it with a first-phase ban, or " +
-            "pre-draft its counter.",
+          title: T("insight.fpTitle", { champ: nameOf(best.champ) }),
+          body: T("insight.fpBody", {
+            team: teamName, champ: nameOf(best.champ), count: best.count,
+            n: n, share: pct(best.teamShare),
+            ratio: Math.round(best.ratio * 10) / 10,
+            global: pct(best.globalShare)
+          }),
           n: n
         });
       }
@@ -222,12 +241,12 @@
     wasted.slice(0, R.wastedBanMaxCards).forEach(function (w) {
       cards.push({
         type: "wasted-ban",
-        title: "Don't waste a ban on " + w.champ,
-        body: "Opponents banned " + w.champ + " against " + teamName + " in " +
-          w.t.bannedAgainstGames + " games, yet " + teamName + " won " +
-          w.t.bannedAgainstWins + "/" + w.t.bannedAgainstGames + " of them (" +
-          pct(w.wr) + ") — above their " + pct(baseline) +
-          " baseline. The ban isn't hurting them; spend it elsewhere.",
+        title: T("insight.wastedTitle", { champ: nameOf(w.champ) }),
+        body: T("insight.wastedBody", {
+          champ: nameOf(w.champ), team: teamName,
+          bans: w.t.bannedAgainstGames, wins: w.t.bannedAgainstWins,
+          wr: pct(w.wr), baseline: pct(baseline)
+        }),
         n: w.t.bannedAgainstGames
       });
     });
@@ -249,14 +268,19 @@
       var top2 = pool.champions[0].games + pool.champions[1].games;
       var share2 = top2 / total;
       if (share2 >= R.shallowTop2Share) {
+        var pinchParams = {
+          team: teamName, role: roleName(role),
+          c1: nameOf(pool.champions[0].champion),
+          c2: nameOf(pool.champions[1].champion),
+          share: pct(share2), total: total
+        };
+        if (pool.player) pinchParams.player = pool.player;
         cards.push({
           type: "shallow-pool",
-          title: "Pinch the " + role + " pool",
-          body: (pool.player ? pool.player + " (" : "") + teamName + " " + role +
-            (pool.player ? ")" : "") + " leans on " + pool.champions[0].champion +
-            " and " + pool.champions[1].champion + " for " + pct(share2) +
-            " of the role's " + total + " games. Two targeted bans (or one " +
-            "ban plus a takeaway pick) force them deep into the pool.",
+          title: T("insight.pinchTitle", { role: roleName(role) }),
+          body: pool.player
+            ? T("insight.pinchBodyPlayer", pinchParams)
+            : T("insight.pinchBody", pinchParams),
           n: total
         });
       }
@@ -269,12 +293,11 @@
       if (g3 && g3.removedCount > 0) {
         cards.push({
           type: "fearless-depth",
-          title: "Fearless thins them out by Game 3",
-          body: "Across " + shift.seriesCount + " series that reached Game 3, " +
-            teamName + " entered Game 3 with an average of " + g3.removedCount +
-            " of their own earlier picks fearless-banned, and the shared pool " +
-            "was already down " + g3.poolRemoved + " champions. Drag the " +
-            "series long and their draft gets predictable.",
+          title: T("insight.fearlessTitle"),
+          body: T("insight.fearlessBody", {
+            series: shift.seriesCount, team: teamName,
+            removed: g3.removedCount, pool: g3.poolRemoved
+          }),
           n: shift.seriesCount
         });
       }
@@ -287,15 +310,16 @@
     if (late && late.longSeries >= 1 && late.avgTop5GoneByG4 > 0) {
       cards.push({
         type: "pool-exhaustion",
-        title: "⚠ Pool exhaustion warning — Game 4/5",
-        body: "In " + late.longSeries + " series that reached Game 4+, an " +
-          "average of " + late.avgTop5GoneByG4 + " of " + teamName +
-          "'s top-5 comfort picks (" + late.top5.join(", ") +
-          ") were already fearless-banned by Game 4." +
+        title: T("insight.exhaustTitle"),
+        body: T("insight.exhaustMain", {
+            series: late.longSeries, avg: late.avgTop5GoneByG4,
+            team: teamName, top5: late.top5.map(nameOf).join(", ")
+          }) +
           (late.dryRoles && late.dryRoles.length
-            ? " Roles that run dry first: " + late.dryRoles.join(", ") +
-              " — prepare deep-pool pocket picks there, or close the series early."
-            : " If the series goes long, expect them on off-comfort picks."),
+            ? T("insight.exhaustDry", {
+                roles: late.dryRoles.map(roleName).join(", ")
+              })
+            : T("insight.exhaustNoDry")),
         n: late.longSeries
       });
     }

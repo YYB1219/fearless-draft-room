@@ -6,6 +6,7 @@
 "use strict";
 const fs = require("fs");
 const path = require("path");
+const I18n = require("../js/i18n.js"); // first: logic modules resolve it lazily
 const Draft = require("../js/draft.js");
 const Scouting = require("../js/scouting.js");
 const Brief = require("../js/brief.js");
@@ -95,7 +96,8 @@ try {
   });
 } catch (e) { demoOK = false; console.log("  demo error:", e.message); }
 check("demo BO5 replays legally through the state machine", demoOK);
-check("demo ends 3-2", ds.wins.blue === 3 && ds.wins.red === 2);
+check("demo ends 3-2 (per-team wins, fixed side assignment)",
+  ds.wins[0] === 3 && ds.wins[1] === 2 && ds.teams[0] === demo.meta.blueName);
 const ps5 = Draft.poolStats(ds, ids.length);
 check("by game 5 the demo has 40 fearless-banned champions", ps5.fearlessCount === 40);
 
@@ -116,6 +118,119 @@ for (const file of ["data/scouting.json", "data/scouting.sample.json"]) {
 /* 8 — export text renders */
 const text = Draft.exportText(ds, (id) => id);
 check("export text includes all 5 games", (text.match(/^Game \d/gm) || []).length === 5);
+
+/* 8b — Group A hardening: winner toggle/reset, decided series,
+   applyAction validation, format fallback, I18n.esc */
+{
+  const nextLegal = (sr) => ids.find((x) => !Draft.unavailableReason(sr, x) &&
+    !Draft.currentGame(sr).actions.some((a) => a.championId === x));
+  const playGame = (sr) => { while (!Draft.isGameComplete(sr)) Draft.applyAction(sr, nextLegal(sr)); };
+
+  const rs = Draft.createSeries({ format: "BO3", championStats: stats });
+  playGame(rs);
+  Draft.setWinner(rs, "blue");
+  check("setWinner records the win (per-team wins[0])", rs.wins[0] === 1);
+  Draft.setWinner(rs, "blue"); // same side again -> toggle off
+  check("setWinner on the winning side toggles back to null",
+    Draft.currentGame(rs).winner === null && rs.wins[0] === 0);
+  Draft.setWinner(rs, "blue");
+  Draft.resetGame(rs);
+  check("resetGame clears actions AND zeroes the win",
+    Draft.currentGame(rs).actions.length === 0 &&
+    rs.wins[0] === 0 && rs.wins[1] === 0);
+
+  const b1 = Draft.createSeries({ format: "BO1", championStats: stats });
+  playGame(b1);
+  Draft.setWinner(b1, "red");
+  check("decided BO1: advanceGame() is false", Draft.advanceGame(b1) === false);
+  expectThrow("applyAction after game completion", () => Draft.applyAction(b1, "Ahri"));
+
+  const b3 = Draft.createSeries({ format: "BO3", championStats: stats });
+  playGame(b3); Draft.setWinner(b3, "blue");
+  check("BO3 at 1-0 advances", Draft.advanceGame(b3) === true);
+  playGame(b3); Draft.setWinner(b3, "blue");
+  check("decided BO3 (2-0): advanceGame() is false",
+    Draft.seriesDecided(b3) && Draft.advanceGame(b3) === false);
+
+  const es = Draft.createSeries({ format: "BO3" });
+  check("undo on empty game returns null, no throw", Draft.undo(es) === null);
+  expectThrow("applyAction with empty championId", () => Draft.applyAction(es, ""));
+  expectThrow("applyAction with non-string championId", () => Draft.applyAction(es, 42));
+
+  const fb = Draft.createSeries({ format: "BO7" });
+  check("unknown format falls back to BO3", fb.format === "BO3" && fb.gamesToWin === 2);
+
+  check("I18n.esc escapes all five chars (& < > \" ')",
+    I18n.esc("&<>\"'") === "&amp;&lt;&gt;&quot;&#39;" &&
+    I18n.esc("a & b <c>") === "a &amp; b &lt;c&gt;" && I18n.esc(null) === "");
+}
+
+/* 8c — Group E: per-game side selection (swap sides, per-team wins) */
+{
+  const nextLegal = (sr) => ids.find((x) => !Draft.unavailableReason(sr, x) &&
+    !Draft.currentGame(sr).actions.some((a) => a.championId === x));
+  const playGame = (sr) => { while (!Draft.isGameComplete(sr)) Draft.applyAction(sr, nextLegal(sr)); };
+
+  const sw = Draft.createSeries({ format: "BO3", blueName: "Alpha", redName: "Beta", championStats: stats });
+  check("swap: game 1 starts with teams[0] on blue",
+    sw.teams[0] === "Alpha" && sw.teams[1] === "Beta" &&
+    Draft.blueTeamName(sw) === "Alpha" && Draft.redTeamName(sw) === "Beta");
+  playGame(sw);
+  expectThrow("swapSides after the draft has started", () => Draft.swapSides(sw));
+  Draft.setWinner(sw, "blue"); // Alpha wins G1 playing blue
+  check("swap: G1 blue win credits teams[0]",
+    sw.wins[0] === 1 && sw.wins[1] === 0);
+  check("swap: advance to G2", Draft.advanceGame(sw) === true);
+  check("swap: G2 carries the same side assignment by default",
+    Draft.blueTeamName(sw) === "Alpha");
+  Draft.swapSides(sw); // Beta takes blue for G2
+  check("swap: after the swap, teams[1] is blue in G2",
+    Draft.blueTeamName(sw) === "Beta" && Draft.redTeamName(sw) === "Alpha");
+  playGame(sw);
+  Draft.setWinner(sw, "blue"); // Beta wins G2 playing BLUE
+  check("swap: wins are 1-1 BY TEAM across the swap",
+    sw.wins[0] === 1 && sw.wins[1] === 1 && !Draft.seriesDecided(sw));
+
+  // A BO3 decided 2-0 by team across a swap ends the series.
+  const sw2 = Draft.createSeries({ format: "BO3", blueName: "Alpha", redName: "Beta", championStats: stats });
+  playGame(sw2); Draft.setWinner(sw2, "blue"); // Alpha wins G1 (blue)
+  Draft.advanceGame(sw2);
+  Draft.swapSides(sw2);                        // Alpha plays RED in G2
+  playGame(sw2); Draft.setWinner(sw2, "red");  // Alpha wins G2 from red
+  check("swap: BO3 decided 2-0 by team across a swap ends the series",
+    sw2.wins[0] === 2 && sw2.wins[1] === 0 && Draft.seriesDecided(sw2) &&
+    Draft.advanceGame(sw2) === false);
+  check("swap: export score line is per-team (Alpha 2 – 0 Beta)",
+    Draft.exportText(sw2, (id) => id).includes("Alpha 2 – 0 Beta"));
+}
+
+/* 8d — Group F: serialize/restore round-trip */
+{
+  const nextLegal = (sr) => ids.find((x) => !Draft.unavailableReason(sr, x) &&
+    !Draft.currentGame(sr).actions.some((a) => a.championId === x));
+  const playGame = (sr) => { while (!Draft.isGameComplete(sr)) Draft.applyAction(sr, nextLegal(sr)); };
+
+  const rt = Draft.createSeries({ format: "BO3", blueName: "Alpha", redName: "Beta", championStats: stats });
+  playGame(rt); Draft.setWinner(rt, "blue"); Draft.advanceGame(rt);
+  Draft.swapSides(rt); // Beta is blue in G2
+  Draft.applyAction(rt, nextLegal(rt)); Draft.applyAction(rt, nextLegal(rt));
+  const snap = JSON.parse(JSON.stringify(Draft.serializeSeries(rt)));
+  check("serialize: snapshot is JSON-safe, carries no stats or functions",
+    snap.games.length === 2 && snap.games[1].actions.length === 2 &&
+    !("championStats" in snap) && snap.teams[0] === "Alpha");
+  const restored = Draft.restoreSeries(snap, stats);
+  check("restore: actions, winners and side assignments survive the round-trip",
+    restored !== null && restored.teams[1] === "Beta" &&
+    restored.wins[0] === 1 && restored.wins[1] === 0 &&
+    restored.currentGame === 1 &&
+    Draft.currentGame(restored).blueTeam === 1 &&
+    Draft.blueTeamName(restored) === "Beta" &&
+    Draft.currentGame(restored).actions.length === 2 &&
+    Draft.fearlessPool(restored).size === 10 &&
+    restored.championStats === stats);
+  check("restore: garbage input returns null",
+    Draft.restoreSeries(null) === null && Draft.restoreSeries({}) === null);
+}
 
 /* 9 — AI brief: all 5 sections for every team, evidence carries n>0 */
 const champIds = ids;
@@ -206,7 +321,183 @@ function freshDemoSeries() {
     Copilot.summarize(cs, done).includes("DRAFT STATE"));
 }
 
-/* 11 — LLM layer: presets, and ZERO network calls while unconfigured */
+/* 11 — i18n: dictionary coverage. Every t('...') / T('...') literal in
+   the JS modules and every data-i18n* attribute in index.html must exist
+   in BOTH locales, and the two dictionaries must have identical keys. */
+{
+  const files = ["js/app.js", "js/brief.js", "js/copilot.js", "js/draft.js",
+    "js/llm.js", "js/scouting.js", "index.html"];
+  const used = new Set();
+  for (const f of files) {
+    const src = fs.readFileSync(path.join(root, f), "utf8");
+    for (const m of src.matchAll(/\b[tT]\(\s*['"]([a-zA-Z0-9_.]+)['"]/g)) used.add(m[1]);
+    for (const m of src.matchAll(/data-i18n(?:-html|-ph)?="([a-zA-Z0-9_.]+)"/g)) used.add(m[1]);
+  }
+  const missing = [...used].filter((k) => !(k in I18n.DICT.en) || !(k in I18n.DICT.zh));
+  check("i18n: all " + used.size + " keys used in code/HTML exist in BOTH locales",
+    missing.length === 0);
+  if (missing.length) console.log("  missing:", missing.join(", "));
+  const enKeys = Object.keys(I18n.DICT.en).sort();
+  const zhKeys = Object.keys(I18n.DICT.zh).sort();
+  check("i18n: en and zh dictionaries have identical key sets (" + enKeys.length + " keys)",
+    JSON.stringify(enKeys) === JSON.stringify(zhKeys));
+  check("i18n: every dictionary value is a non-empty string in both locales",
+    enKeys.every((k) => typeof I18n.DICT.en[k] === "string" && I18n.DICT.en[k].length > 0 &&
+                        typeof I18n.DICT.zh[k] === "string" && I18n.DICT.zh[k].length > 0));
+  check("i18n: role keys exist for All + the 5 roles in both locales",
+    ["All", "Top", "Jungle", "Mid", "ADC", "Support"].every((r) =>
+      ("role." + r) in I18n.DICT.en && ("role." + r) in I18n.DICT.zh));
+  check("i18n: default locale is en; setLocale switches and persists the choice",
+    I18n.getLocale() === "en" && I18n.setLocale("zh") === "zh" &&
+    I18n.t("role.Top") === "上单" && I18n.setLocale("en") === "en" &&
+    I18n.t("role.Top") === "Top");
+}
+
+/* 12 — champions.json: bilingual names from Data Dragon zh_CN */
+{
+  const zhOf = (id) => (champs.find((c) => c.id === id) || {}).nameZh;
+  check("champions: all " + champs.length + " champions carry a nameZh",
+    champs.length === 173 &&
+    champs.every((c) => typeof c.nameZh === "string" && c.nameZh.length > 0));
+  check("champions: nameZh spot checks — Ahri=阿狸, LeeSin=李青, Yasuo=亚索",
+    zhOf("Ahri") === "阿狸" && zhOf("LeeSin") === "李青" && zhOf("Yasuo") === "亚索");
+}
+
+/* 13 — bilingual generation: brief + insights + copilot in zh and en,
+   with no raw dictionary keys and no unresolved {placeholders} */
+const nameOfZh = (id) => {
+  const c = champs.find((x) => x.id === id);
+  return c ? (c.nameZh || c.name) : id;
+};
+const RAW_KEY = /\b(brief|plan|reason|warn|insight|copilot|scout|sum|export|phase|role|kind|common)\.[a-z]/;
+const PLACEHOLDER = /\{[a-zA-Z]+\}/;
+const CJK = /[\u4e00-\u9fff]/;
+{
+  let okZh = true, okEn = true, zhDiffers = true;
+  for (const file of ["data/scouting.json", "data/scouting.sample.json"]) {
+    const data = JSON.parse(fs.readFileSync(path.join(root, file), "utf8"));
+    for (const tm of data.teams) {
+      I18n.setLocale("en");
+      const bEn = Brief.generateBrief(data, tm.id);
+      const txtEn = Brief.briefToText(bEn);
+      if (!bEn || txtEn.length < 200 || RAW_KEY.test(txtEn) || PLACEHOLDER.test(txtEn)) okEn = false;
+      I18n.setLocale("zh");
+      const bZh = Brief.generateBrief(data, tm.id, nameOfZh);
+      const txtZh = Brief.briefToText(bZh, nameOfZh);
+      if (!bZh || txtZh.length < 200 || !txtZh.includes(tm.name) ||
+          RAW_KEY.test(txtZh) || PLACEHOLDER.test(txtZh) || !CJK.test(txtZh)) okZh = false;
+      if (txtZh === txtEn) zhDiffers = false;
+      for (const card of Scouting.insights(data, tm.id, nameOfZh)) {
+        if (RAW_KEY.test(card.title + card.body) || PLACEHOLDER.test(card.title + card.body)) okZh = false;
+      }
+    }
+  }
+  I18n.setLocale("en");
+  check("i18n: brief + insights generate cleanly in EN (no raw keys/placeholders)", okEn);
+  check("i18n: brief + insights generate cleanly in ZH (Chinese output, no raw keys/placeholders)", okZh);
+  check("i18n: ZH brief text actually differs from EN for the same team", zhDiffers);
+}
+/* copilot legality in ZH across the full demo replay (nameOf = nameZh) */
+{
+  I18n.setLocale("zh");
+  const cs = freshDemoSeries();
+  let statesChecked = 0, violations = 0, sawChinese = false;
+  demo.games.forEach((g, gi) => {
+    while (!Draft.isGameComplete(cs)) {
+      const adv = Copilot.advise({ series: cs, scoutingData: realData,
+        opponentId: "t1", ourSide: "B", championIds: champIds, rolesOf, nameOf: nameOfZh });
+      statesChecked++;
+      if (adv.recommendations.length !== 3) violations++;
+      for (const r of adv.recommendations) {
+        if (Draft.unavailableReason(cs, r.champion) !== null) violations++;
+        if (RAW_KEY.test(r.reason) || PLACEHOLDER.test(r.reason)) violations++;
+      }
+      if (RAW_KEY.test(adv.headline) || PLACEHOLDER.test(adv.headline)) violations++;
+      if (CJK.test(adv.headline)) sawChinese = true;
+      const a = g.actions[Draft.currentGame(cs).actions.length];
+      Draft.applyAction(cs, a.champion);
+    }
+    Draft.setWinner(cs, g.winner);
+    if (gi < demo.games.length - 1) Draft.advanceGame(cs);
+  });
+  check("i18n: copilot in ZH — exactly 3 legal recs at all " + statesChecked +
+    " demo states, clean Chinese headline", violations === 0 && statesChecked === 100 && sawChinese);
+  I18n.setLocale("en");
+}
+
+/* 13b — Group C: shared shrunk WR' (m=16), primary-role filling,
+   Ban-Phase-2 down-weighting, caller-wired champion total */
+{
+  check("draft: shrunkWinRate uses prior m=16 ((W+8)/(G+16))",
+    Math.abs(Draft.shrunkWinRate({ games: 100, wins: 60 }) - 68 / 116) < 1e-12 &&
+    Draft.shrunkWinRate({ games: 0, wins: 0 }) === 0.5 &&
+    Draft.shrunkWinRate(null) === 0.5);
+
+  // (a) A flex pick fills ONLY its primary role: Maokai's roles are
+  // [Jungle, Support, Top] with Jungle primary — after we first-pick
+  // him, Support must still count as open, so the best Support is
+  // recommended WITH the fill-role reason (not merely as highest-rated).
+  const flexStats = Object.assign({}, realStats, {
+    Maokai: { games: 100, wins: 60 },
+    Soraka: { games: 100, wins: 95 }
+  });
+  const fs2 = Draft.createSeries({ format: "BO1", blueName: "Blue", redName: "Red", championStats: flexStats });
+  ["Teemo", "Warwick", "Skarner", "Ivern", "Quinn", "Zilean"]
+    .forEach((id) => Draft.applyAction(fs2, id)); // ban phase 1
+  Draft.applyAction(fs2, "Maokai");               // our first pick
+  Draft.applyAction(fs2, "Ashe");                 // red picks
+  Draft.applyAction(fs2, "Azir");
+  const advFlex = Copilot.advise({ series: fs2, scoutingData: realData,
+    opponentId: null, ourSide: "B", championIds: champIds, rolesOf });
+  check("copilot: flex pick (Maokai) fills only its primary role — Support stays open",
+    advFlex.recommendations.length === 3 &&
+    advFlex.recommendations[0].champion === "Soraka" &&
+    advFlex.recommendations[0].reason.indexOf("Fills our open Support slot") === 0);
+
+  // (b) Ban Phase 2: the opponent (T1 profile, red side) has locked
+  // Top (Rumble), Jungle (XinZhao) and Mid (Viktor). On our phase-2
+  // ban, the top recommendation's primary role must be a still-open
+  // role (ADC/Support), not one of the three locked roles.
+  const bp = Draft.createSeries({ format: "BO1", blueName: "Blue", redName: "Red", championStats: realStats });
+  ["Teemo", "Warwick", "Skarner", "Ivern", "Quinn", "Zilean", // ban phase 1
+   "Jhin",                                                    // B pick
+   "Rumble", "XinZhao",                                       // R picks: Top + Jungle
+   "Ashe", "Azir",                                            // B picks
+   "Viktor",                                                  // R pick: Mid
+   "Sejuani"                                                  // R opens ban phase 2
+  ].forEach((id) => Draft.applyAction(bp, id));
+  const advBan = Copilot.advise({ series: bp, scoutingData: realData,
+    opponentId: "t1", ourSide: "B", championIds: champIds, rolesOf });
+  const topRole = (rolesOf[advBan.recommendations[0].champion] || [])[0];
+  check("copilot: Ban Phase 2 top ban targets a still-open role (not Top/Jungle/Mid)",
+    advBan.mode === "our-ban" && advBan.recommendations.length === 3 &&
+    ["Top", "Jungle", "Mid"].indexOf(topRole) === -1);
+
+  // brief: the champion-pool total is wired from the caller.
+  const bWired = Brief.generateBrief(realData, "t1", undefined, 999);
+  check("brief: series plan uses the caller-wired champion total (no hardcoded 173)",
+    Brief.briefToText(bWired).includes("Full 999-champion pool"));
+}
+
+/* 13c — Group D: LLM endpoint policy (sync part) */
+{
+  check("llm: validateBaseUrl — https ok, localhost/127.0.0.1 http ok, other http rejected",
+    LLM.validateBaseUrl("https://api.example.com/v1") === true &&
+    LLM.validateBaseUrl("http://localhost:1234/v1") === true &&
+    LLM.validateBaseUrl("http://127.0.0.1:8080") === true &&
+    LLM.validateBaseUrl("http://evil.example") === false &&
+    LLM.validateBaseUrl("http://localhost.evil.example") === false &&
+    LLM.validateBaseUrl("not a url") === false);
+  let urlThrew = false;
+  try {
+    LLM.setConfig({ preset: "custom", baseUrl: "http://evil.example",
+      apiKey: "k", model: "m" });
+  } catch (e) { urlThrew = /https/.test(e.message); }
+  check("llm: setConfig rejects a non-https endpoint with a clear error", urlThrew);
+  LLM.clearConfig();
+}
+
+/* 14 — LLM layer: presets, and ZERO network calls while unconfigured */
 check("llm: default preset is Aliyun Bailian (DeepSeek) with its endpoint + model",
   LLM.DEFAULT_PRESET === "bailian" && LLM.PRESET_ORDER[0] === "bailian" &&
   LLM.PRESETS.bailian.baseUrl === "https://dashscope.aliyuncs.com/compatible-mode/v1" &&
@@ -241,6 +532,44 @@ LLM.narrate("facts").then(
     lastReq.opts.headers.Authorization === "Bearer sk-test-not-a-real-key");
   LLM.clearConfig();
   check("llm: clearConfig() returns to unconfigured", !LLM.isConfigured());
+  // Narration language follows the UI locale.
+  LLM.setConfig({ preset: "bailian", baseUrl: LLM.PRESETS.bailian.baseUrl,
+    apiKey: "sk-test-not-a-real-key", model: LLM.PRESETS.bailian.model });
+  I18n.setLocale("zh");
+  return LLM.narrate("fact sheet").then(() => {
+    const sys = JSON.parse(lastReq.opts.body).messages[0].content;
+    check("llm: ZH locale -> narration instructed to answer in Simplified Chinese",
+      sys.includes("Simplified Chinese"));
+    I18n.setLocale("en");
+    return LLM.narrate("fact sheet");
+  }).then(() => {
+    const sys = JSON.parse(lastReq.opts.body).messages[0].content;
+    check("llm: EN locale -> narration instructed to answer in English",
+      sys.includes("in English"));
+    LLM.clearConfig();
+  });
+}).then(() => {
+  // Group D: narrate() error branches reject cleanly.
+  LLM.setConfig({ preset: "bailian", baseUrl: LLM.PRESETS.bailian.baseUrl,
+    apiKey: "sk-test-not-a-real-key", model: LLM.PRESETS.bailian.model });
+  globalThis.fetch = () => Promise.resolve({ ok: false, status: 401,
+    text: () => Promise.resolve("unauthorized"), json: () => Promise.resolve({}) });
+  return LLM.narrate("facts").then(
+    () => check("llm: HTTP 401 rejects cleanly", false),
+    (e) => check("llm: HTTP 401 rejects cleanly", /401/.test(e.message)));
+}).then(() => {
+  globalThis.fetch = () => Promise.resolve({ ok: true,
+    json: () => Promise.resolve({ choices: [] }), text: () => Promise.resolve("") });
+  return LLM.narrate("facts").then(
+    () => check("llm: empty choices rejects cleanly", false),
+    () => check("llm: empty choices rejects cleanly", true));
+}).then(() => {
+  globalThis.fetch = () => Promise.reject(new Error("socket hangup"));
+  return LLM.narrate("facts").then(
+    () => check("llm: network failure rejects cleanly", false),
+    (e) => check("llm: network failure rejects cleanly", e.message === "socket hangup"));
+}).then(() => {
+  LLM.clearConfig();
   globalThis.fetch = realFetch;
   console.log(failures ? "\n" + failures + " FAILURE(S)" : "\nALL TESTS PASSED");
   process.exit(failures ? 1 : 0);

@@ -3,15 +3,26 @@
 Build data/champions.json from Riot Data Dragon.
 
 Fetches the current Data Dragon version + champion.json, then writes a slim
-snapshot (id, name, tags, approximated roles) so the app works offline.
+snapshot (id, name, nameZh, tags, approximated roles) so the app works offline.
 Roles are approximated from a curated primary-role map (pro-play positions);
 Data Dragon "tags" are class tags (Fighter/Mage/...), not positions, so a
 curated map is required. Any champion missing from the map falls back to a
 tag-based guess and is reported on stdout.
 
+Chinese names: the zh_CN champion.json SWAPS the en_US field meanings —
+its "name" is the epithet （九尾妖狐） and its "title" is the personal name
+（阿狸） that the Chinese client and players actually use. nameZh therefore
+comes from the zh_CN "title" field (Ahri -> 阿狸， LeeSin -> 李青，
+Yasuo -> 亚索）. If the zh_CN fetch fails, the snapshot is written WITHOUT
+nameZh (English names only) and a warning is printed — translations are
+never invented.
+
+Set DD_VERSION to pin a Data Dragon version (default: latest).
+
 Usage: python3 tools/build_champions.py
 """
 import json
+import os
 import urllib.request
 
 # Curated primary + flex roles per champion id (pro-play positions, patch 16.x).
@@ -79,30 +90,50 @@ TAG_FALLBACK = {
 
 
 def main():
-    versions = json.load(urllib.request.urlopen(
-        "https://ddragon.leagueoflegends.com/api/versions.json"))
-    version = versions[0]
+    version = os.environ.get("DD_VERSION")
+    if not version:
+        versions = json.load(urllib.request.urlopen(
+            "https://ddragon.leagueoflegends.com/api/versions.json"))
+        version = versions[0]
     raw = json.load(urllib.request.urlopen(
         f"https://ddragon.leagueoflegends.com/cdn/{version}/data/en_US/champion.json"))
+
+    # Chinese display names from the SAME Data Dragon version. NOTE: zh_CN
+    # swaps the en_US field meanings — zh "title" is the personal name
+    # （阿狸） and zh "name" is the epithet （九尾妖狐）. nameZh = zh "title".
+    zh_names = {}
+    try:
+        zh_raw = json.load(urllib.request.urlopen(
+            f"https://ddragon.leagueoflegends.com/cdn/{version}/data/zh_CN/champion.json"))
+        zh_names = {cid: c["title"] for cid, c in zh_raw["data"].items()}
+    except Exception as e:  # noqa: BLE001 — report and ship EN-only, never invent
+        print(f"WARNING: zh_CN fetch failed ({e}); writing English names only, no nameZh.")
+
     champs, missing = [], []
     for cid, c in sorted(raw["data"].items(), key=lambda kv: kv[1]["name"]):
         roles = ROLES.get(cid)
         if not roles:
             roles = [TAG_FALLBACK.get(c["tags"][0], "Mid")]
             missing.append(cid)
-        champs.append({
+        entry = {
             "id": cid,
             "key": int(c["key"]),
             "name": c["name"],
+        }
+        if cid in zh_names:
+            entry["nameZh"] = zh_names[cid]
+        entry.update({
             "title": c["title"],
             "tags": c["tags"],
             "roles": roles,
             "icon": f"https://ddragon.leagueoflegends.com/cdn/{version}/img/champion/{cid}.png",
         })
+        champs.append(entry)
     out = {"ddragonVersion": version, "champions": champs}
     with open("data/champions.json", "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
-    print(f"Wrote data/champions.json: {len(champs)} champions, Data Dragon {version}")
+    print(f"Wrote data/champions.json: {len(champs)} champions, Data Dragon {version}, "
+          f"{sum(1 for c in champs if 'nameZh' in c)} with nameZh")
     if missing:
         print("WARNING: role fallback used for:", ", ".join(missing))
 
