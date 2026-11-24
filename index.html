@@ -148,6 +148,21 @@
     </aside>
   </section>
 
+  <section class="analysis-grid">
+    <div class="card comp-card">
+      <div class="summary-head">
+        <h3 data-i18n="comp.title">Composition radar</h3>
+      </div>
+      <div id="comp-body" class="fade-update"></div>
+    </div>
+    <div class="card depl-card">
+      <div class="summary-head">
+        <h3><span data-i18n="depl.title">Opponent pool depletion</span> <span class="hint" data-i18n="depl.titleHint">(the copilot opponent's top-5 comfort picks per role, vs. this series)</span></h3>
+      </div>
+      <div id="depl-body" class="fade-update"></div>
+    </div>
+  </section>
+
   <section class="card copilot-card">
     <div class="summary-head">
       <h3><span data-i18n="copilot.title">AI Draft Copilot</span> <span class="hint" data-i18n="copilot.titleHint">(data-driven, runs locally — perceive the draft state → reason over the evidence → recommend; the coach decides)</span></h3>
@@ -241,6 +256,7 @@
 
 <script src="js/i18n.js"></script>
 <script src="js/draft.js"></script>
+<script src="js/comp.js"></script>
 <script src="js/scouting.js"></script>
 <script src="js/brief.js"></script>
 <script src="js/copilot.js"></script>

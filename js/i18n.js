@@ -155,6 +155,21 @@
       "copilot.standby": "Copilot standing by…",
       "copilot.complete": "Draft complete — no further recommendations.",
 
+      /* ---- composition radar + pool depletion (draft view) ---- */
+      "comp.title": "Composition radar",
+      "comp.empty": "No picks yet — the radar fills in as champions are locked in.",
+      "comp.note": "Heuristic estimate: Data Dragon info ratings + tag baselines + editorial engage/CC overrides — rubric and limits in README.",
+      "comp.dim.engage": "Engage",
+      "comp.dim.frontline": "Frontline",
+      "comp.dim.control": "Control",
+      "comp.dim.scaling": "Scaling",
+      "comp.dim.balance": "Damage mix",
+      "depl.title": "Opponent pool depletion",
+      "depl.titleHint": "(the copilot opponent's top-5 comfort picks per role, vs. this series)",
+      "depl.noOpponent": "Choose an opponent in the AI Draft Copilot panel to watch their comfort pools deplete as this series consumes champions.",
+      "depl.left": "{left}/{total} left",
+      "depl.dry": "⚠ nearly dry",
+
       /* ---- copilot generated text ---- */
       "copilot.gameLabel": "Game {game}",
       "copilot.poolPart": "Pool at {pct}% ({count} fearless-banned)",
@@ -433,6 +448,21 @@
       "copilot.noneOpp": "无——全数据集",
       "copilot.standby": "副驾待命中…",
       "copilot.complete": "BP 已完成——没有更多推荐。",
+
+      /* ---- 阵容雷达 + 英雄池枯竭（BP 视图） ---- */
+      "comp.title": "阵容雷达",
+      "comp.empty": "尚未选用英雄——锁定英雄后雷达会逐步成形。",
+      "comp.note": "启发式估算：Data Dragon info 评分 + 职业标签基线 + 开团/控制编辑修正——规则与局限见 README。",
+      "comp.dim.engage": "开团",
+      "comp.dim.frontline": "坦度",
+      "comp.dim.control": "控制",
+      "comp.dim.scaling": "发育",
+      "comp.dim.balance": "伤害均衡",
+      "depl.title": "对手英雄池枯竭",
+      "depl.titleHint": "（副驾所选对手每个位置的前 5 绝活，对照本系列赛）",
+      "depl.noOpponent": "在 AI Draft Copilot 面板里选择对手，即可看到他们的绝活池如何随本系列赛的进行而枯竭。",
+      "depl.left": "剩 {left}/{total}",
+      "depl.dry": "⚠ 接近枯竭",
 
       /* ---- 副驾生成文本 ---- */
       "copilot.gameLabel": "第 {game} 局",

@@ -46,7 +46,12 @@
     demoQueue: [],          // scripted steps when a demo is loaded
     demoTimer: null,
     brief: null,            // last generated BriefGen brief (scouting view)
-    lastAdvice: null        // last Copilot advice (draft view)
+    lastAdvice: null,       // last Copilot advice (draft view)
+    animSig: null,          // {game, count} at the previous renderDraft —
+                            // a count increase of exactly 1 marks the
+                            // newest action for the pop/flash animation
+    flashChamp: null,       // champion id whose grid tile flashes this render
+    phaseKey: null          // "game:phaseIndex" at the previous render
   };
 
   /* ---------------- data loading ---------------- */
@@ -235,6 +240,22 @@
     var game = DraftCore.currentGame(s);
     var b = DraftCore.gameBreakdown(game);
 
+    /* Pick/ban animation bookkeeping: when the action count grew by
+     * exactly one since the previous render, the newest action's slot
+     * pops and its grid tile flashes (CSS keyframes, transient classes,
+     * no timers; the global reduced-motion rule stills them). Any
+     * other transition (undo, reset, restore, language switch) just
+     * re-baselines the signature without animating. */
+    var lastAction = game.actions[game.actions.length - 1] || null;
+    var animateLast = !!(lastAction && state.animSig &&
+      state.animSig.game === game.number &&
+      game.actions.length === state.animSig.count + 1);
+    state.animSig = { game: game.number, count: game.actions.length };
+    var popKey = animateLast
+      ? (lastAction.side === "B" ? "blue" : "red") + "-" + lastAction.type
+      : null;
+    state.flashChamp = animateLast ? lastAction.championId : null;
+
     // Panels show the CURRENT game's side assignment (teams may swap
     // sides between games); the series score is per TEAM.
     $("name-blue").textContent = DraftCore.blueTeamName(s);
@@ -245,15 +266,30 @@
     });
     $("phase-label").innerHTML = phaseText();
 
+    // The phase banner pulses once when the draft moves into a new
+    // phase (or a new game). Re-adding the class after a reflow
+    // restarts the keyframe; no timers involved.
+    var stepIdx = game.actions.length;
+    var phaseIdx = !DraftCore.nextAction(s) ? 4
+      : stepIdx < 6 ? 0 : stepIdx < 12 ? 1 : stepIdx < 16 ? 2 : 3;
+    var phaseKey = game.number + ":" + phaseIdx;
+    var phaseEl = $("phase-label");
+    phaseEl.classList.remove("pulse");
+    if (state.phaseKey && state.phaseKey !== phaseKey) {
+      void phaseEl.offsetWidth;
+      phaseEl.classList.add("pulse");
+    }
+    state.phaseKey = phaseKey;
+
     // Turn highlight
     var step = DraftCore.nextAction(s);
     $("panel-blue").classList.toggle("active-turn", !!step && step.side === "B");
     $("panel-red").classList.toggle("active-turn", !!step && step.side === "R");
 
-    renderSlots("bans-blue", b.blue.bans, 5, true);
-    renderSlots("picks-blue", b.blue.picks, 5, false);
-    renderSlots("bans-red", b.red.bans, 5, true);
-    renderSlots("picks-red", b.red.picks, 5, false);
+    renderSlots("bans-blue", b.blue.bans, 5, true, popKey === "blue-ban");
+    renderSlots("picks-blue", b.blue.picks, 5, false, popKey === "blue-pick");
+    renderSlots("bans-red", b.red.bans, 5, true, popKey === "red-ban");
+    renderSlots("picks-red", b.red.picks, 5, false, popKey === "red-pick");
     $("btn-win-blue").classList.toggle("won", game.winner === "blue");
     $("btn-win-red").classList.toggle("won", game.winner === "red");
     $("btn-win-blue").textContent =
@@ -294,17 +330,24 @@
     // Side swap is only legal before the current game's first action.
     $("btn-swap-sides").disabled = game.actions.length > 0;
     renderGrid();
+    state.flashChamp = null; // the tile flash belongs to this render only
     renderSummary();
+    renderComp();
+    renderDepletion();
     renderCopilot();
     saveSeries(); // persist the in-progress series on every render
   }
 
-  function renderSlots(elId, ids, total, isBan) {
+  /* popLast: the final filled slot is the action that just landed —
+   * it gets the one-shot pop animation (see renderDraft). */
+  function renderSlots(elId, ids, total, isBan, popLast) {
     var html = "";
     for (var i = 0; i < total; i++) {
       if (i < ids.length) {
         var c = state.champById[ids[i]];
-        html += '<div class="slot' + (isBan ? " ban-slot" : "") + '">' +
+        var pop = popLast && i === ids.length - 1
+          ? " pop" + (isBan ? " pop-ban" : "") : "";
+        html += '<div class="slot' + (isBan ? " ban-slot" : "") + pop + '">' +
           (c ? iconHTML(c) : "") + "<span>" + esc(champName(ids[i])) + "</span></div>";
       } else {
         html += '<div class="slot empty">' +
@@ -380,6 +423,7 @@
           cls += " used";
         }
       }
+      if (state.flashChamp === c.id) cls += " flash";
       el.className = cls;
       el.title = champName(c.id) + " — " + c.roles.map(roleName).join("/");
       el.querySelector(".badge-slot").innerHTML = badge;
@@ -424,6 +468,108 @@
         "</div>";
     }).join("");
     $("export-text").value = DraftCore.exportText(s, nameOf);
+  }
+
+  /* ---------------- composition radar + pool depletion ----------------
+   * Both panels are pure renderings of js/comp.js over the current
+   * series state; they refresh inside renderDraft (and the depletion
+   * panel also when the copilot opponent changes). The containers
+   * carry .fade-update, so each refresh fades in softly. */
+
+  var RADAR_DIMS = [
+    { key: "engage", label: "comp.dim.engage" },
+    { key: "frontline", label: "comp.dim.frontline" },
+    { key: "control", label: "comp.dim.control" },
+    { key: "scaling", label: "comp.dim.scaling" },
+    { key: "balance", label: "comp.dim.balance" }
+  ];
+
+  function radarSVG(blueComp, redComp) {
+    var cx = 110, cy = 98, R = 62;
+    function pt(i, frac) {
+      var ang = (-90 + i * 72) * Math.PI / 180;
+      return (cx + R * frac * Math.cos(ang)).toFixed(1) + "," +
+        (cy + R * frac * Math.sin(ang)).toFixed(1);
+    }
+    function poly(comp) {
+      if (!comp.picks) return "";
+      return RADAR_DIMS.map(function (d, i) {
+        return pt(i, comp[d.key] / 10);
+      }).join(" ");
+    }
+    var html = '<svg class="radar" viewBox="0 0 220 196" role="img">';
+    [0.25, 0.5, 0.75, 1].forEach(function (f) {
+      html += '<polygon class="radar-grid" points="' +
+        RADAR_DIMS.map(function (d, i) { return pt(i, f); }).join(" ") + '"/>';
+    });
+    RADAR_DIMS.forEach(function (d, i) {
+      var axis = pt(i, 1).split(",");
+      html += '<line class="radar-axis" x1="' + cx + '" y1="' + cy +
+        '" x2="' + axis[0] + '" y2="' + axis[1] + '"/>';
+      var lp = pt(i, 1.24).split(",");
+      var lx = parseFloat(lp[0]), ly = parseFloat(lp[1]);
+      var anchor = lx > cx + 8 ? "start" : lx < cx - 8 ? "end" : "middle";
+      html += '<text class="radar-label" x="' + lx.toFixed(1) + '" y="' +
+        (ly + 3.5).toFixed(1) + '" text-anchor="' + anchor + '">' +
+        esc(t(d.label)) + "</text>";
+    });
+    if (redComp.picks) {
+      html += '<polygon class="radar-poly red" points="' + poly(redComp) + '"/>';
+    }
+    if (blueComp.picks) {
+      html += '<polygon class="radar-poly blue" points="' + poly(blueComp) + '"/>';
+    }
+    return html + "</svg>";
+  }
+
+  function renderComp() {
+    var s = state.series;
+    if (!s) return;
+    var b = DraftCore.gameBreakdown(DraftCore.currentGame(s));
+    var blue = Comp.teamComposition(state.champById, b.blue.picks);
+    var red = Comp.teamComposition(state.champById, b.red.picks);
+    var body = $("comp-body");
+    if (!blue.picks && !red.picks) {
+      body.innerHTML = '<p class="comp-empty">' + t("comp.empty") + "</p>";
+      return;
+    }
+    body.innerHTML =
+      '<div class="radar-wrap">' + radarSVG(blue, red) + "</div>" +
+      '<div class="radar-legend">' +
+      '<span><span class="dot blue"></span>' + esc(DraftCore.blueTeamName(s)) + "</span>" +
+      '<span><span class="dot red"></span>' + esc(DraftCore.redTeamName(s)) + "</span>" +
+      "</div>" +
+      '<p class="comp-note">' + t("comp.note") + "</p>";
+  }
+
+  function renderDepletion() {
+    var body = $("depl-body");
+    if (!body || !state.series || !state.scouting) return;
+    var oppId = $("copilot-opp").value || null;
+    var prof = oppId ? Scouting.profile(state.scouting, oppId) : null;
+    var dep = prof ? Comp.poolDepletion(prof, state.series) : null;
+    if (!dep) {
+      body.innerHTML = '<p class="depl-hint">' + t("depl.noOpponent") + "</p>";
+      return;
+    }
+    var team = Scouting.teamById(state.scouting, oppId);
+    body.innerHTML = Comp.ROLES.map(function (role) {
+      var r = dep.roles[role];
+      if (!r || !r.total) return "";
+      var player = team && team.players ? team.players[role] : null;
+      var chips = r.champions.map(function (c) {
+        var ch = state.champById[c.champion];
+        return '<span class="depl-chip' + (c.available ? "" : " gone") + '">' +
+          (ch ? iconHTML(ch) : "") + esc(champName(c.champion)) + "</span>";
+      }).join("");
+      return '<div class="depl-row' + (r.alert ? " alert" : "") + '">' +
+        '<div class="depl-head"><b>' + roleName(role) + "</b>" +
+        (player ? ' <span class="player">' + esc(player) + "</span>" : "") +
+        '<span class="depl-count">' +
+        t("depl.left", { left: r.remaining, total: r.total }) + "</span>" +
+        (r.alert ? '<span class="depl-dry">' + t("depl.dry") + "</span>" : "") +
+        '</div><div class="depl-chips">' + chips + "</div></div>";
+    }).join("");
   }
 
   /* ---------------- demo mode ----------------
@@ -923,6 +1069,7 @@
   $("copilot-opp").addEventListener("change", function () {
     clearNarrate("copilot-llm-out");
     renderCopilot();
+    renderDepletion(); // the depletion panel follows the same selection
   });
   $("copilot-side").addEventListener("change", renderCopilot);
 

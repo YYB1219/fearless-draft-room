@@ -3,7 +3,10 @@
 Build data/champions.json from Riot Data Dragon.
 
 Fetches the current Data Dragon version + champion.json, then writes a slim
-snapshot (id, name, nameZh, tags, approximated roles) so the app works offline.
+snapshot (id, name, nameZh, tags, approximated roles, info ratings) so the
+app works offline. The `info` object carries Data Dragon's own 0–10 ratings
+{attack, defense, magic} verbatim — js/comp.js builds the composition radar
+on top of them (see the rubric documented there and in README).
 Roles are approximated from a curated primary-role map (pro-play positions);
 Data Dragon "tags" are class tags (Fighter/Mage/...), not positions, so a
 curated map is required. Any champion missing from the map falls back to a
@@ -125,6 +128,11 @@ def main():
         entry.update({
             "title": c["title"],
             "tags": c["tags"],
+            "info": {
+                "attack": c["info"]["attack"],
+                "defense": c["info"]["defense"],
+                "magic": c["info"]["magic"],
+            },
             "roles": roles,
             "icon": f"https://ddragon.leagueoflegends.com/cdn/{version}/img/champion/{cid}.png",
         })

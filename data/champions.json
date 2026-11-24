@@ -10,6 +10,11 @@
    "tags": [
     "Fighter"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 4,
+    "magic": 3
+   },
    "roles": [
     "Top"
    ],
@@ -25,6 +30,11 @@
     "Mage",
     "Assassin"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 4,
+    "magic": 8
+   },
    "roles": [
     "Mid"
    ],
@@ -39,6 +49,11 @@
    "tags": [
     "Assassin"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 3,
+    "magic": 8
+   },
    "roles": [
     "Mid",
     "Top"
@@ -55,6 +70,11 @@
     "Marksman",
     "Assassin"
    ],
+   "info": {
+    "attack": 0,
+    "defense": 0,
+    "magic": 0
+   },
    "roles": [
     "Mid"
    ],
@@ -70,6 +90,11 @@
     "Tank",
     "Support"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 9,
+    "magic": 5
+   },
    "roles": [
     "Support"
    ],
@@ -85,6 +110,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 2,
+    "magic": 0
+   },
    "roles": [
     "Top"
    ],
@@ -100,6 +130,11 @@
     "Tank",
     "Support"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 6,
+    "magic": 8
+   },
    "roles": [
     "Jungle",
     "Support"
@@ -115,6 +150,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 1,
+    "defense": 4,
+    "magic": 10
+   },
    "roles": [
     "Mid"
    ],
@@ -130,6 +170,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 3,
+    "magic": 10
+   },
    "roles": [
     "Mid",
     "Support"
@@ -145,6 +190,11 @@
    "tags": [
     "Marksman"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 2,
+    "magic": 1
+   },
    "roles": [
     "ADC"
    ],
@@ -160,6 +210,11 @@
     "Marksman",
     "Support"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 3,
+    "magic": 2
+   },
    "roles": [
     "ADC",
     "Support"
@@ -175,6 +230,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 3,
+    "magic": 8
+   },
    "roles": [
     "Mid"
    ],
@@ -190,6 +250,11 @@
     "Mage",
     "Assassin"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 4,
+    "magic": 8
+   },
    "roles": [
     "Mid",
     "Top"
@@ -206,6 +271,11 @@
     "Mage",
     "Marksman"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 3,
+    "magic": 8
+   },
    "roles": [
     "Mid"
    ],
@@ -221,6 +291,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 4,
+    "magic": 5
+   },
    "roles": [
     "Support"
    ],
@@ -235,6 +310,11 @@
    "tags": [
     "Fighter"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 2,
+    "magic": 7
+   },
    "roles": [
     "Jungle"
    ],
@@ -250,6 +330,11 @@
     "Tank",
     "Support"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 8,
+    "magic": 5
+   },
    "roles": [
     "Support"
    ],
@@ -265,6 +350,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 2,
+    "magic": 9
+   },
    "roles": [
     "Support",
     "Mid"
@@ -281,6 +371,11 @@
     "Tank",
     "Support"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 9,
+    "magic": 4
+   },
    "roles": [
     "Support"
    ],
@@ -296,6 +391,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 5,
+    "magic": 3
+   },
    "roles": [
     "Jungle"
    ],
@@ -310,6 +410,11 @@
    "tags": [
     "Marksman"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 2,
+    "magic": 2
+   },
    "roles": [
     "ADC"
    ],
@@ -325,6 +430,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 6,
+    "magic": 3
+   },
    "roles": [
     "Top"
    ],
@@ -339,6 +449,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 3,
+    "magic": 9
+   },
    "roles": [
     "Mid",
     "Top"
@@ -355,6 +470,11 @@
     "Tank",
     "Mage"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 7,
+    "magic": 7
+   },
    "roles": [
     "Top"
    ],
@@ -370,6 +490,11 @@
     "Marksman",
     "Mage"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 3,
+    "magic": 6
+   },
    "roles": [
     "ADC",
     "Mid"
@@ -386,6 +511,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 5,
+    "magic": 1
+   },
    "roles": [
     "Top"
    ],
@@ -401,6 +531,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 6,
+    "magic": 8
+   },
    "roles": [
     "Jungle",
     "Mid"
@@ -417,6 +552,11 @@
     "Tank",
     "Fighter"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 7,
+    "magic": 6
+   },
    "roles": [
     "Top",
     "Jungle"
@@ -432,6 +572,11 @@
    "tags": [
     "Marksman"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 3,
+    "magic": 1
+   },
    "roles": [
     "ADC"
    ],
@@ -447,6 +592,11 @@
     "Assassin",
     "Mage"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 3,
+    "magic": 7
+   },
    "roles": [
     "Jungle",
     "Mid"
@@ -463,6 +613,11 @@
     "Assassin",
     "Mage"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 5,
+    "magic": 7
+   },
    "roles": [
     "Jungle"
    ],
@@ -478,6 +633,11 @@
     "Assassin",
     "Mage"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 2,
+    "magic": 7
+   },
    "roles": [
     "Jungle"
    ],
@@ -493,6 +653,11 @@
     "Marksman",
     "Mage"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 2,
+    "magic": 6
+   },
    "roles": [
     "ADC"
    ],
@@ -508,6 +673,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 3,
+    "magic": 9
+   },
    "roles": [
     "Jungle"
    ],
@@ -523,6 +693,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 10,
+    "defense": 4,
+    "magic": 2
+   },
    "roles": [
     "Top"
    ],
@@ -538,6 +713,11 @@
     "Assassin",
     "Fighter"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 4,
+    "magic": 7
+   },
    "roles": [
     "Mid"
    ],
@@ -553,6 +733,11 @@
     "Tank",
     "Mage"
    ],
+   "info": {
+    "attack": 1,
+    "defense": 10,
+    "magic": 6
+   },
    "roles": [
     "Mid",
     "Support"
@@ -568,6 +753,11 @@
    "tags": [
     "Fighter"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 6,
+    "magic": 4
+   },
    "roles": [
     "Top"
    ],
@@ -583,6 +773,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 7,
+    "magic": 1
+   },
    "roles": [
     "Top"
    ],
@@ -598,6 +793,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 5,
+    "magic": 5
+   },
    "roles": [
     "Top"
    ],
@@ -613,6 +813,11 @@
     "Fighter",
     "Mage"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 7,
+    "magic": 6
+   },
    "roles": [
     "Jungle",
     "Top"
@@ -628,6 +833,11 @@
    "tags": [
     "Marksman"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 3
+   },
    "roles": [
     "Jungle"
    ],
@@ -642,6 +852,11 @@
    "tags": [
     "Fighter"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 4,
+    "magic": 5
+   },
    "roles": [
     "Top",
     "Jungle"
@@ -658,6 +873,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 6,
+    "magic": 4
+   },
    "roles": [
     "Jungle"
    ],
@@ -673,6 +893,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 6,
+    "magic": 8
+   },
    "roles": [
     "Mid",
     "Support"
@@ -689,6 +914,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 1,
+    "magic": 8
+   },
    "roles": [
     "Mid",
     "Support"
@@ -705,6 +935,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 6,
+    "magic": 3
+   },
    "roles": [
     "Top"
    ],
@@ -720,6 +955,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 4,
+    "magic": 5
+   },
    "roles": [
     "Top",
     "Mid"
@@ -736,6 +976,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 5,
+    "magic": 7
+   },
    "roles": [
     "Jungle"
    ],
@@ -751,6 +996,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 5,
+    "magic": 7
+   },
    "roles": [
     "Support"
    ],
@@ -766,6 +1016,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 8,
+    "magic": 3
+   },
    "roles": [
     "Jungle"
    ],
@@ -780,6 +1035,11 @@
    "tags": [
     "Fighter"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 5,
+    "magic": 7
+   },
    "roles": [
     "Top",
     "Jungle"
@@ -796,6 +1056,11 @@
     "Fighter",
     "Marksman"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 4,
+    "magic": 3
+   },
    "roles": [
     "Top",
     "Mid"
@@ -812,6 +1077,11 @@
     "Marksman",
     "Mage"
    ],
+   "info": {
+    "attack": 10,
+    "defense": 2,
+    "magic": 6
+   },
    "roles": [
     "ADC"
    ],
@@ -826,6 +1096,11 @@
    "tags": [
     "Marksman"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 2,
+    "magic": 4
+   },
    "roles": [
     "ADC"
    ],
@@ -841,6 +1116,11 @@
     "Tank",
     "Fighter"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 8,
+    "magic": 7
+   },
    "roles": [
     "Top"
    ],
@@ -856,6 +1136,11 @@
     "Marksman",
     "Mage"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 3
+   },
    "roles": [
     "ADC"
    ],
@@ -870,6 +1155,11 @@
    "tags": [
     "Marksman"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 2,
+    "magic": 4
+   },
    "roles": [
     "ADC"
    ],
@@ -885,6 +1175,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 1,
+    "defense": 7,
+    "magic": 8
+   },
    "roles": [
     "Support",
     "Mid"
@@ -900,6 +1195,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 2,
+    "magic": 10
+   },
    "roles": [
     "Jungle",
     "Mid"
@@ -916,6 +1216,11 @@
     "Assassin",
     "Mage"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 5,
+    "magic": 8
+   },
    "roles": [
     "Mid"
    ],
@@ -931,6 +1236,11 @@
     "Assassin",
     "Mage"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 3,
+    "magic": 9
+   },
    "roles": [
     "Mid"
    ],
@@ -946,6 +1256,11 @@
     "Marksman",
     "Mage"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 6,
+    "magic": 7
+   },
    "roles": [
     "Top",
     "Mid"
@@ -962,6 +1277,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 10,
+    "defense": 6,
+    "magic": 1
+   },
    "roles": [
     "Jungle"
    ],
@@ -976,6 +1296,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 4,
+    "magic": 7
+   },
    "roles": [
     "Top"
    ],
@@ -990,6 +1315,11 @@
    "tags": [
     "Assassin"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 4,
+    "magic": 3
+   },
    "roles": [
     "Jungle"
    ],
@@ -1004,6 +1334,11 @@
    "tags": [
     "Marksman"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 2,
+    "magic": 2
+   },
    "roles": [
     "Jungle"
    ],
@@ -1018,6 +1353,11 @@
    "tags": [
     "Fighter"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 2,
+    "magic": 2
+   },
    "roles": [
     "Top"
    ],
@@ -1033,6 +1373,11 @@
     "Marksman",
     "Mage"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 2,
+    "magic": 5
+   },
    "roles": [
     "ADC"
    ],
@@ -1048,6 +1393,11 @@
     "Assassin",
     "Mage"
    ],
+   "info": {
+    "attack": 1,
+    "defense": 4,
+    "magic": 10
+   },
    "roles": [
     "Mid"
    ],
@@ -1063,6 +1413,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 3
+   },
    "roles": [
     "Jungle"
    ],
@@ -1078,6 +1433,11 @@
     "Tank",
     "Support"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 8,
+    "magic": 3
+   },
    "roles": [
     "Support"
    ],
@@ -1093,6 +1453,11 @@
     "Fighter",
     "Mage"
    ],
+   "info": {
+    "attack": 0,
+    "defense": 2,
+    "magic": 10
+   },
    "roles": [
     "Jungle"
    ],
@@ -1107,6 +1472,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 5,
+    "magic": 8
+   },
    "roles": [
     "Mid"
    ],
@@ -1122,6 +1492,11 @@
     "Assassin",
     "Mage"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 4,
+    "magic": 2
+   },
    "roles": [
     "Mid"
    ],
@@ -1137,6 +1512,11 @@
     "Marksman",
     "Assassin"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 3
+   },
    "roles": [
     "ADC",
     "Mid"
@@ -1153,6 +1533,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 5,
+    "magic": 7
+   },
    "roles": [
     "Support"
    ],
@@ -1168,6 +1553,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 4,
+    "magic": 9
+   },
    "roles": [
     "Support",
     "Mid"
@@ -1184,6 +1574,11 @@
     "Tank",
     "Mage"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 9,
+    "magic": 7
+   },
    "roles": [
     "Top"
    ],
@@ -1198,6 +1593,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 2,
+    "magic": 9
+   },
    "roles": [
     "Mid"
    ],
@@ -1213,6 +1613,11 @@
     "Tank",
     "Support"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 8,
+    "magic": 6
+   },
    "roles": [
     "Jungle",
     "Support",
@@ -1230,6 +1635,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 10,
+    "defense": 4,
+    "magic": 2
+   },
    "roles": [
     "Jungle"
    ],
@@ -1245,6 +1655,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 4,
+    "magic": 9
+   },
    "roles": [
     "Mid",
     "Support"
@@ -1261,6 +1676,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 4,
+    "magic": 8
+   },
    "roles": [
     "Support"
    ],
@@ -1276,6 +1696,11 @@
     "Marksman",
     "Mage"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 2,
+    "magic": 5
+   },
    "roles": [
     "ADC"
    ],
@@ -1291,6 +1716,11 @@
     "Fighter",
     "Mage"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 6,
+    "magic": 7
+   },
    "roles": [
     "Top"
    ],
@@ -1306,6 +1736,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 1,
+    "defense": 6,
+    "magic": 8
+   },
    "roles": [
     "Support",
     "Mid"
@@ -1322,6 +1757,11 @@
     "Assassin",
     "Fighter"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 5,
+    "magic": 0
+   },
    "roles": [
     "Jungle",
     "Mid"
@@ -1338,6 +1778,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 3,
+    "magic": 7
+   },
    "roles": [
     "Support"
    ],
@@ -1353,6 +1798,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 5,
+    "magic": 6
+   },
    "roles": [
     "Top"
    ],
@@ -1368,6 +1818,11 @@
     "Tank",
     "Support"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 6,
+    "magic": 6
+   },
    "roles": [
     "Support"
    ],
@@ -1383,6 +1838,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 1,
+    "defense": 1,
+    "magic": 9
+   },
    "roles": [
     "Support",
     "Mid"
@@ -1399,6 +1859,11 @@
     "Assassin",
     "Mage"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 4,
+    "magic": 7
+   },
    "roles": [
     "Jungle"
    ],
@@ -1414,6 +1879,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 4,
+    "magic": 4
+   },
    "roles": [
     "ADC"
    ],
@@ -1429,6 +1899,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 5,
+    "magic": 2
+   },
    "roles": [
     "Jungle"
    ],
@@ -1444,6 +1919,11 @@
     "Tank",
     "Mage"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 6,
+    "magic": 7
+   },
    "roles": [
     "Jungle"
    ],
@@ -1459,6 +1939,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 5,
+    "magic": 3
+   },
    "roles": [
     "Top",
     "Jungle"
@@ -1475,6 +1960,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 3,
+    "magic": 9
+   },
    "roles": [
     "Mid"
    ],
@@ -1489,6 +1979,11 @@
    "tags": [
     "Tank"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 9,
+    "magic": 3
+   },
    "roles": [
     "Top"
    ],
@@ -1504,6 +1999,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 4,
+    "magic": 3
+   },
    "roles": [
     "Jungle",
     "Support",
@@ -1521,6 +2021,11 @@
     "Tank",
     "Fighter"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 7,
+    "magic": 2
+   },
    "roles": [
     "Jungle",
     "Support",
@@ -1538,6 +2043,11 @@
     "Support",
     "Assassin"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 3,
+    "magic": 1
+   },
    "roles": [
     "Support"
    ],
@@ -1552,6 +2062,11 @@
    "tags": [
     "Assassin"
    ],
+   "info": {
+    "attack": 0,
+    "defense": 2,
+    "magic": 4
+   },
    "roles": [
     "Jungle",
     "Mid"
@@ -1568,6 +2083,11 @@
     "Marksman",
     "Assassin"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 4,
+    "magic": 2
+   },
    "roles": [
     "Top"
    ],
@@ -1582,6 +2102,11 @@
    "tags": [
     "Support"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 4,
+    "magic": 8
+   },
    "roles": [
     "Support"
    ],
@@ -1596,6 +2121,11 @@
    "tags": [
     "Tank"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 10,
+    "magic": 5
+   },
    "roles": [
     "Jungle"
    ],
@@ -1611,6 +2141,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 2
+   },
    "roles": [
     "Jungle"
    ],
@@ -1626,6 +2161,11 @@
     "Tank",
     "Support"
    ],
+   "info": {
+    "attack": 0,
+    "defense": 0,
+    "magic": 0
+   },
    "roles": [
     "Support",
     "Jungle"
@@ -1642,6 +2182,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 6,
+    "magic": 9
+   },
    "roles": [
     "Support"
    ],
@@ -1657,6 +2202,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 2
+   },
    "roles": [
     "Top"
    ],
@@ -1672,6 +2222,11 @@
     "Assassin",
     "Fighter"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 4,
+    "magic": 2
+   },
    "roles": [
     "Jungle"
    ],
@@ -1687,6 +2242,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 1
+   },
    "roles": [
     "Top"
    ],
@@ -1702,6 +2262,11 @@
     "Fighter",
     "Mage"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 6,
+    "magic": 8
+   },
    "roles": [
     "Top"
    ],
@@ -1716,6 +2281,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 2,
+    "magic": 10
+   },
    "roles": [
     "Mid"
    ],
@@ -1731,6 +2301,11 @@
     "Marksman",
     "Assassin"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 3
+   },
    "roles": [
     "ADC"
    ],
@@ -1745,6 +2320,11 @@
    "tags": [
     "Tank"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 7,
+    "magic": 6
+   },
    "roles": [
     "Jungle"
    ],
@@ -1760,6 +2340,11 @@
     "Support",
     "Marksman"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 2,
+    "magic": 6
+   },
    "roles": [
     "Support",
     "ADC"
@@ -1776,6 +2361,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 0,
+    "defense": 0,
+    "magic": 0
+   },
    "roles": [
     "Support",
     "ADC",
@@ -1793,6 +2383,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 1
+   },
    "roles": [
     "Top",
     "Support"
@@ -1808,6 +2403,11 @@
    "tags": [
     "Assassin"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 4,
+    "magic": 6
+   },
    "roles": [
     "Jungle",
     "Support"
@@ -1823,6 +2423,11 @@
    "tags": [
     "Tank"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 9,
+    "magic": 3
+   },
    "roles": [
     "Top",
     "Support"
@@ -1839,6 +2444,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 6,
+    "magic": 3
+   },
    "roles": [
     "Jungle"
    ],
@@ -1854,6 +2464,11 @@
     "Tank",
     "Mage"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 8,
+    "magic": 7
+   },
    "roles": [
     "Top"
    ],
@@ -1869,6 +2484,11 @@
     "Tank",
     "Fighter"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 9,
+    "magic": 3
+   },
    "roles": [
     "Top"
    ],
@@ -1883,6 +2503,11 @@
    "tags": [
     "Marksman"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 3,
+    "magic": 1
+   },
    "roles": [
     "ADC"
    ],
@@ -1898,6 +2523,11 @@
     "Tank",
     "Fighter"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 8,
+    "magic": 5
+   },
    "roles": [
     "Jungle"
    ],
@@ -1913,6 +2543,11 @@
     "Marksman",
     "Mage"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 2,
+    "magic": 5
+   },
    "roles": [
     "ADC",
     "Mid"
@@ -1929,6 +2564,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 2,
+    "magic": 8
+   },
    "roles": [
     "Support"
    ],
@@ -1944,6 +2584,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 5,
+    "magic": 7
+   },
    "roles": [
     "Support"
    ],
@@ -1959,6 +2604,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 6,
+    "magic": 9
+   },
    "roles": [
     "Support",
     "Mid"
@@ -1975,6 +2625,11 @@
     "Mage",
     "Assassin"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 4,
+    "magic": 8
+   },
    "roles": [
     "Mid",
     "Jungle"
@@ -1990,6 +2645,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 3,
+    "magic": 9
+   },
    "roles": [
     "Mid"
    ],
@@ -2005,6 +2665,11 @@
     "Tank",
     "Support"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 9,
+    "magic": 6
+   },
    "roles": [
     "Support",
     "Top"
@@ -2021,6 +2686,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 1,
+    "defense": 7,
+    "magic": 8
+   },
    "roles": [
     "Mid",
     "Jungle"
@@ -2036,6 +2706,11 @@
    "tags": [
     "Assassin"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 3,
+    "magic": 1
+   },
    "roles": [
     "Jungle",
     "Mid"
@@ -2052,6 +2727,11 @@
     "Support",
     "Tank"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 8,
+    "magic": 5
+   },
    "roles": [
     "Support"
    ],
@@ -2067,6 +2747,11 @@
     "Marksman",
     "Mage"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 3,
+    "magic": 7
+   },
    "roles": [
     "Top"
    ],
@@ -2082,6 +2767,11 @@
     "Support",
     "Tank"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 6,
+    "magic": 6
+   },
    "roles": [
     "Support"
    ],
@@ -2097,6 +2787,11 @@
     "Marksman",
     "Assassin"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 3,
+    "magic": 5
+   },
    "roles": [
     "ADC",
     "Mid"
@@ -2113,6 +2808,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 6,
+    "magic": 2
+   },
    "roles": [
     "Jungle",
     "Top"
@@ -2129,6 +2829,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 10,
+    "defense": 5,
+    "magic": 2
+   },
    "roles": [
     "Top"
    ],
@@ -2144,6 +2849,11 @@
     "Mage",
     "Marksman"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 2,
+    "magic": 6
+   },
    "roles": [
     "Mid"
    ],
@@ -2159,6 +2869,11 @@
     "Marksman",
     "Assassin"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 2,
+    "magic": 3
+   },
    "roles": [
     "ADC"
    ],
@@ -2174,6 +2889,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 7,
+    "magic": 4
+   },
    "roles": [
     "Jungle",
     "Top"
@@ -2190,6 +2910,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 3
+   },
    "roles": [
     "Top"
    ],
@@ -2205,6 +2930,11 @@
     "Marksman",
     "Mage"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 3,
+    "magic": 4
+   },
    "roles": [
     "ADC"
    ],
@@ -2220,6 +2950,11 @@
     "Marksman",
     "Assassin"
    ],
+   "info": {
+    "attack": 10,
+    "defense": 1,
+    "magic": 1
+   },
    "roles": [
     "ADC",
     "Top"
@@ -2235,6 +2970,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 2,
+    "magic": 10
+   },
    "roles": [
     "Mid"
    ],
@@ -2250,6 +2990,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 2,
+    "magic": 10
+   },
    "roles": [
     "Mid",
     "Support"
@@ -2265,6 +3010,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 0,
+    "defense": 0,
+    "magic": 0
+   },
    "roles": [
     "Mid"
    ],
@@ -2280,6 +3030,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 3
+   },
    "roles": [
     "Jungle"
    ],
@@ -2295,6 +3050,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 4,
+    "magic": 2
+   },
    "roles": [
     "Jungle"
    ],
@@ -2309,6 +3069,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 4,
+    "magic": 10
+   },
    "roles": [
     "Mid"
    ],
@@ -2324,6 +3089,11 @@
     "Mage",
     "Fighter"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 6,
+    "magic": 8
+   },
    "roles": [
     "Mid",
     "Top"
@@ -2340,6 +3110,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 7,
+    "defense": 7,
+    "magic": 4
+   },
    "roles": [
     "Top",
     "Jungle"
@@ -2356,6 +3131,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 5,
+    "magic": 3
+   },
    "roles": [
     "Jungle",
     "Top"
@@ -2372,6 +3152,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 2
+   },
    "roles": [
     "Jungle",
     "Top"
@@ -2387,6 +3172,11 @@
    "tags": [
     "Marksman"
    ],
+   "info": {
+    "attack": 10,
+    "defense": 6,
+    "magic": 1
+   },
    "roles": [
     "ADC"
    ],
@@ -2402,6 +3192,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 1,
+    "defense": 3,
+    "magic": 10
+   },
    "roles": [
     "Mid",
     "Support"
@@ -2418,6 +3213,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 6,
+    "magic": 3
+   },
    "roles": [
     "Jungle"
    ],
@@ -2433,6 +3233,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 4,
+    "magic": 4
+   },
    "roles": [
     "Mid",
     "Top",
@@ -2450,6 +3255,11 @@
     "Fighter",
     "Assassin"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 4,
+    "magic": 4
+   },
    "roles": [
     "Mid",
     "Top"
@@ -2466,6 +3276,11 @@
     "Fighter",
     "Tank"
    ],
+   "info": {
+    "attack": 6,
+    "defense": 6,
+    "magic": 4
+   },
    "roles": [
     "Top"
    ],
@@ -2480,6 +3295,11 @@
    "tags": [
     "Marksman"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 2,
+    "magic": 0
+   },
    "roles": [
     "ADC"
    ],
@@ -2495,6 +3315,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 5,
+    "defense": 1,
+    "magic": 8
+   },
    "roles": [
     "Support"
    ],
@@ -2509,6 +3334,11 @@
    "tags": [
     "Fighter"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 6,
+    "magic": 1
+   },
    "roles": [
     "Top"
    ],
@@ -2524,6 +3354,11 @@
     "Tank",
     "Fighter"
    ],
+   "info": {
+    "attack": 3,
+    "defense": 7,
+    "magic": 7
+   },
    "roles": [
     "Jungle"
    ],
@@ -2538,6 +3373,11 @@
    "tags": [
     "Assassin"
    ],
+   "info": {
+    "attack": 9,
+    "defense": 2,
+    "magic": 1
+   },
    "roles": [
     "Mid",
     "Jungle"
@@ -2553,6 +3393,11 @@
    "tags": [
     "Marksman"
    ],
+   "info": {
+    "attack": 8,
+    "defense": 5,
+    "magic": 3
+   },
    "roles": [
     "ADC"
    ],
@@ -2567,6 +3412,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 4,
+    "magic": 9
+   },
    "roles": [
     "ADC",
     "Mid"
@@ -2583,6 +3433,11 @@
     "Support",
     "Mage"
    ],
+   "info": {
+    "attack": 2,
+    "defense": 5,
+    "magic": 8
+   },
    "roles": [
     "Support",
     "Mid"
@@ -2598,6 +3453,11 @@
    "tags": [
     "Mage"
    ],
+   "info": {
+    "attack": 1,
+    "defense": 7,
+    "magic": 8
+   },
    "roles": [
     "Mid"
    ],
@@ -2613,6 +3473,11 @@
     "Mage",
     "Support"
    ],
+   "info": {
+    "attack": 4,
+    "defense": 3,
+    "magic": 8
+   },
    "roles": [
     "Support"
    ],

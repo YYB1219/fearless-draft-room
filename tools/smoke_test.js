@@ -8,6 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const I18n = require("../js/i18n.js"); // first: logic modules resolve it lazily
 const Draft = require("../js/draft.js");
+const Comp = require("../js/comp.js");
 const Scouting = require("../js/scouting.js");
 const Brief = require("../js/brief.js");
 const Copilot = require("../js/copilot.js");
@@ -325,8 +326,8 @@ function freshDemoSeries() {
    the JS modules and every data-i18n* attribute in index.html must exist
    in BOTH locales, and the two dictionaries must have identical keys. */
 {
-  const files = ["js/app.js", "js/brief.js", "js/copilot.js", "js/draft.js",
-    "js/llm.js", "js/scouting.js", "index.html"];
+  const files = ["js/app.js", "js/brief.js", "js/comp.js", "js/copilot.js",
+    "js/draft.js", "js/llm.js", "js/scouting.js", "index.html"];
   const used = new Set();
   for (const f of files) {
     const src = fs.readFileSync(path.join(root, f), "utf8");
@@ -495,6 +496,109 @@ const CJK = /[\u4e00-\u9fff]/;
   } catch (e) { urlThrew = /https/.test(e.message); }
   check("llm: setConfig rejects a non-https endpoint with a clear error", urlThrew);
   LLM.clearConfig();
+}
+
+/* 13d — comp.js: composition radar rubric + aggregation, pool depletion */
+{
+  const byId = {};
+  champs.forEach((c) => { byId[c.id] = c; });
+
+  check("champions: all 173 carry Data Dragon info {attack, defense, magic} in 0..10",
+    champs.length === 173 && champs.every((c) => c.info &&
+      ["attack", "defense", "magic"].every((k) =>
+        Number.isInteger(c.info[k]) && c.info[k] >= 0 && c.info[k] <= 10)));
+
+  check("comp: Frontline is info.defense verbatim for every champion",
+    champs.every((c) => Comp.championScores(c).frontline === c.info.defense));
+
+  check("comp: editorial overrides land — Malphite engage 10, Leona control 10, Ashe engage 7 (Marksman baseline is 2)",
+    Comp.championScores(byId.Malphite).engage === 10 &&
+    Comp.championScores(byId.Leona).control === 10 &&
+    Comp.championScores(byId.Ashe).engage === 7);
+
+  // Synthetic champions pin the rubric + aggregation arithmetic exactly.
+  const mk = (id, tags, attack, defense, magic) =>
+    ({ id: id, tags: tags, info: { attack: attack, defense: defense, magic: magic } });
+  const syn = {
+    TestTank: mk("TestTank", ["Tank"], 4, 9, 2),       // eng 7, ctl 7, front 9, scal 4
+    TestMarks: mk("TestMarks", ["Marksman"], 9, 3, 1), // eng 2, ctl 3, front 3, scal 10 (9+1)
+    TestMage: mk("TestMage", ["Mage"], 2, 4, 9)        // eng 3, ctl 6, front 4, scal 10 (9+1)
+  };
+  check("comp: tag baselines + scaling bonus (Marksman/Mage +1, capped at 10)",
+    Comp.championScores(syn.TestTank).engage === 7 &&
+    Comp.championScores(syn.TestTank).control === 7 &&
+    Comp.championScores(syn.TestTank).scaling === 4 &&
+    Comp.championScores(syn.TestMarks).scaling === 10 &&
+    Comp.championScores(mk("TestCap", ["Mage"], 10, 5, 10)).scaling === 10);
+
+  const emptyComp = Comp.teamComposition(syn, []);
+  check("comp: no picks -> all-zero composition",
+    emptyComp.picks === 0 && emptyComp.engage === 0 && emptyComp.frontline === 0 &&
+    emptyComp.control === 0 && emptyComp.scaling === 0 && emptyComp.balance === 0);
+
+  const comp3 = Comp.teamComposition(syn, ["TestTank", "TestMarks", "TestMage"]);
+  check("comp: aggregation — engage/frontline are top-2 means, control/scaling full means",
+    comp3.engage === 5 && comp3.frontline === 6.5 &&
+    comp3.control === 5.3 && comp3.scaling === 8);
+  const bal = {
+    AD: mk("TestAD", ["Fighter"], 10, 5, 0),
+    Even: mk("TestEven", ["Fighter"], 5, 5, 5)
+  };
+  check("comp: balance from summed attack vs magic (15 vs 12 -> 8.9; single-type -> 0; even split -> 10)",
+    comp3.balance === 8.9 &&
+    Comp.teamComposition(bal, ["AD"]).balance === 0 &&
+    Comp.teamComposition(bal, ["Even"]).balance === 10);
+
+  /* Pool depletion against a synthetic profile + a scripted series:
+   * G1 first-picks Rumble (fearless in G2); G2 bans Gwen + Jax and
+   * first-picks Jayce. Filler actions never touch profile champions. */
+  const prof = { rolePools: {
+    Top: { distinct: 5, champions: {
+      Rumble: { games: 16, wins: 11 }, Gwen: { games: 15, wins: 11 },
+      Ambessa: { games: 10, wins: 7 }, Jayce: { games: 9, wins: 6 },
+      Jax: { games: 9, wins: 5 } } },
+    Support: { distinct: 5, champions: {
+      Renata: { games: 12, wins: 8 }, Rakan: { games: 11, wins: 7 },
+      Leona: { games: 10, wins: 6 }, Nautilus: { games: 9, wins: 6 },
+      Braum: { games: 8, wins: 5 } } }
+  } };
+  const avoid = new Set(["Rumble", "Gwen", "Ambessa", "Jayce", "Jax",
+    "Renata", "Rakan", "Leona", "Nautilus", "Braum"]);
+  const filler = (sr) => ids.find((x) => !avoid.has(x) &&
+    !Draft.unavailableReason(sr, x) &&
+    !Draft.currentGame(sr).actions.some((a) => a.championId === x));
+  const depSeries = Draft.createSeries({ format: "BO3", championStats: stats });
+  while (!Draft.isGameComplete(depSeries)) {
+    const step = Draft.nextAction(depSeries);
+    const n = Draft.currentGame(depSeries).actions.length;
+    Draft.applyAction(depSeries,
+      step.type === "pick" && n === 6 ? "Rumble" : filler(depSeries));
+  }
+  Draft.setWinner(depSeries, "blue");
+  Draft.advanceGame(depSeries);
+  Draft.applyAction(depSeries, "Gwen"); // G2 ban phase 1
+  Draft.applyAction(depSeries, "Jax");
+  while (Draft.currentGame(depSeries).actions.length < 6) {
+    Draft.applyAction(depSeries, filler(depSeries));
+  }
+  Draft.applyAction(depSeries, "Jayce"); // G2 first pick
+  const dep = Comp.poolDepletion(prof, depSeries);
+  const top = dep.roles.Top;
+  const byChamp = {};
+  top.champions.forEach((c) => { byChamp[c.champion] = c; });
+  check("comp: depletion top-5 ordered by games, wins break the 9-game tie (Jayce over Jax)",
+    top.champions.map((c) => c.champion).join(",") === "Rumble,Gwen,Ambessa,Jayce,Jax");
+  check("comp: depletion reasons — earlier-game pick is fearless, current-game ban/pick marked, survivor available",
+    byChamp.Rumble.reason === "fearless" && byChamp.Gwen.reason === "banned" &&
+    byChamp.Jax.reason === "banned" && byChamp.Jayce.reason === "picked" &&
+    byChamp.Ambessa.available === true && byChamp.Ambessa.reason === null);
+  check("comp: depletion remaining + <=1 alert (Top down to 1 -> alert; Support untouched; empty role inert)",
+    top.remaining === 1 && top.alert === true &&
+    dep.roles.Support.remaining === 5 && dep.roles.Support.alert === false &&
+    dep.roles.Mid.total === 0 && dep.roles.Mid.alert === false);
+  check("comp: poolDepletion is null without a profile or a series",
+    Comp.poolDepletion(null, depSeries) === null &&
+    Comp.poolDepletion(prof, null) === null);
 }
 
 /* 14 — LLM layer: presets, and ZERO network calls while unconfigured */
