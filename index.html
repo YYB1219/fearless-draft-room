@@ -22,8 +22,8 @@
   </div>
   <div class="top-actions">
     <span id="data-badge" class="badge" data-i18n="app.loading">loading data…</span>
-    <button id="btn-lang" class="btn btn-ghost lang-toggle" type="button" aria-label="Switch language / 切换语言">
-      <span class="lang-opt" data-lang-opt="en">EN</span><span class="lang-sep">/</span><span class="lang-opt" data-lang-opt="zh">中文</span>
+    <button id="btn-lang" class="btn btn-ghost lang-toggle" type="button" aria-label="Switch language">
+      <span class="lang-opt" data-lang-opt="en">EN</span><span class="lang-sep">/</span><span class="lang-opt" data-lang-opt="zh">ZH</span>
     </button>
     <button id="btn-ai-settings" class="btn" data-i18n="nav.aiSettings">⚙ AI settings (BYOK)</button>
     <button id="btn-demo" class="btn btn-accent" data-i18n="nav.demo">▶ Load demo series (BO5)</button>
@@ -70,14 +70,18 @@
 
 <!-- ======================= DRAFT ROOM ======================= -->
 <main id="view-draft" class="view active">
+  <div id="demo-notice" class="demo-notice" hidden>
+    <span data-i18n="demo.preloadNotice">Demo BO5 preloaded at Game 3 — 20 champions are fearless-banned. Use Reset for a fresh draft.</span>
+    <button id="btn-demo-notice-dismiss" class="btn btn-small" type="button" data-i18n="demo.dismiss">Dismiss</button>
+  </div>
   <section class="setup card">
     <label><span data-i18n="setup.format">Format</span>
       <select id="setup-format">
         <option>BO1</option><option selected>BO3</option><option>BO5</option>
       </select>
     </label>
-    <label><span data-i18n="setup.blue">Blue team</span> <input id="setup-blue" type="text" value="Blue"></label>
-    <label><span data-i18n="setup.red">Red team</span> <input id="setup-red" type="text" value="Red"></label>
+    <label><span data-i18n="setup.blue">Blue team</span> <select id="setup-blue"></select></label>
+    <label><span data-i18n="setup.red">Red team</span> <select id="setup-red"></select></label>
     <label><span data-i18n="setup.patch">Patch</span> <input id="setup-patch" type="text" data-i18n-ph="setup.patchPh" placeholder="e.g. 16.23"></label>
     <button id="btn-new-series" class="btn" data-i18n="setup.newSeries">New series</button>
     <span class="series-score" id="series-score"></span>
@@ -114,6 +118,35 @@
         </div>
       </div>
 
+      <!-- Copilot sits directly above the champion grid: in a live
+           draft the coach reads the Top-3 recommendations and clicks
+           in the same glance — no scrolling past the grid to find
+           them. Radar + depletion analysis stay below the board. -->
+      <section class="card copilot-card">
+        <div class="summary-head">
+          <h3><span data-i18n="copilot.title">AI Draft Copilot</span> <span class="hint" data-i18n="copilot.titleHint">(data-driven, runs locally — perceive the draft state → reason over the evidence → recommend; the coach decides)</span></h3>
+          <div class="copilot-controls">
+            <label><span data-i18n="copilot.opponent">Opponent</span>
+              <select id="copilot-opp"></select>
+            </label>
+            <label><span data-i18n="copilot.weAre">We are</span>
+              <select id="copilot-side">
+                <option value="B" data-i18n="copilot.blueSide">Blue side</option>
+                <option value="R" data-i18n="copilot.redSide">Red side</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div id="copilot-headline" class="copilot-headline" data-i18n="copilot.standby">Copilot standing by…</div>
+        <div id="copilot-recs" class="copilot-recs"></div>
+        <div id="copilot-warnings" class="copilot-warnings"></div>
+        <div class="llm-row">
+          <button id="btn-copilot-llm" class="btn btn-small llm-btn" data-i18n="llm.narrateBtn">✨ AI narration (my model)</button>
+          <span class="hint llm-hint"></span>
+        </div>
+        <div id="copilot-llm-out" class="llm-out" hidden></div>
+      </section>
+
       <div class="grid-tools">
         <input id="grid-search" type="search" data-i18n-ph="grid.searchPh" placeholder="Search champions…">
         <div class="role-filters" id="role-filters">
@@ -125,7 +158,9 @@
           <button data-role="Support" class="chip" aria-pressed="false" data-i18n="role.Support">Support</button>
         </div>
       </div>
-      <div id="champion-grid" class="champion-grid"></div>
+      <div class="grid-scroll">
+        <div id="champion-grid" class="champion-grid"></div>
+      </div>
       <p id="grid-empty" style="color:var(--muted)" data-i18n="grid.noMatch" hidden>No champions match the current filter.</p>
 
       <div class="draft-controls">
@@ -161,31 +196,6 @@
       </div>
       <div id="depl-body" class="fade-update"></div>
     </div>
-  </section>
-
-  <section class="card copilot-card">
-    <div class="summary-head">
-      <h3><span data-i18n="copilot.title">AI Draft Copilot</span> <span class="hint" data-i18n="copilot.titleHint">(data-driven, runs locally — perceive the draft state → reason over the evidence → recommend; the coach decides)</span></h3>
-      <div class="copilot-controls">
-        <label><span data-i18n="copilot.opponent">Opponent</span>
-          <select id="copilot-opp"></select>
-        </label>
-        <label><span data-i18n="copilot.weAre">We are</span>
-          <select id="copilot-side">
-            <option value="B" data-i18n="copilot.blueSide">Blue side</option>
-            <option value="R" data-i18n="copilot.redSide">Red side</option>
-          </select>
-        </label>
-      </div>
-    </div>
-    <div id="copilot-headline" class="copilot-headline" data-i18n="copilot.standby">Copilot standing by…</div>
-    <div id="copilot-recs" class="copilot-recs"></div>
-    <div id="copilot-warnings" class="copilot-warnings"></div>
-    <div class="llm-row">
-      <button id="btn-copilot-llm" class="btn btn-small llm-btn" data-i18n="llm.narrateBtn">✨ AI narration (my model)</button>
-      <span class="hint llm-hint"></span>
-    </div>
-    <div id="copilot-llm-out" class="llm-out" hidden></div>
   </section>
 
   <section class="card summary-card">

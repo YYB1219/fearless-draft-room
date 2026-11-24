@@ -601,12 +601,76 @@ const CJK = /[\u4e00-\u9fff]/;
     Comp.poolDepletion(prof, null) === null);
 }
 
-/* 14 — LLM layer: presets, and ZERO network calls while unconfigured */
-check("llm: default preset is Aliyun Bailian (DeepSeek) with its endpoint + model",
-  LLM.DEFAULT_PRESET === "bailian" && LLM.PRESET_ORDER[0] === "bailian" &&
+/* 15 — round 4: dry-role summaries name only the 1–2 most critical
+   roles, and copilot reasons are hygienic (no WR prime/apostrophe,
+   sample size stated exactly once as (n=...)) */
+{
+  let dryOK = true;
+  for (const file of ["data/scouting.json", "data/scouting.sample.json"]) {
+    const data = JSON.parse(fs.readFileSync(path.join(root, file), "utf8"));
+    for (const tm of data.teams) {
+      const b = Brief.generateBrief(data, tm.id);
+      if (b && b.lateRisk.dryRoles.length > 2) dryOK = false;
+    }
+  }
+  const t1Brief = Brief.generateBrief(realData, "t1");
+  check("brief: dry-role summary capped at the 2 most critical (T1 data order: Jungle, Mid, Top, ADC)",
+    dryOK && t1Brief.lateRisk.dryRoles.join(",") === "Jungle,Mid");
+
+  const hygiene = (locale) => {
+    I18n.setLocale(locale);
+    const cs = freshDemoSeries();
+    let bad = 0, seen = 0;
+    const g = demo.games[0];
+    while (!Draft.isGameComplete(cs)) {
+      for (const opp of ["t1", null]) {
+        const adv = Copilot.advise({ series: cs, scoutingData: realData,
+          opponentId: opp, ourSide: "B", championIds: champIds, rolesOf });
+        for (const r of adv.recommendations) {
+          seen++;
+          if (r.reason.includes("′") || /WR'/.test(r.reason)) bad++;
+          if ((r.reason.match(/n=/g) || []).length > 1) bad++;
+        }
+      }
+      const a = g.actions[Draft.currentGame(cs).actions.length];
+      Draft.applyAction(cs, a.champion);
+    }
+    return { bad: bad, seen: seen };
+  };
+  const hyEn = hygiene("en");
+  const hyZh = hygiene("zh");
+  I18n.setLocale("en");
+  check("copilot: EN reasons — no WR prime, sample size at most once (" + hyEn.seen + " reasons)",
+    hyEn.bad === 0 && hyEn.seen > 100);
+  check("copilot: ZH reasons — no WR prime, sample size at most once (" + hyZh.seen + " reasons)",
+    hyZh.bad === 0 && hyZh.seen > 100);
+}
+
+/* 14 — LLM layer: presets, and ZERO network calls while unconfigured.
+   Round 4 (judge pass): the preset order is OpenAI-first and OpenAI
+   is the default for a fresh install; Bailian stays in the list with
+   its endpoint + model untouched, and a SAVED Bailian config must
+   still load over the new default (asserted below and exercised by
+   the narrate() chain, which configures Bailian explicitly). */
+check("llm: preset order is OpenAI, OpenRouter, Gemini, Bailian, Custom; default is OpenAI",
+  LLM.DEFAULT_PRESET === "openai" &&
+  JSON.stringify(LLM.PRESET_ORDER) ===
+    JSON.stringify(["openai", "openrouter", "gemini", "bailian", "custom"]) &&
+  LLM.PRESETS.openai.baseUrl === "https://api.openai.com/v1" &&
+  LLM.PRESETS.openrouter.baseUrl === "https://openrouter.ai/api/v1" &&
+  LLM.PRESETS.gemini.baseUrl === "https://generativelanguage.googleapis.com/v1beta/openai/");
+check("llm: Bailian preset kept intact (endpoint + deepseek-v4.1-flash), Custom present",
   LLM.PRESETS.bailian.baseUrl === "https://dashscope.aliyuncs.com/compatible-mode/v1" &&
   LLM.PRESETS.bailian.model === "deepseek-v4.1-flash" &&
-  !!LLM.PRESETS.openai && !!LLM.PRESETS.custom);
+  !!LLM.PRESETS.custom);
+LLM.clearConfig();
+LLM.setConfig({ preset: "bailian", baseUrl: LLM.PRESETS.bailian.baseUrl,
+  apiKey: "sk-test-not-a-real-key", model: LLM.PRESETS.bailian.model });
+check("llm: a saved Bailian config still loads over the new OpenAI default",
+  LLM.getConfig() !== null && LLM.getConfig().preset === "bailian" &&
+  LLM.getConfig().baseUrl === "https://dashscope.aliyuncs.com/compatible-mode/v1" &&
+  LLM.getConfig().model === "deepseek-v4.1-flash");
+LLM.clearConfig();
 let fetchCalls = 0, lastReq = null;
 const realFetch = globalThis.fetch;
 globalThis.fetch = (url, opts) => {

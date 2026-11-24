@@ -340,7 +340,9 @@
           }) +
           (late.dryRoles && late.dryRoles.length
             ? T("insight.exhaustDry", {
-                roles: late.dryRoles.map(roleName).join(", ")
+                // dryRoles is ordered most-critical first; naming
+                // all of them says nothing — cap at the top 2.
+                roles: late.dryRoles.slice(0, 2).map(roleName).join(", ")
               })
             : T("insight.exhaustNoDry")),
         n: late.longSeries

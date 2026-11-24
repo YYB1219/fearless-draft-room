@@ -10,12 +10,17 @@
  * else, and the system prompt forbids inventing numbers.
  *
  * PROVIDER PRESETS — endpoint + model name only, never a key:
- *   bailian  阿里云百炼 (DeepSeek) — the author's own provider, and
- *            therefore the default preset: endpoint and the
- *            deepseek-v4.1-flash model are prefilled; the user only
- *            pastes their own Bailian API key.
- *   openai   OpenAI — endpoint + a starter model, both editable.
- *   custom   Any OpenAI-compatible endpoint, filled in by hand.
+ *   openai     OpenAI — the default preset for a fresh install:
+ *              endpoint + a starter model, both editable.
+ *   openrouter OpenRouter — one key, many models, OpenAI-compatible.
+ *   gemini     Google Gemini via its OpenAI-compatible endpoint.
+ *   bailian    阿里云百炼 (DeepSeek) — endpoint and the
+ *              deepseek-v4.1-flash model are prefilled; the user only
+ *              pastes their own Bailian API key.
+ *   custom     Any OpenAI-compatible endpoint, filled in by hand.
+ * A configuration the user already saved always wins over the
+ * default preset below — changing the default never migrates or
+ * breaks a stored config.
  *
  * PRIVACY MODEL (also stated in the settings UI and README):
  *   - No API key is bundled with this app, in any file, ever.
@@ -47,25 +52,34 @@
 
   var STORAGE_KEY = "fdr.llm.config.v1";
 
-  var PRESET_ORDER = ["bailian", "openai", "custom"];
+  var PRESET_ORDER = ["openai", "openrouter", "gemini", "bailian", "custom"];
   /* Preset labels are NOT stored here — they live in i18n
-   * (llm.preset.bailian / .openai / .custom) so they follow the UI
-   * language: EN "Aliyun Bailian (DeepSeek)", ZH "阿里云百炼（DeepSeek）". */
+   * (llm.preset.openai / .openrouter / .gemini / .bailian / .custom)
+   * so they follow the UI language: EN "Aliyun Bailian (DeepSeek)",
+   * ZH "阿里云百炼（DeepSeek）". */
   var PRESETS = {
-    bailian: {
-      baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
-      model: "deepseek-v4.1-flash"
-    },
     openai: {
       baseUrl: "https://api.openai.com/v1",
       model: "gpt-4o-mini"
+    },
+    openrouter: {
+      baseUrl: "https://openrouter.ai/api/v1",
+      model: "openai/gpt-4o-mini"
+    },
+    gemini: {
+      baseUrl: "https://generativelanguage.googleapis.com/v1beta/openai/",
+      model: "gemini-2.0-flash"
+    },
+    bailian: {
+      baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      model: "deepseek-v4.1-flash"
     },
     custom: {
       baseUrl: "",
       model: ""
     }
   };
-  var DEFAULT_PRESET = "bailian";
+  var DEFAULT_PRESET = "openai";
 
   /* localStorage where available; an in-memory shim elsewhere (tests). */
   var memoryStore = {};

@@ -47,6 +47,8 @@
     demoTimer: null,
     brief: null,            // last generated BriefGen brief (scouting view)
     lastAdvice: null,       // last Copilot advice (draft view)
+    preloadedDemo: false,   // true when this load preloaded the demo BO5
+    noticeDismissed: false, // demo preload notice dismissed this session
     animSig: null,          // {game, count} at the previous renderDraft —
                             // a count increase of exactly 1 marks the
                             // newest action for the pop/flash animation
@@ -84,9 +86,16 @@
       state.demo = results[2];
       renderDataBadge();
       buildGrid(); // tiles are built once; later renders update in place
-      if (!restoreSavedSeries()) newSeries();
+      buildTeamSelects();
       buildScoutTeamOptions();
       buildCopilotOptions();
+      syncCopilotOpponentToRed(); // copilot + depletion follow the Red pick
+      if (!restoreSavedSeries()) {
+        // First visit (no saved series): land inside the demo BO5 at
+        // Game 3 so the Fearless state is visible at a glance; fall
+        // back to a fresh series if the demo data is unavailable.
+        if (!preloadDemo()) newSeries();
+      }
       initLLMSettings();
       renderScouting();
     }).catch(function (err) {
@@ -156,13 +165,100 @@
     return state.scouting ? Scouting.championStats(state.scouting) : {};
   }
 
+  /* ---------------- team selection (setup selects) ----------------
+   * The Blue/Red setup fields are <select>s over the dataset's team
+   * list (data/scouting.json): option values are team ids, while the
+   * series itself stores NAMES (DraftCore is name-based). A name with
+   * no dataset entry (the demo's fictional "Sentinels Five") rides a
+   * synthetic "name:<name>" option so it can still be selected and
+   * displayed faithfully. */
+  function buildTeamSelects() {
+    var html = state.scouting.teams.map(function (tm) {
+      return '<option value="' + esc(tm.id) + '">' +
+        esc(tm.name + " (" + tm.tag + ")") + "</option>";
+    }).join("");
+    $("setup-blue").innerHTML = html;
+    $("setup-red").innerHTML = html;
+    // Defaults: T1 on blue, Gen.G on red (fallbacks: first two teams).
+    $("setup-blue").value = findTeamId(["t1"], "T1", "T1", 0);
+    $("setup-red").value = findTeamId(["geng"], "GEN", "Gen.G", 1);
+  }
+
+  function findTeamId(ids, tag, namePrefix, fallbackIdx) {
+    var teams = state.scouting.teams;
+    for (var i = 0; i < ids.length; i++) {
+      var byId = teams.find(function (tm) { return tm.id === ids[i]; });
+      if (byId) return byId.id;
+    }
+    var byTag = teams.find(function (tm) { return tm.tag === tag; });
+    if (byTag) return byTag.id;
+    var byName = teams.find(function (tm) {
+      return tm.name.indexOf(namePrefix) === 0;
+    });
+    if (byName) return byName.id;
+    return teams[Math.min(fallbackIdx, teams.length - 1)].id;
+  }
+
+  /* Select value -> team name for DraftCore (dataset id lookup, or
+   * the synthetic "name:" passthrough for non-dataset names). */
+  function teamNameFor(value) {
+    if (!value) return "";
+    if (value.indexOf("name:") === 0) return value.slice(5);
+    var tm = Scouting.teamById(state.scouting, value);
+    return tm ? tm.name : value;
+  }
+
+  /* Team name -> select value; creates the synthetic option (in both
+   * selects, so either side can hold it) when the name is not a
+   * dataset team. */
+  function teamValueForName(name) {
+    var tm = state.scouting.teams.find(function (x) { return x.name === name; });
+    if (tm) return tm.id;
+    var value = "name:" + name;
+    ["setup-blue", "setup-red"].forEach(function (id) {
+      var sel = $(id);
+      var exists = Array.prototype.some.call(sel.options, function (o) {
+        return o.value === value;
+      });
+      if (!exists) {
+        var opt = document.createElement("option");
+        opt.value = value;
+        opt.textContent = name;
+        sel.appendChild(opt);
+      }
+    });
+    return value;
+  }
+
+  function setTeamSelects(blueValue, redValue) {
+    if (blueValue) $("setup-blue").value = blueValue;
+    if (redValue) $("setup-red").value = redValue;
+  }
+
+  /* Copilot linkage: the copilot opponent (and with it the depletion
+   * panel) follows the RED team chosen at the top. A manual copilot
+   * change afterwards stands until the Red select changes again. A
+   * synthetic non-dataset red team has no profile to link to, so the
+   * copilot selection is left as it is in that case. */
+  function syncCopilotOpponentToRed() {
+    var red = $("setup-red").value;
+    if (!red || red.indexOf("name:") === 0) return;
+    if (!Scouting.teamById(state.scouting, red)) return;
+    var opp = $("copilot-opp");
+    if (opp && opp.value !== red) {
+      opp.value = red;
+      clearNarrate("copilot-llm-out");
+    }
+  }
+
   function newSeries() {
     stopDemo();
+    hideDemoNotice(); // an explicit fresh start retires the preload note
     clearSavedSeries(); // an explicit new series replaces the saved one
     state.series = DraftCore.createSeries({
       format: $("setup-format").value,
-      blueName: $("setup-blue").value.trim() || "Blue",
-      redName: $("setup-red").value.trim() || "Red",
+      blueName: teamNameFor($("setup-blue").value) || "Blue",
+      redName: teamNameFor($("setup-red").value) || "Red",
       patch: $("setup-patch").value.trim(),
       championStats: championStats()
     });
@@ -177,8 +273,13 @@
   function saveSeries() {
     try {
       if (state.series) {
-        sessionStorage.setItem(SERIES_KEY,
-          JSON.stringify(DraftCore.serializeSeries(state.series)));
+        // The snapshot travels with the setup selects' team ids, so a
+        // restore re-selects exactly the same matchup.
+        sessionStorage.setItem(SERIES_KEY, JSON.stringify({
+          series: DraftCore.serializeSeries(state.series),
+          blueSel: $("setup-blue").value,
+          redSel: $("setup-red").value
+        }));
       }
     } catch (e) { /* persistence is best-effort */ }
   }
@@ -189,14 +290,25 @@
     try {
       var raw = sessionStorage.getItem(SERIES_KEY);
       if (!raw) return false;
-      var s = DraftCore.restoreSeries(JSON.parse(raw), championStats());
+      var parsed = JSON.parse(raw);
+      // Current saves wrap the snapshot with the selects' team ids;
+      // older saves stored the bare snapshot — accept both.
+      var snap = parsed && parsed.series ? parsed.series : parsed;
+      var s = DraftCore.restoreSeries(snap, championStats());
       if (!s) return false;
       state.series = s;
       // Reflect the restored series in the setup inputs.
       $("setup-format").value = s.format;
-      $("setup-blue").value = s.teams[0];
-      $("setup-red").value = s.teams[1];
+      if (parsed && parsed.blueSel && parsed.redSel) {
+        teamValueForName(s.teams[0]); // ensure synthetic options exist
+        teamValueForName(s.teams[1]);
+        setTeamSelects(parsed.blueSel, parsed.redSel);
+      } else {
+        setTeamSelects(teamValueForName(s.teams[0]),
+          teamValueForName(s.teams[1]));
+      }
       $("setup-patch").value = s.patch || "";
+      syncCopilotOpponentToRed(); // copilot follows the restored Red team
       renderDraft();
       return true;
     } catch (e) { return false; }
@@ -601,14 +713,61 @@
    * queues every action; "Demo step" applies one action, "Auto-play"
    * applies one every 900ms. This is exactly the flow the demo video
    * script (docs/video-script.md) walks through. */
+  /* Point the setup controls at the demo's matchup (format, teams,
+   * patch). The demo's blue team is a dataset team; its red team is
+   * fictional and rides a synthetic select option. */
+  function setDemoMatchup() {
+    $("setup-format").value = state.demo.format;
+    setTeamSelects(teamValueForName(state.demo.meta.blueName),
+      teamValueForName(state.demo.meta.redName));
+    $("setup-patch").value = state.demo.patch || "";
+  }
+
+  function hideDemoNotice() {
+    var n = $("demo-notice");
+    if (n) n.hidden = true;
+  }
+
+  /* First-load preload: a first-time visitor should see the product,
+   * not an empty board. With no saved series, the demo BO5 is
+   * preloaded INSIDE Game 3 — Games 1–2 complete (20 champions
+   * fearless-banned, series score 1–1) and Game 3 played through the
+   * end of Pick Phase 1 (12 actions: 6 bans + 6 picks, three picks
+   * per side), so both composition-radar polygons are formed and the
+   * depletion panel shows real consumption against the fearless pool.
+   * The state is then saved like any other series, so a refresh
+   * restores it instead of preloading again. */
+  var PRELOAD_G3_ACTIONS = 12; // 6 bans + Pick Phase 1 (3 picks a side)
+  function preloadDemo() {
+    if (!state.demo) return false;
+    try {
+      setDemoMatchup();
+      newSeries();
+      var s = state.series;
+      for (var gi = 0; gi < 2; gi++) {
+        state.demo.games[gi].actions.forEach(function (a) {
+          DraftCore.applyAction(s, a.champion);
+        });
+        DraftCore.setWinner(s, state.demo.games[gi].winner);
+        if (!DraftCore.advanceGame(s)) return false;
+      }
+      state.demo.games[2].actions.slice(0, PRELOAD_G3_ACTIONS)
+        .forEach(function (a) { DraftCore.applyAction(s, a.champion); });
+    } catch (e) {
+      return false; // script mismatch -> caller starts a fresh series
+    }
+    state.preloadedDemo = true;
+    renderDraft();
+    if (!state.noticeDismissed) $("demo-notice").hidden = false;
+    return true;
+  }
+
   function loadDemo() {
     if (!state.demo) { toast(t("demo.noData")); return; }
     stopDemo();
-    $("setup-format").value = state.demo.format;
-    $("setup-blue").value = state.demo.meta.blueName;
-    $("setup-red").value = state.demo.meta.redName;
-    $("setup-patch").value = state.demo.patch || "";
+    setDemoMatchup();
     newSeries();
+    syncCopilotOpponentToRed();
     state.demoQueue = [];
     state.demo.games.forEach(function (g, gi) {
       g.actions.forEach(function (a) {
@@ -954,6 +1113,8 @@
     var labels = {
       bailian: t("llm.preset.bailian"),
       openai: t("llm.preset.openai"),
+      openrouter: t("llm.preset.openrouter"),
+      gemini: t("llm.preset.gemini"),
       custom: t("llm.preset.custom")
     };
     return labels[key] || key;
@@ -993,8 +1154,9 @@
       $("llm-model").value = cfg.model;
       $("llm-apikey").value = cfg.apiKey;
     } else {
-      // Default preset: Aliyun Bailian (DeepSeek) — endpoint + model
-      // prefilled, key left empty for the user to paste their own.
+      // No saved config: the default preset (OpenAI) — endpoint +
+      // starter model prefilled, key left empty for the user to
+      // paste their own. A saved config (above) always wins.
       $("llm-preset").value = LLM.DEFAULT_PRESET;
       applyPreset(LLM.DEFAULT_PRESET);
     }
@@ -1140,6 +1302,20 @@
   $("scout-team").addEventListener("change", function () {
     clearNarrate("brief-llm-out"); // the old opponent's narration is stale
     renderScouting();
+  });
+
+  // Team selects: changing the Red team immediately re-points the
+  // copilot opponent (and the depletion panel) at that team; the
+  // matchup itself applies when the next series is created. A manual
+  // copilot-opponent change stands until Red changes again.
+  $("setup-red").addEventListener("change", function () {
+    syncCopilotOpponentToRed();
+    renderCopilot();
+    renderDepletion();
+  });
+  $("btn-demo-notice-dismiss").addEventListener("click", function () {
+    state.noticeDismissed = true;
+    hideDemoNotice();
   });
 
   // AI copilot controls

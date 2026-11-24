@@ -196,7 +196,11 @@
       longSeries: late ? late.longSeries : 0,
       avgTop5GoneByG4: late ? late.avgTop5GoneByG4 : 0,
       top5: late ? late.top5 : [],
-      dryRoles: late ? (late.dryRoles || []) : [],
+      // The aggregate's dryRoles list is ordered most-critical first
+      // (roles that ran dry in the most long series, >= 50% of them).
+      // A summary naming every role says nothing — surface only the
+      // 1–2 most critical so the coach sees the point at a glance.
+      dryRoles: late ? (late.dryRoles || []).slice(0, 2) : [],
       seriesCount: shift.seriesCount || 0,
       g3RemovedAvg: g3 ? g3.removedAvg : null,
       g3PoolRemovedAvg: g3 ? g3.poolRemovedAvg : null,
