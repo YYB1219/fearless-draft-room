@@ -51,6 +51,7 @@
                             // a count increase of exactly 1 marks the
                             // newest action for the pop/flash animation
     flashChamp: null,       // champion id whose grid tile flashes this render
+    flashCls: "",           // team-colored flash classes for that tile
     phaseKey: null          // "game:phaseIndex" at the previous render
   };
 
@@ -255,6 +256,10 @@
       ? (lastAction.side === "B" ? "blue" : "red") + "-" + lastAction.type
       : null;
     state.flashChamp = animateLast ? lastAction.championId : null;
+    state.flashCls = animateLast
+      ? (lastAction.type === "ban" ? " flash flash-ban"
+        : " flash flash-" + (lastAction.side === "B" ? "blue" : "red"))
+      : "";
 
     // Panels show the CURRENT game's side assignment (teams may swap
     // sides between games); the series score is per TEAM.
@@ -286,10 +291,10 @@
     $("panel-blue").classList.toggle("active-turn", !!step && step.side === "B");
     $("panel-red").classList.toggle("active-turn", !!step && step.side === "R");
 
-    renderSlots("bans-blue", b.blue.bans, 5, true, popKey === "blue-ban");
-    renderSlots("picks-blue", b.blue.picks, 5, false, popKey === "blue-pick");
-    renderSlots("bans-red", b.red.bans, 5, true, popKey === "red-ban");
-    renderSlots("picks-red", b.red.picks, 5, false, popKey === "red-pick");
+    renderSlots("bans-blue", b.blue.bans, 5, true, popKey === "blue-ban" ? "ban" : null);
+    renderSlots("picks-blue", b.blue.picks, 5, false, popKey === "blue-pick" ? "pick-blue" : null);
+    renderSlots("bans-red", b.red.bans, 5, true, popKey === "red-ban" ? "ban" : null);
+    renderSlots("picks-red", b.red.picks, 5, false, popKey === "red-pick" ? "pick-red" : null);
     $("btn-win-blue").classList.toggle("won", game.winner === "blue");
     $("btn-win-red").classList.toggle("won", game.winner === "red");
     $("btn-win-blue").textContent =
@@ -331,6 +336,7 @@
     $("btn-swap-sides").disabled = game.actions.length > 0;
     renderGrid();
     state.flashChamp = null; // the tile flash belongs to this render only
+    state.flashCls = "";
     renderSummary();
     renderComp();
     renderDepletion();
@@ -338,17 +344,27 @@
     saveSeries(); // persist the in-progress series on every render
   }
 
-  /* popLast: the final filled slot is the action that just landed —
-   * it gets the one-shot pop animation (see renderDraft). */
-  function renderSlots(elId, ids, total, isBan, popLast) {
+  /* anim: when the final filled slot is the action that just landed it
+   * gets the one-shot v2 animation (see renderDraft) — "ban" adds the
+   * slash-sweep slot, "pick-blue"/"pick-red" the slam-in slot with its
+   * expanding team-color ring element. */
+  function renderSlots(elId, ids, total, isBan, anim) {
     var html = "";
     for (var i = 0; i < total; i++) {
       if (i < ids.length) {
         var c = state.champById[ids[i]];
-        var pop = popLast && i === ids.length - 1
-          ? " pop" + (isBan ? " pop-ban" : "") : "";
-        html += '<div class="slot' + (isBan ? " ban-slot" : "") + pop + '">' +
-          (c ? iconHTML(c) : "") + "<span>" + esc(champName(ids[i])) + "</span></div>";
+        var cls = "", fx = "";
+        if (anim && i === ids.length - 1) {
+          if (anim === "ban") {
+            cls = " anim-ban";
+            fx = '<span class="slot-slash" aria-hidden="true"></span>';
+          } else {
+            cls = " anim-pick anim-" + (anim === "pick-blue" ? "blue" : "red");
+            fx = '<span class="slot-ring" aria-hidden="true"></span>';
+          }
+        }
+        html += '<div class="slot' + (isBan ? " ban-slot" : "") + cls + '">' +
+          (c ? iconHTML(c) : "") + "<span>" + esc(champName(ids[i])) + "</span>" + fx + "</div>";
       } else {
         html += '<div class="slot empty">' +
           (isBan ? t("slot.banEmpty") : t("slot.pickEmpty")) + "</div>";
@@ -423,7 +439,7 @@
           cls += " used";
         }
       }
-      if (state.flashChamp === c.id) cls += " flash";
+      if (state.flashChamp === c.id) cls += state.flashCls;
       el.className = cls;
       el.title = champName(c.id) + " — " + c.roles.map(roleName).join("/");
       el.querySelector(".badge-slot").innerHTML = badge;
