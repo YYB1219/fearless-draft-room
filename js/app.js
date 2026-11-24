@@ -1175,6 +1175,17 @@
    * while a request is in flight, the stale response is discarded
    * instead of overwriting the newer panel state. */
   var narrateSeq = {};
+  /* Model narration comes back as markdown-flavoured plain text.
+   * Render **bold** as real emphasis; everything else stays literal
+   * (escape first, so model output can never inject markup). */
+  function renderNarration(out, text) {
+    var esc = String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+    out.innerHTML = esc.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  }
   function narrateInto(outId, btnId, facts) {
     var out = $(outId);
     var btn = $(btnId);
@@ -1184,7 +1195,7 @@
     btn.disabled = true;
     LLM.narrate(facts).then(function (text) {
       if (my !== narrateSeq[outId]) return; // stale: a newer request owns it
-      out.textContent = text;
+      renderNarration(out, text);
     }).catch(function (err) {
       if (my !== narrateSeq[outId]) return;
       out.hidden = true;
