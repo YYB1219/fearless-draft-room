@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fearless Draft Room — Cloud9 × JetBrains, Category 2</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">FD<span>R</span></div>
+    <div>
+      <h1>Fearless Draft Room</h1>
+      <p class="tagline">Macro Scouting &amp; Draft Management for Fearless Draft series — Cloud9 × JetBrains Hackathon, Category 2 (LoL)</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <span id="data-badge" class="badge">loading data…</span>
+    <button id="btn-ai-settings" class="btn">⚙ AI settings (BYOK)</button>
+    <button id="btn-demo" class="btn btn-accent">▶ Load demo series (BO5)</button>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-view="draft">Draft Room</button>
+  <button class="tab" data-view="scouting">Scouting &amp; Tendencies</button>
+</nav>
+
+<!-- ======================= BYOK AI SETTINGS ======================= -->
+<section id="ai-settings" class="card settings-card" hidden>
+  <div class="summary-head">
+    <h3>AI narration settings — bring your own key (optional)</h3>
+    <button id="btn-ai-settings-close" class="btn btn-small">Close</button>
+  </div>
+  <p class="settings-note">
+    The Brief Generator and Draft Copilot run <b>fully locally</b> and need no key.
+    This optional layer only re-narrates their structured facts with a model you choose.
+    <b>Your API key is stored only in this browser's localStorage and is sent only to the
+    endpoint below — no key is bundled with this app.</b>
+  </p>
+  <div class="settings-grid">
+    <label>Provider preset
+      <select id="llm-preset"></select>
+    </label>
+    <label>Endpoint base URL
+      <input id="llm-baseurl" type="text" placeholder="https://…/v1" spellcheck="false">
+    </label>
+    <label>Model
+      <input id="llm-model" type="text" placeholder="model name" spellcheck="false">
+    </label>
+    <label>API key
+      <input id="llm-apikey" type="password" placeholder="paste your own key — never shared" spellcheck="false">
+    </label>
+  </div>
+  <div class="settings-actions">
+    <button id="btn-llm-save" class="btn btn-accent">Save settings</button>
+    <button id="btn-llm-clear" class="btn btn-danger">Clear</button>
+    <span id="llm-status" class="scout-meta"></span>
+  </div>
+</section>
+
+<!-- ======================= DRAFT ROOM ======================= -->
+<main id="view-draft" class="view active">
+  <section class="setup card">
+    <label>Format
+      <select id="setup-format">
+        <option>BO1</option><option selected>BO3</option><option>BO5</option>
+      </select>
+    </label>
+    <label>Blue team <input id="setup-blue" type="text" value="Blue"></label>
+    <label>Red team <input id="setup-red" type="text" value="Red"></label>
+    <label>Patch <input id="setup-patch" type="text" placeholder="e.g. 16.23"></label>
+    <button id="btn-new-series" class="btn">New series</button>
+    <span class="series-score" id="series-score"></span>
+  </section>
+
+  <section id="pool-banner" class="pool-banner"></section>
+
+  <section class="draft-layout">
+    <!-- BLUE -->
+    <aside class="team-panel blue" id="panel-blue">
+      <h2 id="name-blue">Blue</h2>
+      <div class="slot-label">Bans</div>
+      <div class="slots bans" id="bans-blue"></div>
+      <div class="slot-label">Picks</div>
+      <div class="slots picks" id="picks-blue"></div>
+      <button class="btn btn-small win-btn" id="btn-win-blue">Mark game won</button>
+    </aside>
+
+    <!-- CENTER -->
+    <div class="center-col">
+      <div class="phase-bar">
+        <div id="phase-label">Ban Phase 1 — Blue to ban</div>
+        <div class="game-tabs" id="game-tabs"></div>
+      </div>
+
+      <div class="wr-wrap" title="Heuristic estimate — see README for the formula and its limits">
+        <div class="wr-head">
+          <span>Draft win-rate impact <em>(heuristic estimate)</em></span>
+          <span id="wr-text">50% — 50%</span>
+        </div>
+        <div class="wr-bar">
+          <div id="wr-blue" class="wr-fill blue" style="width:50%"></div>
+          <div id="wr-red" class="wr-fill red" style="width:50%"></div>
+        </div>
+      </div>
+
+      <div class="grid-tools">
+        <input id="grid-search" type="search" placeholder="Search champions…">
+        <div class="role-filters" id="role-filters">
+          <button data-role="All" class="chip active">All</button>
+          <button data-role="Top" class="chip">Top</button>
+          <button data-role="Jungle" class="chip">Jungle</button>
+          <button data-role="Mid" class="chip">Mid</button>
+          <button data-role="ADC" class="chip">ADC</button>
+          <button data-role="Support" class="chip">Support</button>
+        </div>
+      </div>
+      <div id="champion-grid" class="champion-grid"></div>
+
+      <div class="draft-controls">
+        <button id="btn-undo" class="btn">↩ Undo</button>
+        <button id="btn-reset-game" class="btn">Reset game</button>
+        <button id="btn-next-game" class="btn btn-accent" disabled>Next game →</button>
+        <button id="btn-reset-series" class="btn btn-danger">Reset series</button>
+      </div>
+    </div>
+
+    <!-- RED -->
+    <aside class="team-panel red" id="panel-red">
+      <h2 id="name-red">Red</h2>
+      <div class="slot-label">Bans</div>
+      <div class="slots bans" id="bans-red"></div>
+      <div class="slot-label">Picks</div>
+      <div class="slots picks" id="picks-red"></div>
+      <button class="btn btn-small win-btn" id="btn-win-red">Mark game won</button>
+    </aside>
+  </section>
+
+  <section class="card copilot-card">
+    <div class="summary-head">
+      <h3>AI Draft Copilot <span class="hint">(data-driven, runs locally — perceive the draft state → reason over the evidence → recommend; the coach decides)</span></h3>
+      <div class="copilot-controls">
+        <label>Opponent
+          <select id="copilot-opp"></select>
+        </label>
+        <label>We are
+          <select id="copilot-side">
+            <option value="B">Blue side</option>
+            <option value="R">Red side</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div id="copilot-headline" class="copilot-headline">Copilot standing by…</div>
+    <div id="copilot-recs" class="copilot-recs"></div>
+    <div id="copilot-warnings" class="copilot-warnings"></div>
+    <div class="llm-row">
+      <button id="btn-copilot-llm" class="btn btn-small llm-btn">AI 解读 (narrate with my model)</button>
+      <span class="hint llm-hint"></span>
+    </div>
+    <div id="copilot-llm-out" class="llm-out" hidden></div>
+  </section>
+
+  <section class="card summary-card">
+    <div class="summary-head">
+      <h3>Series summary &amp; export</h3>
+      <button id="btn-copy-export" class="btn btn-small">Copy draft history</button>
+    </div>
+    <div id="series-summary"></div>
+    <textarea id="export-text" readonly rows="9" spellcheck="false"></textarea>
+  </section>
+</main>
+
+<!-- ======================= SCOUTING ======================= -->
+<main id="view-scouting" class="view">
+  <section class="setup card">
+    <label>Opponent
+      <select id="scout-team"></select>
+    </label>
+    <span id="scout-meta" class="scout-meta"></span>
+  </section>
+
+  <section class="scout-grid">
+    <div class="card">
+      <h3>Most frequent first selections</h3>
+      <div id="scout-firstpicks"></div>
+    </div>
+    <div class="card">
+      <h3>Most banned against them</h3>
+      <div id="scout-banned"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>Champion pools by role <span class="hint">(top 5 per role · games · win rate)</span></h3>
+    <div id="scout-pools" class="pools"></div>
+  </section>
+
+  <section class="card">
+    <h3>Fearless shift — how their draft changes as the series goes long</h3>
+    <div id="scout-shift"></div>
+  </section>
+
+  <section>
+    <h3 class="howto-title">How to Win — rule-generated insights <span class="hint">(every card shows its sample size)</span></h3>
+    <div id="scout-insights" class="insights"></div>
+  </section>
+
+  <section class="card brief-card">
+    <div class="summary-head">
+      <h3>AI Brief — pre-match brief <span class="hint">(generated locally from the aggregates above; every number carries its n)</span></h3>
+      <div>
+        <button id="btn-brief-copy" class="btn btn-small">Copy brief</button>
+        <button id="btn-brief-llm" class="btn btn-small llm-btn">AI 解读 (narrate with my model)</button>
+      </div>
+    </div>
+    <div id="brief-panel" class="brief-panel"></div>
+    <div class="llm-row"><span class="hint llm-hint"></span></div>
+    <div id="brief-llm-out" class="llm-out" hidden></div>
+  </section>
+</main>
+
+<div id="toast" class="toast" hidden></div>
+
+<footer class="footer">
+  <p id="footer-data"></p>
+  <p>Built for the Cloud9 × JetBrains "Sky's The Limit" Hackathon 2026 · Category 2 · Champion data © Riot Games via Data Dragon.</p>
+</footer>
+
+<script src="js/draft.js"></script>
+<script src="js/scouting.js"></script>
+<script src="js/brief.js"></script>
+<script src="js/copilot.js"></script>
+<script src="js/llm.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

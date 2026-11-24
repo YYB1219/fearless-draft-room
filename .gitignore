@@ -1,0 +1,14 @@
+# Sky's The Limit 2026 hackathon data (GRID): licensed, must NOT be committed.
+# Keep the starter repo NEXT TO this project, never inside it (see README).
+stl-hackathon-2026-grid-starter/
+grid-starter-data/
+*.zst
+*.jsonl
+# Decompressed copies or extracts built from GRID data
+*.parquet
+*.sqlite
+*.duckdb
+
+# OS / editor noise
+.DS_Store
+__pycache__/
