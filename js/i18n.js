@@ -224,6 +224,14 @@
       "scout.noShift": "No series of 3+ games for this team in the dataset.",
       "scout.sampleN": "sample: n={n}",
       "scout.noInsights": "No insight rules fired for this team at the current thresholds.",
+      "scout.sidesTitle": "Side splits — blue side vs. red side",
+      "scout.sidesHint": "(per side: games · win rate · top first picks · top bans against)",
+      "scout.blueSide": "Blue side",
+      "scout.redSide": "Red side",
+      "scout.sideRecord": "{games} games · {wins} wins ({wr})",
+      "scout.sideFirstPicks": "Top first picks",
+      "scout.sideBannedAgainst": "Top bans against",
+      "scout.noSides": "No side-split data for this team in the dataset.",
 
       /* ---- brief panel (rendered in app.js) ---- */
       "brief.title": "AI Brief — pre-match brief",
@@ -247,6 +255,9 @@
       "brief.g3Line": "By Game 3 they have lost an average of {removed} of their own picks; the shared pool is down {pool} champions",
       "brief.seriesN": "n={n} series",
       "brief.concentrated": "Concentrated {role} pool: {c1} + {c2} cover {share} of its games",
+      "brief.sideWrLine": "Side split: {wrB} win rate on blue ({gamesB} games) vs. {wrR} on red ({gamesR} games) — a {gap}-point gap.",
+      "brief.sideFpClause": " Their #1 first pick flips by side too: {champB} on blue, {champR} on red.",
+      "brief.sideFpLine": "Side split: their #1 first pick flips by side — {champB} on blue ({countB} of {gamesB}) vs. {champR} on red ({countR} of {gamesR}).",
 
       /* ---- brief plain text + series plan (brief.js) ---- */
       "brief.textTitle": "PRE-MATCH BRIEF — vs. {team} ({tag})",
@@ -265,6 +276,9 @@
       "brief.textExhaustion": "   Pool exhaustion: by Game 4, an average of {avg} of their top-5 comfort picks ({top5}) are fearless-banned (n={n} long series). Dry roles first: {roles}.",
       "brief.textG3": "   By Game 3 they have lost an average of {removed} of their own picks; shared pool down {pool} (n={n} series).",
       "brief.textConcentrated": "   Concentrated {role} pool: {c1} + {c2} = {share} of {total} games (n={n}).",
+      "brief.textSideWrLine": "   Side split: blue-side win rate {wrB} ({gamesB} games) vs. red-side {wrR} ({gamesR} games) — a {gap}-point gap.",
+      "brief.textSideFpClause": " Their #1 first pick flips by side too: {champB} on blue, {champR} on red.",
+      "brief.textSideFpLine": "   Side split: their #1 first pick flips by side — {champB} on blue ({countB} of {gamesB} blue games) vs. {champR} on red ({countR} of {gamesR} red games).",
       "brief.textSec5": "5) SERIES PLAN (G1–G5)",
       "plan.g1Title": "Game 1 — hit the comfort picks",
       "plan.g2Title": "Game 2 — same plan, one tier down",
@@ -518,6 +532,14 @@
       "scout.noShift": "该队在数据集中没有 3 局以上的系列赛。",
       "scout.sampleN": "样本：n={n}",
       "scout.noInsights": "在当前阈值下，该队没有触发任何洞察规则。",
+      "scout.sidesTitle": "红蓝方拆分——蓝方 vs 红方",
+      "scout.sidesHint": "（按方拆分：场次 · 胜率 · 一抢前五 · 被针对禁用前五）",
+      "scout.blueSide": "蓝方",
+      "scout.redSide": "红方",
+      "scout.sideRecord": "{games} 局 · {wins} 胜（{wr}）",
+      "scout.sideFirstPicks": "一抢前五",
+      "scout.sideBannedAgainst": "被针对禁用前五",
+      "scout.noSides": "数据集中没有该队的红蓝方拆分数据。",
 
       /* ---- 简报面板（app.js 渲染） ---- */
       "brief.title": "AI 简报——赛前简报",
@@ -541,6 +563,9 @@
       "brief.g3Line": "到第 3 局，他们自己的选用平均已失去 {removed} 个；共享英雄池减少 {pool} 个",
       "brief.seriesN": "n={n} 个系列赛",
       "brief.concentrated": "{role}英雄池高度集中：{c1} + {c2} 占了该位置 {share} 的对局",
+      "brief.sideWrLine": "红蓝方拆分：蓝方胜率 {wrB}（{gamesB} 局），红方胜率 {wrR}（{gamesR} 局），相差 {gap} 个百分点。",
+      "brief.sideFpClause": " 一抢首选也随方翻转：蓝方 {champB}、红方 {champR}。",
+      "brief.sideFpLine": "红蓝方拆分：一抢首选随方翻转——蓝方 {champB}（{gamesB} 局中 {countB} 次），红方 {champR}（{gamesR} 局中 {countR} 次）。",
 
       /* ---- 简报纯文本 + 系列赛计划（brief.js） ---- */
       "brief.textTitle": "赛前简报 —— 对手 {team}（{tag}）",
@@ -559,6 +584,9 @@
       "brief.textExhaustion": "   英雄池枯竭：到第 4 局，他们前 5 绝活（{top5}）平均已有 {avg} 个被无畏禁用（n={n} 个长系列赛）。最先枯竭的位置：{roles}。",
       "brief.textG3": "   到第 3 局，他们自己的选用平均已失去 {removed} 个；共享英雄池减少 {pool} 个（n={n} 个系列赛）。",
       "brief.textConcentrated": "   {role}英雄池高度集中：{c1} + {c2} = 该位置 {total} 局的 {share}（n={n}）。",
+      "brief.textSideWrLine": "   红蓝方拆分：蓝方胜率 {wrB}（{gamesB} 局），红方胜率 {wrR}（{gamesR} 局），相差 {gap} 个百分点。",
+      "brief.textSideFpClause": " 一抢首选也随方翻转：蓝方 {champB}、红方 {champR}。",
+      "brief.textSideFpLine": "   红蓝方拆分：一抢首选随方翻转——蓝方 {champB}（{gamesB} 局中 {countB} 次），红方 {champR}（{gamesR} 局中 {countR} 次）。",
       "brief.textSec5": "5）系列赛计划（G1–G5）",
       "plan.g1Title": "第 1 局——打他们的绝活",
       "plan.g2Title": "第 2 局——同样的计划，低一档",

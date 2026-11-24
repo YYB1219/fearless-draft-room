@@ -9,7 +9,9 @@
  * "How to Win" insight cards.
  *
  * Brief sections:
- *   1. overview     — team record, top first picks, top banned-against
+ *   1. overview     — team record, top first picks, top banned-against,
+ *                     plus ONE side-split line when the blue/red split
+ *                     is material (see sideSplit() for the thresholds)
  *   2. banTargets   — top 3 ban targets (win-rate differential evidence)
  *   3. firstPick    — first-pick priorities (+ dataset-relative priority)
  *   4. lateRisk     — Fearless late-series risks (pool exhaustion,
@@ -39,7 +41,11 @@
     banTargetMinPicked: 5,     // preferred evidence floor for a ban target
     banTargetFallbacks: [3, 1],// relax the floor until targets exist
     shallowTop2Share: 0.7,     // same threshold as scouting.js Rule 4
-    shallowMinRoleGames: 20
+    shallowMinRoleGames: 20,
+    sideMinGamesPerSide: 10,   // side-split WR gap needs >= this per side
+    sideWrGap: 0.15,           // ...and a win-rate gap of >= 15 points
+    sideFpMinEach: 5           // side-split first-pick flip needs >= 5
+                               // first-picks of each side's #1 champion
   };
 
   function profileOf(data, teamId) {
@@ -119,6 +125,41 @@
       }
     });
     return best;
+  }
+
+  /* --- Section 1 addendum: the side-split insight ------------------------
+   * One line, only when the blue/red split is MATERIAL:
+   *   - win-rate gap >= 15 points with >= 10 games on EACH side, or
+   *   - a different #1 first-pick champion per side, with >= 5
+   *     first-picks of each side's #1.
+   * Returns structured data (the panel and the text export format it
+   * independently, like every other brief field); null when neither
+   * condition holds — the brief never pads with a non-finding. The
+   * sample size carried is the SMALLER side's game count (the weaker
+   * leg of the comparison); both sides' counts are also in the text. */
+  function sideSplit(p) {
+    var ss = p.sideSplits;
+    if (!ss || !ss.blue || !ss.red) return null;
+    var b = ss.blue, r = ss.red;
+    if (!b.games || !r.games) return null;
+    var wrB = b.wins / b.games, wrR = r.wins / r.games;
+    var gap = Math.abs(wrB - wrR);
+    var wrMaterial = b.games >= RULES.sideMinGamesPerSide &&
+      r.games >= RULES.sideMinGamesPerSide && gap >= RULES.sideWrGap;
+    var topB = sortedCounts(b.firstPicks, 1)[0] || null;
+    var topR = sortedCounts(r.firstPicks, 1)[0] || null;
+    var fpMaterial = !!topB && !!topR && topB.champion !== topR.champion &&
+      topB.count >= RULES.sideFpMinEach && topR.count >= RULES.sideFpMinEach;
+    if (!wrMaterial && !fpMaterial) return null;
+    return {
+      blue: { games: b.games, wins: b.wins, winRate: wrB },
+      red: { games: r.games, wins: r.wins, winRate: wrR },
+      gap: gap,
+      wrMaterial: wrMaterial,
+      fpMaterial: fpMaterial,
+      blueTopFp: topB, redTopFp: topR,
+      n: Math.min(b.games, r.games)
+    };
   }
 
   /* --- Section 4: late-series risk -------------------------------------- */
@@ -328,6 +369,7 @@
         games: n, wins: p.wins, winRate: p.wins / n,
         topFirstPicks: fpRows, topBannedAgainst: baRows, n: n
       },
+      sideSplit: sideSplit(p),
       banTargets: targets,
       firstPick: fp,
       lateRisk: risk,
@@ -361,6 +403,28 @@
         });
       }).join(", ")
     }));
+    if (brief.sideSplit) {
+      var sb = brief.sideSplit;
+      var sideLine = sb.wrMaterial
+        ? T("brief.textSideWrLine", {
+            wrB: pct(sb.blue.winRate), gamesB: sb.blue.games,
+            wrR: pct(sb.red.winRate), gamesR: sb.red.games,
+            gap: Math.round(sb.gap * 100)
+          })
+        : T("brief.textSideFpLine", {
+            champB: nameOf(sb.blueTopFp.champion), countB: sb.blueTopFp.count,
+            gamesB: sb.blue.games,
+            champR: nameOf(sb.redTopFp.champion), countR: sb.redTopFp.count,
+            gamesR: sb.red.games
+          });
+      if (sb.wrMaterial && sb.fpMaterial) {
+        sideLine += T("brief.textSideFpClause", {
+          champB: nameOf(sb.blueTopFp.champion),
+          champR: nameOf(sb.redTopFp.champion)
+        });
+      }
+      lines.push(sideLine);
+    }
     lines.push("");
     lines.push(T("brief.textSec2"));
     brief.banTargets.forEach(function (t, i) {

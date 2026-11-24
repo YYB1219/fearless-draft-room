@@ -485,7 +485,12 @@
   ];
 
   function radarSVG(blueComp, redComp) {
-    var cx = 110, cy = 98, R = 62;
+    // The viewBox is wider than the plot (cx=142 in a 284-wide box):
+    // the near-horizontal axis labels ("Damage mix", "Frontline")
+    // extend ~60 units from their anchor and were clipped at the
+    // viewBox edges in a 220-wide box. The extra horizontal padding
+    // plus the inward nudge below keep every label fully visible.
+    var cx = 142, cy = 98, R = 62;
     function pt(i, frac) {
       var ang = (-90 + i * 72) * Math.PI / 180;
       return (cx + R * frac * Math.cos(ang)).toFixed(1) + "," +
@@ -497,7 +502,7 @@
         return pt(i, comp[d.key] / 10);
       }).join(" ");
     }
-    var html = '<svg class="radar" viewBox="0 0 220 196" role="img">';
+    var html = '<svg class="radar" viewBox="0 0 284 196" role="img">';
     [0.25, 0.5, 0.75, 1].forEach(function (f) {
       html += '<polygon class="radar-grid" points="' +
         RADAR_DIMS.map(function (d, i) { return pt(i, f); }).join(" ") + '"/>';
@@ -509,6 +514,9 @@
       var lp = pt(i, 1.24).split(",");
       var lx = parseFloat(lp[0]), ly = parseFloat(lp[1]);
       var anchor = lx > cx + 8 ? "start" : lx < cx - 8 ? "end" : "middle";
+      // Near-horizontal labels grow outward from the anchor; pull
+      // them 4 units toward the center so long words stay in frame.
+      if (Math.abs(lx - cx) > 60) lx += lx < cx ? 4 : -4;
       html += '<text class="radar-label" x="' + lx.toFixed(1) + '" y="' +
         (ly + 3.5).toFixed(1) + '" text-anchor="' + anchor + '">' +
         esc(t(d.label)) + "</text>";
@@ -715,6 +723,35 @@
         t("scout.shiftNote", { n: shift.seriesCount }) + "</p>";
     }
 
+    // Side splits (blue vs red): record + top-5 tables per side
+    var splits = Scouting.sideSplits(data, teamId);
+    if (!splits) {
+      $("scout-sides").innerHTML =
+        '<p style="color:var(--muted)">' + t("scout.noSides") + "</p>";
+    } else {
+      var sideCol = function (labelKey, s) {
+        var fpMax = s.firstPicks.length ? s.firstPicks[0].count : 0;
+        var baMax = s.bannedAgainst.length ? s.bannedAgainst[0].count : 0;
+        return '<div class="side-col"><h4>' + t(labelKey) + "</h4>" +
+          '<p class="side-record">' +
+          t("scout.sideRecord", {
+            games: s.games, wins: s.wins,
+            wr: s.games ? pct(s.winRate) : "—"
+          }) + "</p>" +
+          "<h5>" + t("scout.sideFirstPicks") + '</h5><table class="tend">' +
+          s.firstPicks.map(function (r) {
+            return barRow(champName(r.champion), r.count, fpMax);
+          }).join("") + "</table>" +
+          "<h5>" + t("scout.sideBannedAgainst") + '</h5><table class="tend">' +
+          s.bannedAgainst.map(function (r) {
+            return barRow(champName(r.champion), r.count, baMax);
+          }).join("") + "</table></div>";
+      };
+      $("scout-sides").innerHTML = '<div class="side-cols">' +
+        sideCol("scout.blueSide", splits.blue) +
+        sideCol("scout.redSide", splits.red) + "</div>";
+    }
+
     // Insights (champion names localized via champName)
     var cards = Scouting.insights(data, teamId, champName);
     $("scout-insights").innerHTML = cards.length ? cards.map(function (c) {
@@ -755,7 +792,31 @@
         team: brief.teamName, games: o.games, wins: o.wins,
         wr: pct(o.winRate), fp: rows(o.topFirstPicks),
         ba: rows(o.topBannedAgainst)
-      })) + "</p></div>";
+      })) + "</p>";
+    if (brief.sideSplit) {
+      var sb = brief.sideSplit;
+      var sideText = sb.wrMaterial
+        ? t("brief.sideWrLine", {
+            wrB: pct(sb.blue.winRate), gamesB: sb.blue.games,
+            wrR: pct(sb.red.winRate), gamesR: sb.red.games,
+            gap: Math.round(sb.gap * 100)
+          })
+        : t("brief.sideFpLine", {
+            champB: champName(sb.blueTopFp.champion),
+            countB: sb.blueTopFp.count, gamesB: sb.blue.games,
+            champR: champName(sb.redTopFp.champion),
+            countR: sb.redTopFp.count, gamesR: sb.red.games
+          });
+      if (sb.wrMaterial && sb.fpMaterial) {
+        sideText += t("brief.sideFpClause", {
+          champB: champName(sb.blueTopFp.champion),
+          champR: champName(sb.redTopFp.champion)
+        });
+      }
+      html += "<p>" + esc(sideText) + ' <span class="n">n=' + sb.n +
+        "</span></p>";
+    }
+    html += "</div>";
     html += '<div class="brief-sec"><h4>' + t("brief.sec2") + "</h4>" +
       brief.banTargets.map(function (tg, i) {
         return "<p><b>" + (i + 1) + ". " +

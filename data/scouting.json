@@ -813,52 +813,52 @@
     "Syndra": 1
    },
    "bannedAgainst": {
+    "Xayah": 4,
+    "Kalista": 12,
     "Corki": 5,
     "Ezreal": 18,
     "KSante": 1,
-    "Xayah": 4,
-    "Kalista": 12,
-    "Kaisa": 4,
     "Jayce": 20,
+    "Kaisa": 4,
+    "Rakan": 9,
+    "Yone": 27,
     "Varus": 23,
     "Ambessa": 15,
-    "Rakan": 9,
     "Aurora": 12,
-    "Yone": 27,
-    "Skarner": 1,
     "Nautilus": 10,
+    "Skarner": 1,
     "MissFortune": 6,
+    "Amumu": 1,
     "Gnar": 11,
     "Renekton": 8,
-    "Amumu": 1,
-    "Rumble": 18,
-    "Braum": 3,
     "Ziggs": 38,
-    "Ashe": 2,
+    "Braum": 3,
+    "Rumble": 18,
     "Alistar": 13,
+    "Ashe": 2,
     "Sylas": 8,
     "Poppy": 21,
     "Zyra": 3,
     "Camille": 5,
-    "Kindred": 1,
     "Naafiri": 2,
     "XinZhao": 8,
+    "Kindred": 1,
     "Sejuani": 5,
     "Taliyah": 12,
     "Gwen": 36,
     "Karma": 9,
     "Bard": 32,
     "Azir": 9,
-    "Vi": 21,
     "Lucian": 3,
+    "Vi": 21,
     "Sion": 2,
     "Galio": 6,
     "Ahri": 5,
     "Trundle": 6,
-    "Jhin": 5,
     "Sivir": 7,
-    "Blitzcrank": 1,
+    "Jhin": 5,
     "Lulu": 2,
+    "Blitzcrank": 1,
     "Senna": 5,
     "Leona": 2,
     "Akali": 10,
@@ -869,8 +869,8 @@
     "Rell": 1,
     "Yunara": 4,
     "Yorick": 6,
-    "Zeri": 1,
     "Maokai": 3,
+    "Zeri": 1,
     "Seraphine": 10,
     "Nocturne": 21,
     "Olaf": 5,
@@ -1292,30 +1292,6 @@
     }
    },
    "tendencies": {
-    "Ashe": {
-     "pickedGames": 7,
-     "pickedWins": 6,
-     "unpickedGames": 127,
-     "unpickedWins": 79,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 2
-    },
-    "Aurora": {
-     "pickedGames": 15,
-     "pickedWins": 10,
-     "unpickedGames": 119,
-     "unpickedWins": 75,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 9
-    },
-    "Renekton": {
-     "pickedGames": 21,
-     "pickedWins": 14,
-     "unpickedGames": 113,
-     "unpickedWins": 71,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 6
-    },
     "MonkeyKing": {
      "pickedGames": 14,
      "pickedWins": 10,
@@ -1331,6 +1307,46 @@
      "unpickedWins": 80,
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 1
+    },
+    "Ashe": {
+     "pickedGames": 7,
+     "pickedWins": 6,
+     "unpickedGames": 127,
+     "unpickedWins": 79,
+     "bannedAgainstGames": 2,
+     "bannedAgainstWins": 2
+    },
+    "Renekton": {
+     "pickedGames": 21,
+     "pickedWins": 14,
+     "unpickedGames": 113,
+     "unpickedWins": 71,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 6
+    },
+    "Aurora": {
+     "pickedGames": 15,
+     "pickedWins": 10,
+     "unpickedGames": 119,
+     "unpickedWins": 75,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 9
+    },
+    "Xayah": {
+     "pickedGames": 2,
+     "pickedWins": 2,
+     "unpickedGames": 132,
+     "unpickedWins": 83,
+     "bannedAgainstGames": 4,
+     "bannedAgainstWins": 4
+    },
+    "Kalista": {
+     "pickedGames": 5,
+     "pickedWins": 4,
+     "unpickedGames": 129,
+     "unpickedWins": 81,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 10
     },
     "Corki": {
      "pickedGames": 22,
@@ -1356,29 +1372,13 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
-    "Xayah": {
-     "pickedGames": 2,
-     "pickedWins": 2,
-     "unpickedGames": 132,
-     "unpickedWins": 83,
-     "bannedAgainstGames": 4,
-     "bannedAgainstWins": 4
-    },
-    "Kalista": {
-     "pickedGames": 5,
-     "pickedWins": 4,
-     "unpickedGames": 129,
-     "unpickedWins": 81,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 10
-    },
-    "Gnar": {
-     "pickedGames": 19,
-     "pickedWins": 15,
-     "unpickedGames": 115,
-     "unpickedWins": 70,
-     "bannedAgainstGames": 11,
-     "bannedAgainstWins": 6
+    "Ziggs": {
+     "pickedGames": 11,
+     "pickedWins": 6,
+     "unpickedGames": 123,
+     "unpickedWins": 79,
+     "bannedAgainstGames": 38,
+     "bannedAgainstWins": 28
     },
     "Sejuani": {
      "pickedGames": 14,
@@ -1388,14 +1388,6 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 3
     },
-    "Yone": {
-     "pickedGames": 10,
-     "pickedWins": 6,
-     "unpickedGames": 124,
-     "unpickedWins": 79,
-     "bannedAgainstGames": 27,
-     "bannedAgainstWins": 18
-    },
     "Leona": {
      "pickedGames": 8,
      "pickedWins": 3,
@@ -1404,21 +1396,21 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
-    "Ziggs": {
-     "pickedGames": 11,
+    "Yone": {
+     "pickedGames": 10,
      "pickedWins": 6,
-     "unpickedGames": 123,
+     "unpickedGames": 124,
      "unpickedWins": 79,
-     "bannedAgainstGames": 38,
-     "bannedAgainstWins": 28
+     "bannedAgainstGames": 27,
+     "bannedAgainstWins": 18
     },
-    "Kaisa": {
-     "pickedGames": 4,
-     "pickedWins": 3,
-     "unpickedGames": 130,
-     "unpickedWins": 82,
-     "bannedAgainstGames": 4,
-     "bannedAgainstWins": 3
+    "Gnar": {
+     "pickedGames": 19,
+     "pickedWins": 15,
+     "unpickedGames": 115,
+     "unpickedWins": 70,
+     "bannedAgainstGames": 11,
+     "bannedAgainstWins": 6
     },
     "Jayce": {
      "pickedGames": 5,
@@ -1428,13 +1420,13 @@
      "bannedAgainstGames": 20,
      "bannedAgainstWins": 12
     },
-    "Vi": {
-     "pickedGames": 18,
-     "pickedWins": 12,
-     "unpickedGames": 116,
-     "unpickedWins": 73,
-     "bannedAgainstGames": 21,
-     "bannedAgainstWins": 12
+    "Kaisa": {
+     "pickedGames": 4,
+     "pickedWins": 3,
+     "unpickedGames": 130,
+     "unpickedWins": 82,
+     "bannedAgainstGames": 4,
+     "bannedAgainstWins": 3
     },
     "Azir": {
      "pickedGames": 12,
@@ -1443,6 +1435,22 @@
      "unpickedWins": 76,
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 7
+    },
+    "Vi": {
+     "pickedGames": 18,
+     "pickedWins": 12,
+     "unpickedGames": 116,
+     "unpickedWins": 73,
+     "bannedAgainstGames": 21,
+     "bannedAgainstWins": 12
+    },
+    "Rakan": {
+     "pickedGames": 12,
+     "pickedWins": 9,
+     "unpickedGames": 122,
+     "unpickedWins": 76,
+     "bannedAgainstGames": 9,
+     "bannedAgainstWins": 4
     },
     "Varus": {
      "pickedGames": 12,
@@ -1460,14 +1468,6 @@
      "bannedAgainstGames": 15,
      "bannedAgainstWins": 12
     },
-    "Rakan": {
-     "pickedGames": 12,
-     "pickedWins": 9,
-     "unpickedGames": 122,
-     "unpickedWins": 76,
-     "bannedAgainstGames": 9,
-     "bannedAgainstWins": 4
-    },
     "Alistar": {
      "pickedGames": 17,
      "pickedWins": 13,
@@ -1475,14 +1475,6 @@
      "unpickedWins": 72,
      "bannedAgainstGames": 13,
      "bannedAgainstWins": 9
-    },
-    "Rumble": {
-     "pickedGames": 15,
-     "pickedWins": 9,
-     "unpickedGames": 119,
-     "unpickedWins": 76,
-     "bannedAgainstGames": 18,
-     "bannedAgainstWins": 12
     },
     "Jhin": {
      "pickedGames": 10,
@@ -1492,13 +1484,13 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 1
     },
-    "Skarner": {
-     "pickedGames": 13,
-     "pickedWins": 7,
-     "unpickedGames": 121,
-     "unpickedWins": 78,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
+    "Rumble": {
+     "pickedGames": 15,
+     "pickedWins": 9,
+     "unpickedGames": 119,
+     "unpickedWins": 76,
+     "bannedAgainstGames": 18,
+     "bannedAgainstWins": 12
     },
     "Nautilus": {
      "pickedGames": 14,
@@ -1508,6 +1500,14 @@
      "bannedAgainstGames": 10,
      "bannedAgainstWins": 9
     },
+    "Skarner": {
+     "pickedGames": 13,
+     "pickedWins": 7,
+     "unpickedGames": 121,
+     "unpickedWins": 78,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
+    },
     "MissFortune": {
      "pickedGames": 2,
      "pickedWins": 2,
@@ -1515,22 +1515,6 @@
      "unpickedWins": 83,
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 4
-    },
-    "Camille": {
-     "pickedGames": 5,
-     "pickedWins": 4,
-     "unpickedGames": 129,
-     "unpickedWins": 81,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 2
-    },
-    "Taliyah": {
-     "pickedGames": 16,
-     "pickedWins": 12,
-     "unpickedGames": 118,
-     "unpickedWins": 73,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 7
     },
     "Bard": {
      "pickedGames": 12,
@@ -1540,12 +1524,36 @@
      "bannedAgainstGames": 32,
      "bannedAgainstWins": 21
     },
+    "Taliyah": {
+     "pickedGames": 16,
+     "pickedWins": 12,
+     "unpickedGames": 118,
+     "unpickedWins": 73,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 7
+    },
+    "Camille": {
+     "pickedGames": 5,
+     "pickedWins": 4,
+     "unpickedGames": 129,
+     "unpickedWins": 81,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 2
+    },
     "Amumu": {
      "pickedGames": 0,
      "pickedWins": 0,
      "unpickedGames": 134,
      "unpickedWins": 85,
      "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
+    },
+    "Zyra": {
+     "pickedGames": 2,
+     "pickedWins": 2,
+     "unpickedGames": 132,
+     "unpickedWins": 83,
+     "bannedAgainstGames": 3,
      "bannedAgainstWins": 1
     },
     "Hwei": {
@@ -1562,14 +1570,6 @@
      "unpickedGames": 128,
      "unpickedWins": 81,
      "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
-    },
-    "Zyra": {
-     "pickedGames": 2,
-     "pickedWins": 2,
-     "unpickedGames": 132,
-     "unpickedWins": 83,
-     "bannedAgainstGames": 3,
      "bannedAgainstWins": 1
     },
     "Poppy": {
@@ -1636,20 +1636,20 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 2
     },
-    "Kindred": {
-     "pickedGames": 0,
-     "pickedWins": 0,
-     "unpickedGames": 134,
-     "unpickedWins": 85,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
-    },
     "Naafiri": {
      "pickedGames": 4,
      "pickedWins": 4,
      "unpickedGames": 130,
      "unpickedWins": 81,
      "bannedAgainstGames": 2,
+     "bannedAgainstWins": 0
+    },
+    "Kindred": {
+     "pickedGames": 0,
+     "pickedWins": 0,
+     "unpickedGames": 134,
+     "unpickedWins": 85,
+     "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
     },
     "Karma": {
@@ -1732,14 +1732,6 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Senna": {
-     "pickedGames": 10,
-     "pickedWins": 6,
-     "unpickedGames": 124,
-     "unpickedWins": 79,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 2
-    },
     "Maokai": {
      "pickedGames": 5,
      "pickedWins": 3,
@@ -1747,6 +1739,14 @@
      "unpickedWins": 82,
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 0
+    },
+    "Senna": {
+     "pickedGames": 10,
+     "pickedWins": 6,
+     "unpickedGames": 124,
+     "unpickedWins": 79,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 2
     },
     "Yorick": {
      "pickedGames": 3,
@@ -1772,20 +1772,20 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 4
     },
-    "Blitzcrank": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 133,
-     "unpickedWins": 85,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
-    },
     "Lulu": {
      "pickedGames": 8,
      "pickedWins": 2,
      "unpickedGames": 126,
      "unpickedWins": 83,
      "bannedAgainstGames": 2,
+     "bannedAgainstWins": 1
+    },
+    "Blitzcrank": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 133,
+     "unpickedWins": 85,
+     "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
     "Zeri": {
@@ -1812,14 +1812,6 @@
      "bannedAgainstGames": 15,
      "bannedAgainstWins": 6
     },
-    "JarvanIV": {
-     "pickedGames": 11,
-     "pickedWins": 6,
-     "unpickedGames": 123,
-     "unpickedWins": 79,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 10
-    },
     "Renata": {
      "pickedGames": 6,
      "pickedWins": 5,
@@ -1827,6 +1819,14 @@
      "unpickedWins": 80,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
+    },
+    "JarvanIV": {
+     "pickedGames": 11,
+     "pickedWins": 6,
+     "unpickedGames": 123,
+     "unpickedWins": 79,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 10
     },
     "Neeko": {
      "pickedGames": 9,
@@ -2157,6 +2157,44 @@
      "Jungle",
      "Mid"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 63,
+     "wins": 46,
+     "firstPicks": {
+      "Varus": 6,
+      "Yone": 5,
+      "Vi": 5,
+      "Azir": 5,
+      "Ashe": 5
+     },
+     "bannedAgainst": {
+      "Ziggs": 20,
+      "Gwen": 19,
+      "Pantheon": 19,
+      "Yone": 13,
+      "Varus": 13
+     }
+    },
+    "red": {
+     "games": 71,
+     "wins": 39,
+     "firstPicks": {
+      "Ezreal": 6,
+      "Taliyah": 4,
+      "Vi": 3,
+      "Ambessa": 3,
+      "Varus": 3
+     },
+     "bannedAgainst": {
+      "Bard": 21,
+      "Cassiopeia": 19,
+      "Ziggs": 18,
+      "Gwen": 17,
+      "Jayce": 14
+     }
+    }
    }
   },
   "dk": {
@@ -2204,46 +2242,46 @@
     "Jhin": 3
    },
    "bannedAgainst": {
+    "Leblanc": 8,
     "Skarner": 13,
+    "Jax": 9,
     "KSante": 6,
     "Vi": 49,
-    "Leblanc": 8,
-    "Jax": 9,
-    "Poppy": 26,
-    "Aurora": 11,
     "Maokai": 5,
+    "Poppy": 26,
     "Elise": 3,
-    "Gnar": 3,
+    "Aurora": 11,
     "Lulu": 3,
     "Kaisa": 8,
-    "Nidalee": 11,
-    "Renekton": 3,
+    "Gnar": 3,
     "Rell": 6,
+    "Renekton": 3,
+    "Nidalee": 11,
     "Sylas": 6,
     "Ezreal": 17,
-    "Pantheon": 20,
     "Jayce": 12,
+    "Pantheon": 20,
     "Corki": 7,
     "Taliyah": 21,
     "Braum": 12,
     "Lillia": 11,
     "Gragas": 2,
-    "Ambessa": 19,
     "Leona": 4,
+    "Ambessa": 19,
     "Ashe": 5,
     "MissFortune": 7,
     "Rakan": 14,
     "Lucian": 8,
-    "Zilean": 1,
     "Rumble": 11,
-    "Sett": 1,
-    "Yone": 5,
+    "Zilean": 1,
     "Kalista": 15,
-    "Kindred": 1,
+    "Yone": 5,
+    "Sett": 1,
     "Sejuani": 4,
-    "Varus": 26,
-    "Mel": 2,
+    "Kindred": 1,
     "Ziggs": 3,
+    "Mel": 2,
+    "Varus": 26,
     "Azir": 13,
     "Zyra": 3,
     "XinZhao": 19,
@@ -2251,16 +2289,16 @@
     "LeeSin": 5,
     "MonkeyKing": 9,
     "Nocturne": 5,
-    "Alistar": 30,
     "Nautilus": 6,
+    "Alistar": 30,
     "Gwen": 25,
     "Ryze": 2,
     "Caitlyn": 1,
     "Zoe": 1,
     "Naafiri": 11,
     "Sion": 7,
-    "Camille": 1,
     "Aatrox": 1,
+    "Camille": 1,
     "Galio": 1,
     "Viktor": 1,
     "Xayah": 7,
@@ -2279,14 +2317,14 @@
     "Yorick": 1,
     "Jhin": 1,
     "Karma": 2,
+    "Zeri": 1,
     "Jinx": 1,
     "Morgana": 1,
-    "Zeri": 1,
     "Ivern": 1,
     "Lissandra": 1,
     "Akali": 1,
-    "Qiyana": 1,
-    "Tristana": 1
+    "Tristana": 1,
+    "Qiyana": 1
    },
    "rolePools": {
     "Top": {
@@ -2716,13 +2754,13 @@
     }
    },
    "tendencies": {
-    "Ambessa": {
-     "pickedGames": 18,
-     "pickedWins": 11,
-     "unpickedGames": 110,
-     "unpickedWins": 60,
-     "bannedAgainstGames": 19,
-     "bannedAgainstWins": 10
+    "Jayce": {
+     "pickedGames": 14,
+     "pickedWins": 7,
+     "unpickedGames": 114,
+     "unpickedWins": 64,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 8
     },
     "Ezreal": {
      "pickedGames": 15,
@@ -2732,14 +2770,6 @@
      "bannedAgainstGames": 17,
      "bannedAgainstWins": 9
     },
-    "Nidalee": {
-     "pickedGames": 4,
-     "pickedWins": 3,
-     "unpickedGames": 124,
-     "unpickedWins": 68,
-     "bannedAgainstGames": 11,
-     "bannedAgainstWins": 7
-    },
     "Leona": {
      "pickedGames": 13,
      "pickedWins": 8,
@@ -2748,13 +2778,29 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 4
     },
-    "Jayce": {
-     "pickedGames": 14,
-     "pickedWins": 7,
-     "unpickedGames": 114,
-     "unpickedWins": 64,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 8
+    "Ambessa": {
+     "pickedGames": 18,
+     "pickedWins": 11,
+     "unpickedGames": 110,
+     "unpickedWins": 60,
+     "bannedAgainstGames": 19,
+     "bannedAgainstWins": 10
+    },
+    "Nidalee": {
+     "pickedGames": 4,
+     "pickedWins": 3,
+     "unpickedGames": 124,
+     "unpickedWins": 68,
+     "bannedAgainstGames": 11,
+     "bannedAgainstWins": 7
+    },
+    "Leblanc": {
+     "pickedGames": 3,
+     "pickedWins": 3,
+     "unpickedGames": 125,
+     "unpickedWins": 68,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 5
     },
     "Skarner": {
      "pickedGames": 10,
@@ -2763,6 +2809,14 @@
      "unpickedWins": 66,
      "bannedAgainstGames": 13,
      "bannedAgainstWins": 7
+    },
+    "Jax": {
+     "pickedGames": 7,
+     "pickedWins": 4,
+     "unpickedGames": 121,
+     "unpickedWins": 67,
+     "bannedAgainstGames": 9,
+     "bannedAgainstWins": 5
     },
     "KSante": {
      "pickedGames": 5,
@@ -2780,21 +2834,13 @@
      "bannedAgainstGames": 49,
      "bannedAgainstWins": 28
     },
-    "Leblanc": {
-     "pickedGames": 3,
-     "pickedWins": 3,
-     "unpickedGames": 125,
-     "unpickedWins": 68,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 5
-    },
-    "Jax": {
-     "pickedGames": 7,
+    "Rakan": {
+     "pickedGames": 10,
      "pickedWins": 4,
-     "unpickedGames": 121,
+     "unpickedGames": 118,
      "unpickedWins": 67,
-     "bannedAgainstGames": 9,
-     "bannedAgainstWins": 5
+     "bannedAgainstGames": 14,
+     "bannedAgainstWins": 7
     },
     "Corki": {
      "pickedGames": 11,
@@ -2804,13 +2850,13 @@
      "bannedAgainstGames": 7,
      "bannedAgainstWins": 3
     },
-    "Rakan": {
-     "pickedGames": 10,
-     "pickedWins": 4,
-     "unpickedGames": 118,
-     "unpickedWins": 67,
-     "bannedAgainstGames": 14,
-     "bannedAgainstWins": 7
+    "MonkeyKing": {
+     "pickedGames": 15,
+     "pickedWins": 5,
+     "unpickedGames": 113,
+     "unpickedWins": 66,
+     "bannedAgainstGames": 9,
+     "bannedAgainstWins": 6
     },
     "Xerath": {
      "pickedGames": 1,
@@ -2828,13 +2874,13 @@
      "bannedAgainstGames": 11,
      "bannedAgainstWins": 5
     },
-    "MonkeyKing": {
-     "pickedGames": 15,
-     "pickedWins": 5,
-     "unpickedGames": 113,
-     "unpickedWins": 66,
-     "bannedAgainstGames": 9,
-     "bannedAgainstWins": 6
+    "Maokai": {
+     "pickedGames": 4,
+     "pickedWins": 4,
+     "unpickedGames": 124,
+     "unpickedWins": 67,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 3
     },
     "Poppy": {
      "pickedGames": 12,
@@ -2844,22 +2890,6 @@
      "bannedAgainstGames": 26,
      "bannedAgainstWins": 14
     },
-    "Aurora": {
-     "pickedGames": 12,
-     "pickedWins": 10,
-     "unpickedGames": 116,
-     "unpickedWins": 61,
-     "bannedAgainstGames": 11,
-     "bannedAgainstWins": 6
-    },
-    "Maokai": {
-     "pickedGames": 4,
-     "pickedWins": 4,
-     "unpickedGames": 124,
-     "unpickedWins": 67,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 3
-    },
     "Elise": {
      "pickedGames": 1,
      "pickedWins": 1,
@@ -2868,13 +2898,13 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 2
     },
-    "Jinx": {
-     "pickedGames": 3,
-     "pickedWins": 3,
-     "unpickedGames": 125,
-     "unpickedWins": 68,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
+    "Aurora": {
+     "pickedGames": 12,
+     "pickedWins": 10,
+     "unpickedGames": 116,
+     "unpickedWins": 61,
+     "bannedAgainstGames": 11,
+     "bannedAgainstWins": 6
     },
     "Ahri": {
      "pickedGames": 23,
@@ -2892,20 +2922,20 @@
      "bannedAgainstGames": 12,
      "bannedAgainstWins": 6
     },
+    "Jinx": {
+     "pickedGames": 3,
+     "pickedWins": 3,
+     "unpickedGames": 125,
+     "unpickedWins": 68,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 0
+    },
     "Sion": {
      "pickedGames": 8,
      "pickedWins": 5,
      "unpickedGames": 120,
      "unpickedWins": 66,
      "bannedAgainstGames": 7,
-     "bannedAgainstWins": 3
-    },
-    "Gnar": {
-     "pickedGames": 8,
-     "pickedWins": 5,
-     "unpickedGames": 120,
-     "unpickedWins": 66,
-     "bannedAgainstGames": 3,
      "bannedAgainstWins": 3
     },
     "Lulu": {
@@ -2924,13 +2954,13 @@
      "bannedAgainstGames": 8,
      "bannedAgainstWins": 3
     },
-    "Varus": {
-     "pickedGames": 13,
-     "pickedWins": 7,
-     "unpickedGames": 115,
-     "unpickedWins": 64,
-     "bannedAgainstGames": 26,
-     "bannedAgainstWins": 15
+    "Gnar": {
+     "pickedGames": 8,
+     "pickedWins": 5,
+     "unpickedGames": 120,
+     "unpickedWins": 66,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 3
     },
     "Sett": {
      "pickedGames": 1,
@@ -2948,13 +2978,13 @@
      "bannedAgainstGames": 11,
      "bannedAgainstWins": 4
     },
-    "Renekton": {
-     "pickedGames": 6,
-     "pickedWins": 4,
-     "unpickedGames": 122,
-     "unpickedWins": 67,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 2
+    "Varus": {
+     "pickedGames": 13,
+     "pickedWins": 7,
+     "unpickedGames": 115,
+     "unpickedWins": 64,
+     "bannedAgainstGames": 26,
+     "bannedAgainstWins": 15
     },
     "Rell": {
      "pickedGames": 11,
@@ -2964,13 +2994,13 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 4
     },
-    "Zilean": {
-     "pickedGames": 2,
-     "pickedWins": 1,
-     "unpickedGames": 126,
-     "unpickedWins": 70,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
+    "Renekton": {
+     "pickedGames": 6,
+     "pickedWins": 4,
+     "unpickedGames": 122,
+     "unpickedWins": 67,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 2
     },
     "Pantheon": {
      "pickedGames": 13,
@@ -2979,6 +3009,14 @@
      "unpickedWins": 64,
      "bannedAgainstGames": 20,
      "bannedAgainstWins": 9
+    },
+    "Zilean": {
+     "pickedGames": 2,
+     "pickedWins": 1,
+     "unpickedGames": 126,
+     "unpickedWins": 70,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 0
     },
     "Sylas": {
      "pickedGames": 2,
@@ -3020,13 +3058,13 @@
      "bannedAgainstGames": 21,
      "bannedAgainstWins": 7
     },
-    "Ashe": {
-     "pickedGames": 3,
-     "pickedWins": 1,
-     "unpickedGames": 125,
-     "unpickedWins": 70,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 3
+    "Zoe": {
+     "pickedGames": 2,
+     "pickedWins": 2,
+     "unpickedGames": 126,
+     "unpickedWins": 69,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 0
     },
     "Viego": {
      "pickedGames": 7,
@@ -3036,13 +3074,13 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Zoe": {
-     "pickedGames": 2,
-     "pickedWins": 2,
-     "unpickedGames": 126,
-     "unpickedWins": 69,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
+    "Ashe": {
+     "pickedGames": 3,
+     "pickedWins": 1,
+     "unpickedGames": 125,
+     "unpickedWins": 70,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 3
     },
     "Gragas": {
      "pickedGames": 2,
@@ -3228,7 +3266,7 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 3
     },
-    "Shen": {
+    "Kennen": {
      "pickedGames": 1,
      "pickedWins": 0,
      "unpickedGames": 127,
@@ -3244,7 +3282,7 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 1
     },
-    "Kennen": {
+    "Shen": {
      "pickedGames": 1,
      "pickedWins": 0,
      "unpickedGames": 127,
@@ -3284,14 +3322,6 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
-    "Senna": {
-     "pickedGames": 7,
-     "pickedWins": 4,
-     "unpickedGames": 121,
-     "unpickedWins": 67,
-     "bannedAgainstGames": 4,
-     "bannedAgainstWins": 2
-    },
     "Chogath": {
      "pickedGames": 4,
      "pickedWins": 1,
@@ -3299,6 +3329,14 @@
      "unpickedWins": 70,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
+    },
+    "Senna": {
+     "pickedGames": 7,
+     "pickedWins": 4,
+     "unpickedGames": 121,
+     "unpickedWins": 67,
+     "bannedAgainstGames": 4,
+     "bannedAgainstWins": 2
     },
     "Naafiri": {
      "pickedGames": 9,
@@ -3356,14 +3394,6 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
-    "Syndra": {
-     "pickedGames": 2,
-     "pickedWins": 0,
-     "unpickedGames": 126,
-     "unpickedWins": 71,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
     "Bard": {
      "pickedGames": 8,
      "pickedWins": 4,
@@ -3371,6 +3401,14 @@
      "unpickedWins": 67,
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 3
+    },
+    "Syndra": {
+     "pickedGames": 2,
+     "pickedWins": 0,
+     "unpickedGames": 126,
+     "unpickedWins": 71,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Ornn": {
      "pickedGames": 8,
@@ -3635,6 +3673,44 @@
      "Support",
      "Mid"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 58,
+     "wins": 36,
+     "firstPicks": {
+      "Azir": 6,
+      "Vi": 5,
+      "Naafiri": 5,
+      "Gwen": 5,
+      "MonkeyKing": 4
+     },
+     "bannedAgainst": {
+      "Vi": 36,
+      "Gwen": 16,
+      "Pantheon": 12,
+      "Skarner": 11,
+      "XinZhao": 11
+     }
+    },
+    "red": {
+     "games": 70,
+     "wins": 35,
+     "firstPicks": {
+      "Rumble": 6,
+      "MonkeyKing": 5,
+      "XinZhao": 5,
+      "Ahri": 5,
+      "Gwen": 4
+     },
+     "bannedAgainst": {
+      "Alistar": 22,
+      "Poppy": 17,
+      "Varus": 17,
+      "Ambessa": 14,
+      "Vi": 13
+     }
+    }
    }
   },
   "fnatic": {
@@ -3682,47 +3758,47 @@
    },
    "bannedAgainst": {
     "Rakan": 14,
-    "Ezreal": 5,
-    "Poppy": 34,
-    "Rumble": 33,
     "Maokai": 8,
+    "Poppy": 34,
+    "Ezreal": 5,
+    "Rumble": 33,
     "Skarner": 13,
-    "Viktor": 6,
-    "Vi": 44,
     "Jax": 10,
-    "Varus": 8,
-    "Rell": 5,
+    "Vi": 44,
+    "Viktor": 6,
     "Azir": 29,
+    "Rell": 5,
+    "Varus": 8,
     "Galio": 6,
-    "KSante": 5,
     "Taliyah": 13,
-    "Smolder": 3,
-    "Ambessa": 5,
+    "KSante": 5,
     "Kalista": 16,
+    "Smolder": 3,
     "Jayce": 17,
+    "Ambessa": 5,
     "Orianna": 17,
-    "Aurora": 8,
     "Yone": 9,
-    "Gnar": 6,
+    "Aurora": 8,
     "Ornn": 4,
+    "Gnar": 6,
     "Hwei": 2,
     "Kaisa": 11,
     "Nocturne": 9,
     "Braum": 4,
-    "Caitlyn": 6,
     "Twitch": 2,
+    "Caitlyn": 6,
     "Ahri": 7,
     "Pantheon": 12,
-    "Gangplank": 1,
     "Olaf": 1,
-    "Ivern": 1,
+    "Gangplank": 1,
     "MonkeyKing": 5,
+    "Ivern": 1,
     "Elise": 2,
-    "Lulu": 4,
     "Zyra": 2,
+    "Lulu": 4,
     "Nidalee": 1,
-    "Lucian": 7,
     "Leblanc": 2,
+    "Lucian": 7,
     "Gwen": 13,
     "Leona": 3,
     "Sejuani": 2,
@@ -3731,8 +3807,8 @@
     "Sylas": 1,
     "Tristana": 2,
     "MissFortune": 1,
-    "Renata": 3,
     "AurelionSol": 2,
+    "Renata": 3,
     "Nautilus": 12,
     "Renekton": 3,
     "Gragas": 1,
@@ -3741,8 +3817,8 @@
     "Alistar": 6,
     "Warwick": 2,
     "Nami": 2,
-    "Trundle": 7,
     "DrMundo": 2,
+    "Trundle": 7,
     "Aphelios": 1,
     "Blitzcrank": 2,
     "Sion": 9,
@@ -3752,8 +3828,8 @@
     "Yorick": 2,
     "Annie": 3,
     "Bard": 3,
-    "Zeri": 2,
     "Zed": 1,
+    "Zeri": 2,
     "Ryze": 12,
     "Vayne": 1,
     "Cassiopeia": 1,
@@ -4168,14 +4244,6 @@
     }
    },
    "tendencies": {
-    "Ambessa": {
-     "pickedGames": 12,
-     "pickedWins": 7,
-     "unpickedGames": 101,
-     "unpickedWins": 57,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 3
-    },
     "Corki": {
      "pickedGames": 14,
      "pickedWins": 8,
@@ -4183,6 +4251,14 @@
      "unpickedWins": 56,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
+    },
+    "Vi": {
+     "pickedGames": 17,
+     "pickedWins": 10,
+     "unpickedGames": 96,
+     "unpickedWins": 54,
+     "bannedAgainstGames": 44,
+     "bannedAgainstWins": 25
     },
     "Kaisa": {
      "pickedGames": 18,
@@ -4192,13 +4268,13 @@
      "bannedAgainstGames": 11,
      "bannedAgainstWins": 3
     },
-    "Vi": {
-     "pickedGames": 17,
-     "pickedWins": 10,
-     "unpickedGames": 96,
-     "unpickedWins": 54,
-     "bannedAgainstGames": 44,
-     "bannedAgainstWins": 25
+    "Ambessa": {
+     "pickedGames": 12,
+     "pickedWins": 7,
+     "unpickedGames": 101,
+     "unpickedWins": 57,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 3
     },
     "Galio": {
      "pickedGames": 6,
@@ -4216,13 +4292,13 @@
      "bannedAgainstGames": 14,
      "bannedAgainstWins": 9
     },
-    "Ezreal": {
-     "pickedGames": 16,
-     "pickedWins": 10,
-     "unpickedGames": 97,
-     "unpickedWins": 54,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 2
+    "Maokai": {
+     "pickedGames": 9,
+     "pickedWins": 5,
+     "unpickedGames": 104,
+     "unpickedWins": 59,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 7
     },
     "Poppy": {
      "pickedGames": 8,
@@ -4232,6 +4308,14 @@
      "bannedAgainstGames": 34,
      "bannedAgainstWins": 19
     },
+    "Ezreal": {
+     "pickedGames": 16,
+     "pickedWins": 10,
+     "unpickedGames": 97,
+     "unpickedWins": 54,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 2
+    },
     "Rumble": {
      "pickedGames": 17,
      "pickedWins": 13,
@@ -4239,22 +4323,6 @@
      "unpickedWins": 51,
      "bannedAgainstGames": 33,
      "bannedAgainstWins": 18
-    },
-    "Maokai": {
-     "pickedGames": 9,
-     "pickedWins": 5,
-     "unpickedGames": 104,
-     "unpickedWins": 59,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 7
-    },
-    "Leona": {
-     "pickedGames": 5,
-     "pickedWins": 4,
-     "unpickedGames": 108,
-     "unpickedWins": 60,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 1
     },
     "Azir": {
      "pickedGames": 15,
@@ -4272,6 +4340,14 @@
      "bannedAgainstGames": 17,
      "bannedAgainstWins": 10
     },
+    "Leona": {
+     "pickedGames": 5,
+     "pickedWins": 4,
+     "unpickedGames": 108,
+     "unpickedWins": 60,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 1
+    },
     "Skarner": {
      "pickedGames": 10,
      "pickedWins": 6,
@@ -4279,6 +4355,14 @@
      "unpickedWins": 58,
      "bannedAgainstGames": 13,
      "bannedAgainstWins": 9
+    },
+    "Jax": {
+     "pickedGames": 5,
+     "pickedWins": 1,
+     "unpickedGames": 108,
+     "unpickedWins": 63,
+     "bannedAgainstGames": 10,
+     "bannedAgainstWins": 4
     },
     "Viktor": {
      "pickedGames": 11,
@@ -4288,12 +4372,12 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 6
     },
-    "Jax": {
-     "pickedGames": 5,
-     "pickedWins": 1,
-     "unpickedGames": 108,
-     "unpickedWins": 63,
-     "bannedAgainstGames": 10,
+    "Rell": {
+     "pickedGames": 15,
+     "pickedWins": 11,
+     "unpickedGames": 98,
+     "unpickedWins": 53,
+     "bannedAgainstGames": 5,
      "bannedAgainstWins": 4
     },
     "Varus": {
@@ -4304,28 +4388,12 @@
      "bannedAgainstGames": 8,
      "bannedAgainstWins": 5
     },
-    "Rell": {
-     "pickedGames": 15,
-     "pickedWins": 11,
-     "unpickedGames": 98,
-     "unpickedWins": 53,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 4
-    },
     "Aurora": {
      "pickedGames": 9,
      "pickedWins": 5,
      "unpickedGames": 104,
      "unpickedWins": 59,
      "bannedAgainstGames": 8,
-     "bannedAgainstWins": 5
-    },
-    "KSante": {
-     "pickedGames": 13,
-     "pickedWins": 4,
-     "unpickedGames": 100,
-     "unpickedWins": 60,
-     "bannedAgainstGames": 5,
      "bannedAgainstWins": 5
     },
     "Taliyah": {
@@ -4336,21 +4404,13 @@
      "bannedAgainstGames": 13,
      "bannedAgainstWins": 8
     },
-    "Gnar": {
-     "pickedGames": 8,
+    "KSante": {
+     "pickedGames": 13,
      "pickedWins": 4,
-     "unpickedGames": 105,
+     "unpickedGames": 100,
      "unpickedWins": 60,
-     "bannedAgainstGames": 6,
-     "bannedAgainstWins": 3
-    },
-    "Yone": {
-     "pickedGames": 11,
-     "pickedWins": 7,
-     "unpickedGames": 102,
-     "unpickedWins": 57,
-     "bannedAgainstGames": 9,
-     "bannedAgainstWins": 7
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 5
     },
     "Zyra": {
      "pickedGames": 4,
@@ -4360,12 +4420,20 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 2
     },
-    "Smolder": {
-     "pickedGames": 3,
-     "pickedWins": 1,
-     "unpickedGames": 110,
-     "unpickedWins": 63,
-     "bannedAgainstGames": 3,
+    "Yone": {
+     "pickedGames": 11,
+     "pickedWins": 7,
+     "unpickedGames": 102,
+     "unpickedWins": 57,
+     "bannedAgainstGames": 9,
+     "bannedAgainstWins": 7
+    },
+    "Gnar": {
+     "pickedGames": 8,
+     "pickedWins": 4,
+     "unpickedGames": 105,
+     "unpickedWins": 60,
+     "bannedAgainstGames": 6,
      "bannedAgainstWins": 3
     },
     "Kalista": {
@@ -4375,6 +4443,14 @@
      "unpickedWins": 61,
      "bannedAgainstGames": 16,
      "bannedAgainstWins": 11
+    },
+    "Smolder": {
+     "pickedGames": 3,
+     "pickedWins": 1,
+     "unpickedGames": 110,
+     "unpickedWins": 63,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 3
     },
     "Orianna": {
      "pickedGames": 10,
@@ -4392,13 +4468,13 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
-    "MissFortune": {
-     "pickedGames": 5,
-     "pickedWins": 2,
-     "unpickedGames": 108,
-     "unpickedWins": 62,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
+    "Alistar": {
+     "pickedGames": 15,
+     "pickedWins": 10,
+     "unpickedGames": 98,
+     "unpickedWins": 54,
+     "bannedAgainstGames": 6,
+     "bannedAgainstWins": 3
     },
     "Ivern": {
      "pickedGames": 2,
@@ -4408,13 +4484,13 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
     },
-    "Alistar": {
-     "pickedGames": 15,
-     "pickedWins": 10,
-     "unpickedGames": 98,
-     "unpickedWins": 54,
-     "bannedAgainstGames": 6,
-     "bannedAgainstWins": 3
+    "MissFortune": {
+     "pickedGames": 5,
+     "pickedWins": 2,
+     "unpickedGames": 108,
+     "unpickedWins": 62,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
     },
     "Ornn": {
      "pickedGames": 7,
@@ -4440,14 +4516,6 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
-    "Jinx": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 112,
-     "unpickedWins": 64,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
     "Ahri": {
      "pickedGames": 5,
      "pickedWins": 1,
@@ -4455,6 +4523,14 @@
      "unpickedWins": 63,
      "bannedAgainstGames": 7,
      "bannedAgainstWins": 4
+    },
+    "Jinx": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 112,
+     "unpickedWins": 64,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Xayah": {
      "pickedGames": 9,
@@ -4488,6 +4564,14 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 1
     },
+    "Jhin": {
+     "pickedGames": 6,
+     "pickedWins": 3,
+     "unpickedGames": 107,
+     "unpickedWins": 61,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
+    },
     "Pantheon": {
      "pickedGames": 16,
      "pickedWins": 9,
@@ -4496,13 +4580,13 @@
      "bannedAgainstGames": 12,
      "bannedAgainstWins": 7
     },
-    "Jhin": {
-     "pickedGames": 6,
-     "pickedWins": 3,
-     "unpickedGames": 107,
-     "unpickedWins": 61,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
+    "Twitch": {
+     "pickedGames": 1,
+     "pickedWins": 1,
+     "unpickedGames": 112,
+     "unpickedWins": 63,
+     "bannedAgainstGames": 2,
+     "bannedAgainstWins": 2
     },
     "Caitlyn": {
      "pickedGames": 3,
@@ -4512,13 +4596,13 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 3
     },
-    "Twitch": {
-     "pickedGames": 1,
-     "pickedWins": 1,
-     "unpickedGames": 112,
-     "unpickedWins": 63,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 2
+    "Nautilus": {
+     "pickedGames": 12,
+     "pickedWins": 6,
+     "unpickedGames": 101,
+     "unpickedWins": 58,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 5
     },
     "Gwen": {
      "pickedGames": 8,
@@ -4536,15 +4620,7 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
-    "Nautilus": {
-     "pickedGames": 12,
-     "pickedWins": 6,
-     "unpickedGames": 101,
-     "unpickedWins": 58,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 5
-    },
-    "Gangplank": {
+    "Olaf": {
      "pickedGames": 0,
      "pickedWins": 0,
      "unpickedGames": 113,
@@ -4552,7 +4628,7 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
-    "Olaf": {
+    "Gangplank": {
      "pickedGames": 0,
      "pickedWins": 0,
      "unpickedGames": 113,
@@ -4600,14 +4676,6 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 3
     },
-    "Syndra": {
-     "pickedGames": 2,
-     "pickedWins": 2,
-     "unpickedGames": 111,
-     "unpickedWins": 62,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
     "Zeri": {
      "pickedGames": 2,
      "pickedWins": 2,
@@ -4615,6 +4683,14 @@
      "unpickedWins": 62,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 2
+    },
+    "Syndra": {
+     "pickedGames": 2,
+     "pickedWins": 2,
+     "unpickedGames": 111,
+     "unpickedWins": 62,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Karma": {
      "pickedGames": 5,
@@ -4648,14 +4724,6 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 3
     },
-    "Pyke": {
-     "pickedGames": 2,
-     "pickedWins": 2,
-     "unpickedGames": 111,
-     "unpickedWins": 62,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
     "Sion": {
      "pickedGames": 13,
      "pickedWins": 7,
@@ -4663,6 +4731,14 @@
      "unpickedWins": 57,
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 7
+    },
+    "Pyke": {
+     "pickedGames": 2,
+     "pickedWins": 2,
+     "unpickedGames": 111,
+     "unpickedWins": 62,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Nidalee": {
      "pickedGames": 0,
@@ -4680,14 +4756,6 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
-    "Camille": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 112,
-     "unpickedWins": 64,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
     "Volibear": {
      "pickedGames": 1,
      "pickedWins": 0,
@@ -4696,13 +4764,13 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Lucian": {
-     "pickedGames": 4,
+    "Camille": {
+     "pickedGames": 1,
      "pickedWins": 0,
-     "unpickedGames": 109,
+     "unpickedGames": 112,
      "unpickedWins": 64,
-     "bannedAgainstGames": 7,
-     "bannedAgainstWins": 3
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Leblanc": {
      "pickedGames": 1,
@@ -4711,6 +4779,14 @@
      "unpickedWins": 64,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
+    },
+    "Lucian": {
+     "pickedGames": 4,
+     "pickedWins": 0,
+     "unpickedGames": 109,
+     "unpickedWins": 64,
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 3
     },
     "Naafiri": {
      "pickedGames": 5,
@@ -5081,6 +5157,44 @@
      "ADC",
      "Jungle"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 45,
+     "wins": 28,
+     "firstPicks": {
+      "Azir": 5,
+      "Vi": 4,
+      "Skarner": 4,
+      "Yunara": 4,
+      "Yone": 3
+     },
+     "bannedAgainst": {
+      "Azir": 17,
+      "Vi": 16,
+      "Poppy": 11,
+      "Rumble": 11,
+      "Skarner": 10
+     }
+    },
+    "red": {
+     "games": 68,
+     "wins": 36,
+     "firstPicks": {
+      "Rumble": 7,
+      "Ezreal": 5,
+      "XinZhao": 4,
+      "Taliyah": 4,
+      "Orianna": 4
+     },
+     "bannedAgainst": {
+      "Vi": 28,
+      "Poppy": 23,
+      "Rumble": 22,
+      "Azir": 12,
+      "Rakan": 11
+     }
+    }
    }
   },
   "g2": {
@@ -5134,38 +5248,38 @@
     "Annie": 1
    },
    "bannedAgainst": {
-    "Taliyah": 11,
-    "Renata": 3,
-    "Draven": 19,
     "Azir": 22,
+    "Renata": 3,
     "Zyra": 10,
+    "Taliyah": 11,
+    "Draven": 19,
+    "Kalista": 29,
     "KSante": 5,
     "Rell": 5,
-    "Kalista": 29,
-    "Skarner": 8,
-    "Ezreal": 8,
     "Maokai": 14,
-    "Gragas": 2,
+    "Ezreal": 8,
+    "Skarner": 8,
     "Ambessa": 4,
+    "Gragas": 2,
     "Viktor": 9,
     "Aurora": 8,
     "Gnar": 7,
     "Corki": 3,
     "Nautilus": 17,
     "MonkeyKing": 7,
-    "Ivern": 3,
     "Chogath": 3,
+    "Ivern": 3,
     "Sion": 8,
-    "Varus": 27,
     "Alistar": 5,
     "Braum": 7,
+    "Varus": 27,
     "Pantheon": 27,
     "Vi": 11,
     "XinZhao": 11,
     "Orianna": 18,
     "Jax": 10,
-    "Hwei": 4,
     "Swain": 1,
+    "Hwei": 4,
     "Ahri": 1,
     "Smolder": 3,
     "Lulu": 4,
@@ -5179,18 +5293,18 @@
     "Tristana": 2,
     "MissFortune": 3,
     "Yone": 4,
-    "Ashe": 7,
     "Jhin": 3,
+    "Ashe": 7,
     "Fiddlesticks": 1,
     "DrMundo": 13,
-    "Akali": 5,
     "Lucian": 4,
-    "Yorick": 4,
+    "Akali": 5,
     "Yasuo": 5,
+    "Yorick": 4,
     "Trundle": 7,
     "Leblanc": 9,
-    "Nocturne": 8,
     "Yunara": 5,
+    "Nocturne": 8,
     "Annie": 9,
     "Xayah": 2,
     "Bard": 7,
@@ -5215,8 +5329,8 @@
     "Karma": 4,
     "Olaf": 4,
     "RekSai": 1,
-    "Senna": 1,
     "Ornn": 1,
+    "Senna": 1,
     "TwistedFate": 1
    },
    "rolePools": {
@@ -5647,13 +5761,21 @@
     }
    },
    "tendencies": {
-    "Varus": {
-     "pickedGames": 11,
-     "pickedWins": 10,
-     "unpickedGames": 101,
-     "unpickedWins": 66,
-     "bannedAgainstGames": 27,
-     "bannedAgainstWins": 20
+    "Brand": {
+     "pickedGames": 1,
+     "pickedWins": 1,
+     "unpickedGames": 111,
+     "unpickedWins": 75,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
+    },
+    "Alistar": {
+     "pickedGames": 16,
+     "pickedWins": 13,
+     "unpickedGames": 96,
+     "unpickedWins": 63,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 2
     },
     "Smolder": {
      "pickedGames": 2,
@@ -5671,45 +5793,13 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 1
     },
-    "Alistar": {
-     "pickedGames": 16,
-     "pickedWins": 13,
-     "unpickedGames": 96,
-     "unpickedWins": 63,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 2
-    },
-    "Brand": {
-     "pickedGames": 1,
-     "pickedWins": 1,
-     "unpickedGames": 111,
-     "unpickedWins": 75,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
-    "Taliyah": {
+    "Varus": {
      "pickedGames": 11,
-     "pickedWins": 9,
+     "pickedWins": 10,
      "unpickedGames": 101,
-     "unpickedWins": 67,
-     "bannedAgainstGames": 11,
-     "bannedAgainstWins": 10
-    },
-    "Renata": {
-     "pickedGames": 4,
-     "pickedWins": 2,
-     "unpickedGames": 108,
-     "unpickedWins": 74,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 1
-    },
-    "Draven": {
-     "pickedGames": 2,
-     "pickedWins": 2,
-     "unpickedGames": 110,
-     "unpickedWins": 74,
-     "bannedAgainstGames": 19,
-     "bannedAgainstWins": 13
+     "unpickedWins": 66,
+     "bannedAgainstGames": 27,
+     "bannedAgainstWins": 20
     },
     "Azir": {
      "pickedGames": 9,
@@ -5719,6 +5809,14 @@
      "bannedAgainstGames": 22,
      "bannedAgainstWins": 14
     },
+    "Renata": {
+     "pickedGames": 4,
+     "pickedWins": 2,
+     "unpickedGames": 108,
+     "unpickedWins": 74,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 1
+    },
     "Zyra": {
      "pickedGames": 4,
      "pickedWins": 2,
@@ -5726,6 +5824,22 @@
      "unpickedWins": 74,
      "bannedAgainstGames": 10,
      "bannedAgainstWins": 8
+    },
+    "Taliyah": {
+     "pickedGames": 11,
+     "pickedWins": 9,
+     "unpickedGames": 101,
+     "unpickedWins": 67,
+     "bannedAgainstGames": 11,
+     "bannedAgainstWins": 10
+    },
+    "Draven": {
+     "pickedGames": 2,
+     "pickedWins": 2,
+     "unpickedGames": 110,
+     "unpickedWins": 74,
+     "bannedAgainstGames": 19,
+     "bannedAgainstWins": 13
     },
     "Sylas": {
      "pickedGames": 4,
@@ -5759,14 +5873,6 @@
      "bannedAgainstGames": 11,
      "bannedAgainstWins": 6
     },
-    "Rell": {
-     "pickedGames": 11,
-     "pickedWins": 4,
-     "unpickedGames": 101,
-     "unpickedWins": 72,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 3
-    },
     "Kalista": {
      "pickedGames": 3,
      "pickedWins": 1,
@@ -5775,13 +5881,13 @@
      "bannedAgainstGames": 29,
      "bannedAgainstWins": 18
     },
-    "Corki": {
-     "pickedGames": 8,
+    "Rell": {
+     "pickedGames": 11,
      "pickedWins": 4,
-     "unpickedGames": 104,
+     "unpickedGames": 101,
      "unpickedWins": 72,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 2
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 3
     },
     "Nautilus": {
      "pickedGames": 8,
@@ -5791,6 +5897,14 @@
      "bannedAgainstGames": 17,
      "bannedAgainstWins": 10
     },
+    "Corki": {
+     "pickedGames": 8,
+     "pickedWins": 4,
+     "unpickedGames": 104,
+     "unpickedWins": 72,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 2
+    },
     "MissFortune": {
      "pickedGames": 4,
      "pickedWins": 1,
@@ -5798,22 +5912,6 @@
      "unpickedWins": 75,
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 0
-    },
-    "Skarner": {
-     "pickedGames": 6,
-     "pickedWins": 4,
-     "unpickedGames": 106,
-     "unpickedWins": 72,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 7
-    },
-    "Ezreal": {
-     "pickedGames": 18,
-     "pickedWins": 11,
-     "unpickedGames": 94,
-     "unpickedWins": 65,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 6
     },
     "Maokai": {
      "pickedGames": 9,
@@ -5823,13 +5921,21 @@
      "bannedAgainstGames": 14,
      "bannedAgainstWins": 10
     },
-    "Ahri": {
-     "pickedGames": 11,
-     "pickedWins": 8,
-     "unpickedGames": 101,
-     "unpickedWins": 68,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
+    "Ezreal": {
+     "pickedGames": 18,
+     "pickedWins": 11,
+     "unpickedGames": 94,
+     "unpickedWins": 65,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 6
+    },
+    "Skarner": {
+     "pickedGames": 6,
+     "pickedWins": 4,
+     "unpickedGames": 106,
+     "unpickedWins": 72,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 7
     },
     "Chogath": {
      "pickedGames": 3,
@@ -5847,6 +5953,14 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
+    "Ahri": {
+     "pickedGames": 11,
+     "pickedWins": 8,
+     "unpickedGames": 101,
+     "unpickedWins": 68,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 0
+    },
     "Vi": {
      "pickedGames": 8,
      "pickedWins": 4,
@@ -5854,14 +5968,6 @@
      "unpickedWins": 72,
      "bannedAgainstGames": 11,
      "bannedAgainstWins": 6
-    },
-    "Gragas": {
-     "pickedGames": 3,
-     "pickedWins": 1,
-     "unpickedGames": 109,
-     "unpickedWins": 75,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 1
     },
     "Ambessa": {
      "pickedGames": 2,
@@ -5871,20 +5977,12 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 3
     },
-    "Aurora": {
-     "pickedGames": 9,
-     "pickedWins": 6,
-     "unpickedGames": 103,
-     "unpickedWins": 70,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 4
-    },
-    "Ornn": {
-     "pickedGames": 6,
-     "pickedWins": 3,
-     "unpickedGames": 106,
-     "unpickedWins": 73,
-     "bannedAgainstGames": 1,
+    "Gragas": {
+     "pickedGames": 3,
+     "pickedWins": 1,
+     "unpickedGames": 109,
+     "unpickedWins": 75,
+     "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
     "MonkeyKing": {
@@ -5894,6 +5992,22 @@
      "unpickedWins": 69,
      "bannedAgainstGames": 7,
      "bannedAgainstWins": 3
+    },
+    "Ornn": {
+     "pickedGames": 6,
+     "pickedWins": 3,
+     "unpickedGames": 106,
+     "unpickedWins": 73,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
+    },
+    "Aurora": {
+     "pickedGames": 9,
+     "pickedWins": 6,
+     "unpickedGames": 103,
+     "unpickedWins": 70,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 4
     },
     "Viktor": {
      "pickedGames": 6,
@@ -5943,20 +6057,20 @@
      "bannedAgainstGames": 8,
      "bannedAgainstWins": 4
     },
-    "Lulu": {
-     "pickedGames": 12,
-     "pickedWins": 9,
-     "unpickedGames": 100,
-     "unpickedWins": 67,
-     "bannedAgainstGames": 4,
-     "bannedAgainstWins": 1
-    },
     "Sivir": {
      "pickedGames": 10,
      "pickedWins": 10,
      "unpickedGames": 102,
      "unpickedWins": 66,
      "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
+    },
+    "Lulu": {
+     "pickedGames": 12,
+     "pickedWins": 9,
+     "unpickedGames": 100,
+     "unpickedWins": 67,
+     "bannedAgainstGames": 4,
      "bannedAgainstWins": 1
     },
     "Ivern": {
@@ -6079,7 +6193,7 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
-    "Thresh": {
+    "Urgot": {
      "pickedGames": 1,
      "pickedWins": 0,
      "unpickedGames": 111,
@@ -6087,7 +6201,7 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Urgot": {
+    "Thresh": {
      "pickedGames": 1,
      "pickedWins": 0,
      "unpickedGames": 111,
@@ -6119,14 +6233,6 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 5
     },
-    "Ashe": {
-     "pickedGames": 8,
-     "pickedWins": 7,
-     "unpickedGames": 104,
-     "unpickedWins": 69,
-     "bannedAgainstGames": 7,
-     "bannedAgainstWins": 6
-    },
     "Sett": {
      "pickedGames": 2,
      "pickedWins": 1,
@@ -6134,6 +6240,14 @@
      "unpickedWins": 75,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
+    },
+    "Ashe": {
+     "pickedGames": 8,
+     "pickedWins": 7,
+     "unpickedGames": 104,
+     "unpickedWins": 69,
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 6
     },
     "DrMundo": {
      "pickedGames": 6,
@@ -6207,14 +6321,6 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 0
     },
-    "JarvanIV": {
-     "pickedGames": 7,
-     "pickedWins": 5,
-     "unpickedGames": 105,
-     "unpickedWins": 71,
-     "bannedAgainstGames": 18,
-     "bannedAgainstWins": 13
-    },
     "Xayah": {
      "pickedGames": 6,
      "pickedWins": 3,
@@ -6222,6 +6328,14 @@
      "unpickedWins": 73,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 2
+    },
+    "JarvanIV": {
+     "pickedGames": 7,
+     "pickedWins": 5,
+     "unpickedGames": 105,
+     "unpickedWins": 71,
+     "bannedAgainstGames": 18,
+     "bannedAgainstWins": 13
     },
     "Camille": {
      "pickedGames": 1,
@@ -6247,14 +6361,6 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Trundle": {
-     "pickedGames": 4,
-     "pickedWins": 3,
-     "unpickedGames": 108,
-     "unpickedWins": 73,
-     "bannedAgainstGames": 7,
-     "bannedAgainstWins": 6
-    },
     "Annie": {
      "pickedGames": 7,
      "pickedWins": 6,
@@ -6262,6 +6368,14 @@
      "unpickedWins": 70,
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 7
+    },
+    "Trundle": {
+     "pickedGames": 4,
+     "pickedWins": 3,
+     "unpickedGames": 108,
+     "unpickedWins": 73,
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 6
     },
     "Lucian": {
      "pickedGames": 1,
@@ -6327,19 +6441,19 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 3
     },
-    "Volibear": {
-     "pickedGames": 2,
-     "pickedWins": 2,
-     "unpickedGames": 110,
-     "unpickedWins": 74,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
     "Ziggs": {
      "pickedGames": 1,
      "pickedWins": 1,
      "unpickedGames": 111,
      "unpickedWins": 75,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
+    },
+    "Volibear": {
+     "pickedGames": 2,
+     "pickedWins": 2,
+     "unpickedGames": 110,
+     "unpickedWins": 74,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
@@ -6564,6 +6678,44 @@
     "dryRoles": [
      "Support"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 68,
+     "wins": 47,
+     "firstPicks": {
+      "Varus": 7,
+      "Ezreal": 5,
+      "Azir": 5,
+      "Yunara": 4,
+      "Orianna": 4
+     },
+     "bannedAgainst": {
+      "Varus": 23,
+      "Kalista": 16,
+      "Orianna": 15,
+      "Pantheon": 15,
+      "JarvanIV": 15
+     }
+    },
+    "red": {
+     "games": 44,
+     "wins": 29,
+     "firstPicks": {
+      "Taliyah": 5,
+      "Varus": 3,
+      "Ezreal": 3,
+      "Caitlyn": 3,
+      "Vi": 2
+     },
+     "bannedAgainst": {
+      "Draven": 13,
+      "Kalista": 13,
+      "Pantheon": 12,
+      "Azir": 8,
+      "Taliyah": 8
+     }
+    }
    }
   },
   "geng": {
@@ -6613,35 +6765,35 @@
     "Alistar": 2
    },
    "bannedAgainst": {
-    "Skarner": 16,
-    "KSante": 8,
-    "Kalista": 19,
     "Azir": 28,
+    "Kalista": 19,
+    "Skarner": 16,
     "Jayce": 16,
-    "Varus": 29,
-    "Ezreal": 9,
-    "Poppy": 17,
+    "KSante": 8,
     "Xayah": 14,
-    "Renekton": 10,
-    "Rumble": 18,
+    "Poppy": 17,
+    "Ezreal": 9,
+    "Varus": 29,
     "Jax": 7,
+    "Rumble": 18,
+    "Renekton": 10,
     "Galio": 13,
-    "Ashe": 6,
     "Lulu": 8,
-    "Nidalee": 17,
+    "Ashe": 6,
     "MissFortune": 5,
+    "Nidalee": 17,
     "Gnar": 2,
     "Sejuani": 2,
     "XinZhao": 9,
-    "Jinx": 3,
     "Leona": 2,
-    "Ambessa": 7,
-    "Lillia": 3,
+    "Jinx": 3,
     "Zyra": 4,
-    "Nocturne": 6,
+    "Lillia": 3,
+    "Ambessa": 7,
     "MonkeyKing": 6,
-    "Rell": 6,
+    "Nocturne": 6,
     "Nautilus": 9,
+    "Rell": 6,
     "Hwei": 4,
     "LeeSin": 5,
     "Ziggs": 3,
@@ -6656,8 +6808,8 @@
     "Smolder": 3,
     "Aurora": 15,
     "Sett": 1,
-    "Kindred": 1,
     "Ryze": 1,
+    "Kindred": 1,
     "Bard": 5,
     "Vi": 19,
     "Viktor": 15,
@@ -6676,12 +6828,12 @@
     "Senna": 4,
     "Lucian": 6,
     "Zed": 1,
-    "Annie": 5,
     "Orianna": 2,
     "Ornn": 5,
+    "Annie": 5,
     "Maokai": 2,
-    "Trundle": 3,
     "Sivir": 9,
+    "Trundle": 3,
     "TwistedFate": 1,
     "Yunara": 6,
     "Qiyana": 1,
@@ -7100,14 +7252,6 @@
     }
    },
    "tendencies": {
-    "Ashe": {
-     "pickedGames": 5,
-     "pickedWins": 5,
-     "unpickedGames": 108,
-     "unpickedWins": 80,
-     "bannedAgainstGames": 6,
-     "bannedAgainstWins": 3
-    },
     "Hwei": {
      "pickedGames": 3,
      "pickedWins": 1,
@@ -7115,22 +7259,6 @@
      "unpickedWins": 84,
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 3
-    },
-    "Nidalee": {
-     "pickedGames": 9,
-     "pickedWins": 8,
-     "unpickedGames": 104,
-     "unpickedWins": 77,
-     "bannedAgainstGames": 17,
-     "bannedAgainstWins": 12
-    },
-    "Renekton": {
-     "pickedGames": 6,
-     "pickedWins": 5,
-     "unpickedGames": 107,
-     "unpickedWins": 80,
-     "bannedAgainstGames": 10,
-     "bannedAgainstWins": 7
     },
     "Leona": {
      "pickedGames": 9,
@@ -7140,29 +7268,29 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 2
     },
-    "Skarner": {
-     "pickedGames": 12,
-     "pickedWins": 11,
-     "unpickedGames": 101,
-     "unpickedWins": 74,
-     "bannedAgainstGames": 16,
+    "Ashe": {
+     "pickedGames": 5,
+     "pickedWins": 5,
+     "unpickedGames": 108,
+     "unpickedWins": 80,
+     "bannedAgainstGames": 6,
+     "bannedAgainstWins": 3
+    },
+    "Renekton": {
+     "pickedGames": 6,
+     "pickedWins": 5,
+     "unpickedGames": 107,
+     "unpickedWins": 80,
+     "bannedAgainstGames": 10,
+     "bannedAgainstWins": 7
+    },
+    "Nidalee": {
+     "pickedGames": 9,
+     "pickedWins": 8,
+     "unpickedGames": 104,
+     "unpickedWins": 77,
+     "bannedAgainstGames": 17,
      "bannedAgainstWins": 12
-    },
-    "KSante": {
-     "pickedGames": 11,
-     "pickedWins": 7,
-     "unpickedGames": 102,
-     "unpickedWins": 78,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 6
-    },
-    "Kalista": {
-     "pickedGames": 4,
-     "pickedWins": 3,
-     "unpickedGames": 109,
-     "unpickedWins": 82,
-     "bannedAgainstGames": 19,
-     "bannedAgainstWins": 15
     },
     "Azir": {
      "pickedGames": 10,
@@ -7172,6 +7300,22 @@
      "bannedAgainstGames": 28,
      "bannedAgainstWins": 20
     },
+    "Kalista": {
+     "pickedGames": 4,
+     "pickedWins": 3,
+     "unpickedGames": 109,
+     "unpickedWins": 82,
+     "bannedAgainstGames": 19,
+     "bannedAgainstWins": 15
+    },
+    "Skarner": {
+     "pickedGames": 12,
+     "pickedWins": 11,
+     "unpickedGames": 101,
+     "unpickedWins": 74,
+     "bannedAgainstGames": 16,
+     "bannedAgainstWins": 12
+    },
     "Jayce": {
      "pickedGames": 11,
      "pickedWins": 8,
@@ -7180,13 +7324,13 @@
      "bannedAgainstGames": 16,
      "bannedAgainstWins": 14
     },
-    "Jinx": {
-     "pickedGames": 3,
-     "pickedWins": 1,
-     "unpickedGames": 110,
-     "unpickedWins": 84,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 2
+    "KSante": {
+     "pickedGames": 11,
+     "pickedWins": 7,
+     "unpickedGames": 102,
+     "unpickedWins": 78,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 6
     },
     "Lulu": {
      "pickedGames": 4,
@@ -7204,6 +7348,14 @@
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 7
     },
+    "Jinx": {
+     "pickedGames": 3,
+     "pickedWins": 1,
+     "unpickedGames": 110,
+     "unpickedWins": 84,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 2
+    },
     "Galio": {
      "pickedGames": 18,
      "pickedWins": 15,
@@ -7211,30 +7363,6 @@
      "unpickedWins": 70,
      "bannedAgainstGames": 13,
      "bannedAgainstWins": 11
-    },
-    "Varus": {
-     "pickedGames": 7,
-     "pickedWins": 5,
-     "unpickedGames": 106,
-     "unpickedWins": 80,
-     "bannedAgainstGames": 29,
-     "bannedAgainstWins": 22
-    },
-    "Ezreal": {
-     "pickedGames": 13,
-     "pickedWins": 9,
-     "unpickedGames": 100,
-     "unpickedWins": 76,
-     "bannedAgainstGames": 9,
-     "bannedAgainstWins": 7
-    },
-    "Poppy": {
-     "pickedGames": 7,
-     "pickedWins": 6,
-     "unpickedGames": 106,
-     "unpickedWins": 79,
-     "bannedAgainstGames": 17,
-     "bannedAgainstWins": 14
     },
     "Xayah": {
      "pickedGames": 8,
@@ -7244,13 +7372,29 @@
      "bannedAgainstGames": 14,
      "bannedAgainstWins": 11
     },
-    "Aurora": {
+    "Poppy": {
+     "pickedGames": 7,
+     "pickedWins": 6,
+     "unpickedGames": 106,
+     "unpickedWins": 79,
+     "bannedAgainstGames": 17,
+     "bannedAgainstWins": 14
+    },
+    "Ezreal": {
      "pickedGames": 13,
-     "pickedWins": 11,
+     "pickedWins": 9,
      "unpickedGames": 100,
-     "unpickedWins": 74,
-     "bannedAgainstGames": 15,
-     "bannedAgainstWins": 9
+     "unpickedWins": 76,
+     "bannedAgainstGames": 9,
+     "bannedAgainstWins": 7
+    },
+    "Varus": {
+     "pickedGames": 7,
+     "pickedWins": 5,
+     "unpickedGames": 106,
+     "unpickedWins": 80,
+     "bannedAgainstGames": 29,
+     "bannedAgainstWins": 22
     },
     "Yone": {
      "pickedGames": 4,
@@ -7260,13 +7404,13 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 6
     },
-    "Rumble": {
-     "pickedGames": 10,
-     "pickedWins": 9,
-     "unpickedGames": 103,
-     "unpickedWins": 76,
-     "bannedAgainstGames": 18,
-     "bannedAgainstWins": 16
+    "Aurora": {
+     "pickedGames": 13,
+     "pickedWins": 11,
+     "unpickedGames": 100,
+     "unpickedWins": 74,
+     "bannedAgainstGames": 15,
+     "bannedAgainstWins": 9
     },
     "Jax": {
      "pickedGames": 2,
@@ -7276,6 +7420,14 @@
      "bannedAgainstGames": 7,
      "bannedAgainstWins": 3
     },
+    "Rumble": {
+     "pickedGames": 10,
+     "pickedWins": 9,
+     "unpickedGames": 103,
+     "unpickedWins": 76,
+     "bannedAgainstGames": 18,
+     "bannedAgainstWins": 16
+    },
     "Sylas": {
      "pickedGames": 7,
      "pickedWins": 5,
@@ -7283,22 +7435,6 @@
      "unpickedWins": 80,
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 2
-    },
-    "Ambessa": {
-     "pickedGames": 6,
-     "pickedWins": 5,
-     "unpickedGames": 107,
-     "unpickedWins": 80,
-     "bannedAgainstGames": 7,
-     "bannedAgainstWins": 3
-    },
-    "Rell": {
-     "pickedGames": 16,
-     "pickedWins": 13,
-     "unpickedGames": 97,
-     "unpickedWins": 72,
-     "bannedAgainstGames": 6,
-     "bannedAgainstWins": 5
     },
     "MissFortune": {
      "pickedGames": 8,
@@ -7308,13 +7444,21 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 4
     },
-    "Jhin": {
+    "Rell": {
      "pickedGames": 16,
-     "pickedWins": 12,
+     "pickedWins": 13,
      "unpickedGames": 97,
-     "unpickedWins": 73,
+     "unpickedWins": 72,
      "bannedAgainstGames": 6,
-     "bannedAgainstWins": 4
+     "bannedAgainstWins": 5
+    },
+    "Ambessa": {
+     "pickedGames": 6,
+     "pickedWins": 5,
+     "unpickedGames": 107,
+     "unpickedWins": 80,
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 3
     },
     "Zyra": {
      "pickedGames": 2,
@@ -7323,6 +7467,14 @@
      "unpickedWins": 84,
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 2
+    },
+    "Jhin": {
+     "pickedGames": 16,
+     "pickedWins": 12,
+     "unpickedGames": 97,
+     "unpickedWins": 73,
+     "bannedAgainstGames": 6,
+     "bannedAgainstWins": 4
     },
     "Urgot": {
      "pickedGames": 1,
@@ -7340,6 +7492,14 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
+    "Rakan": {
+     "pickedGames": 16,
+     "pickedWins": 14,
+     "unpickedGames": 97,
+     "unpickedWins": 71,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 8
+    },
     "LeeSin": {
      "pickedGames": 6,
      "pickedWins": 2,
@@ -7355,14 +7515,6 @@
      "unpickedWins": 71,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 0
-    },
-    "Rakan": {
-     "pickedGames": 16,
-     "pickedWins": 14,
-     "unpickedGames": 97,
-     "unpickedWins": 71,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 8
     },
     "Sejuani": {
      "pickedGames": 2,
@@ -7404,14 +7556,6 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 1
     },
-    "Nocturne": {
-     "pickedGames": 3,
-     "pickedWins": 2,
-     "unpickedGames": 110,
-     "unpickedWins": 83,
-     "bannedAgainstGames": 6,
-     "bannedAgainstWins": 4
-    },
     "MonkeyKing": {
      "pickedGames": 12,
      "pickedWins": 10,
@@ -7420,7 +7564,15 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 5
     },
-    "Thresh": {
+    "Nocturne": {
+     "pickedGames": 3,
+     "pickedWins": 2,
+     "unpickedGames": 110,
+     "unpickedWins": 83,
+     "bannedAgainstGames": 6,
+     "bannedAgainstWins": 4
+    },
+    "Udyr": {
      "pickedGames": 1,
      "pickedWins": 0,
      "unpickedGames": 112,
@@ -7428,7 +7580,7 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Udyr": {
+    "Thresh": {
      "pickedGames": 1,
      "pickedWins": 0,
      "unpickedGames": 112,
@@ -7508,13 +7660,13 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 3
     },
-    "Pantheon": {
-     "pickedGames": 13,
-     "pickedWins": 10,
-     "unpickedGames": 100,
-     "unpickedWins": 75,
-     "bannedAgainstGames": 25,
-     "bannedAgainstWins": 18
+    "Kennen": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 112,
+     "unpickedWins": 85,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Viego": {
      "pickedGames": 2,
@@ -7532,13 +7684,13 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
     },
-    "Kennen": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 112,
-     "unpickedWins": 85,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
+    "Pantheon": {
+     "pickedGames": 13,
+     "pickedWins": 10,
+     "unpickedGames": 100,
+     "unpickedWins": 75,
+     "bannedAgainstGames": 25,
+     "bannedAgainstWins": 18
     },
     "Sett": {
      "pickedGames": 2,
@@ -7652,14 +7804,6 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
-    "Trundle": {
-     "pickedGames": 3,
-     "pickedWins": 0,
-     "unpickedGames": 110,
-     "unpickedWins": 85,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 3
-    },
     "AurelionSol": {
      "pickedGames": 1,
      "pickedWins": 0,
@@ -7668,19 +7812,27 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Kindred": {
-     "pickedGames": 0,
+    "Trundle": {
+     "pickedGames": 3,
      "pickedWins": 0,
-     "unpickedGames": 113,
+     "unpickedGames": 110,
      "unpickedWins": 85,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 3
     },
     "Ryze": {
      "pickedGames": 7,
      "pickedWins": 5,
      "unpickedGames": 106,
      "unpickedWins": 80,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 0
+    },
+    "Kindred": {
+     "pickedGames": 0,
+     "pickedWins": 0,
+     "unpickedGames": 113,
+     "unpickedWins": 85,
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
     },
@@ -7756,14 +7908,6 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 3
     },
-    "TwistedFate": {
-     "pickedGames": 3,
-     "pickedWins": 1,
-     "unpickedGames": 110,
-     "unpickedWins": 84,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
-    },
     "Chogath": {
      "pickedGames": 1,
      "pickedWins": 1,
@@ -7771,6 +7915,14 @@
      "unpickedWins": 84,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
+    },
+    "TwistedFate": {
+     "pickedGames": 3,
+     "pickedWins": 1,
+     "unpickedGames": 110,
+     "unpickedWins": 84,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
     },
     "Zoe": {
      "pickedGames": 1,
@@ -7780,14 +7932,6 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Annie": {
-     "pickedGames": 6,
-     "pickedWins": 4,
-     "unpickedGames": 107,
-     "unpickedWins": 81,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 4
-    },
     "Orianna": {
      "pickedGames": 4,
      "pickedWins": 3,
@@ -7795,6 +7939,14 @@
      "unpickedWins": 82,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 2
+    },
+    "Annie": {
+     "pickedGames": 6,
+     "pickedWins": 4,
+     "unpickedGames": 107,
+     "unpickedWins": 81,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 4
     },
     "JarvanIV": {
      "pickedGames": 2,
@@ -7972,6 +8124,44 @@
      "Support",
      "Jungle"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 44,
+     "wins": 34,
+     "firstPicks": {
+      "Pantheon": 5,
+      "Azir": 4,
+      "Gwen": 4,
+      "MonkeyKing": 4,
+      "Jayce": 3
+     },
+     "bannedAgainst": {
+      "Azir": 19,
+      "Kalista": 18,
+      "Vi": 16,
+      "Skarner": 11,
+      "Pantheon": 9
+     }
+    },
+    "red": {
+     "games": 69,
+     "wins": 51,
+     "firstPicks": {
+      "XinZhao": 8,
+      "Jayce": 4,
+      "Gwen": 4,
+      "Nidalee": 3,
+      "KSante": 3
+     },
+     "bannedAgainst": {
+      "Varus": 22,
+      "Pantheon": 16,
+      "Rumble": 13,
+      "Aurora": 12,
+      "Taliyah": 12
+     }
+    }
    }
   },
   "giantx": {
@@ -8014,41 +8204,41 @@
     "Milio": 1
    },
    "bannedAgainst": {
-    "Skarner": 11,
     "Sylas": 4,
-    "Yone": 32,
     "Maokai": 5,
+    "Skarner": 11,
+    "Yone": 32,
     "Viktor": 6,
     "Hwei": 2,
     "Sejuani": 4,
     "Akali": 16,
     "Rumble": 28,
-    "Rell": 9,
     "Braum": 5,
+    "Rell": 9,
     "Vi": 21,
-    "Kalista": 20,
     "Rakan": 6,
+    "Kalista": 20,
     "KSante": 8,
     "Renata": 1,
     "Varus": 26,
     "Ambessa": 4,
-    "Gnar": 7,
-    "Corki": 3,
     "Poppy": 14,
-    "Ezreal": 3,
-    "Caitlyn": 12,
+    "Corki": 3,
+    "Gnar": 7,
     "Ziggs": 6,
+    "Ezreal": 3,
     "Jax": 11,
+    "Caitlyn": 12,
     "Kaisa": 10,
     "Elise": 4,
     "Alistar": 2,
     "Nocturne": 12,
     "Jayce": 3,
-    "Leona": 3,
     "Nautilus": 27,
+    "Leona": 3,
     "Azir": 8,
-    "Ahri": 4,
     "Taliyah": 6,
+    "Ahri": 4,
     "Tristana": 2,
     "Aurora": 3,
     "Pantheon": 4,
@@ -8060,8 +8250,8 @@
     "Neeko": 20,
     "Gragas": 1,
     "Karma": 2,
-    "JarvanIV": 13,
     "Zyra": 1,
+    "JarvanIV": 13,
     "Trundle": 2,
     "Sion": 13,
     "Aphelios": 3,
@@ -8464,14 +8654,6 @@
     }
    },
    "tendencies": {
-    "Ezreal": {
-     "pickedGames": 17,
-     "pickedWins": 6,
-     "unpickedGames": 85,
-     "unpickedWins": 41,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 2
-    },
     "Poppy": {
      "pickedGames": 7,
      "pickedWins": 5,
@@ -8480,13 +8662,13 @@
      "bannedAgainstGames": 14,
      "bannedAgainstWins": 4
     },
-    "KSante": {
-     "pickedGames": 18,
-     "pickedWins": 9,
-     "unpickedGames": 84,
-     "unpickedWins": 38,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 4
+    "Ezreal": {
+     "pickedGames": 17,
+     "pickedWins": 6,
+     "unpickedGames": 85,
+     "unpickedWins": 41,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 2
     },
     "Sejuani": {
      "pickedGames": 15,
@@ -8504,13 +8686,13 @@
      "bannedAgainstGames": 16,
      "bannedAgainstWins": 8
     },
-    "Skarner": {
-     "pickedGames": 9,
-     "pickedWins": 4,
-     "unpickedGames": 93,
-     "unpickedWins": 43,
-     "bannedAgainstGames": 11,
-     "bannedAgainstWins": 5
+    "KSante": {
+     "pickedGames": 18,
+     "pickedWins": 9,
+     "unpickedGames": 84,
+     "unpickedWins": 38,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 4
     },
     "Sylas": {
      "pickedGames": 3,
@@ -8520,14 +8702,6 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 1
     },
-    "Yone": {
-     "pickedGames": 8,
-     "pickedWins": 6,
-     "unpickedGames": 94,
-     "unpickedWins": 41,
-     "bannedAgainstGames": 32,
-     "bannedAgainstWins": 13
-    },
     "Maokai": {
      "pickedGames": 4,
      "pickedWins": 3,
@@ -8536,6 +8710,22 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 2
     },
+    "Skarner": {
+     "pickedGames": 9,
+     "pickedWins": 4,
+     "unpickedGames": 93,
+     "unpickedWins": 43,
+     "bannedAgainstGames": 11,
+     "bannedAgainstWins": 5
+    },
+    "Yone": {
+     "pickedGames": 8,
+     "pickedWins": 6,
+     "unpickedGames": 94,
+     "unpickedWins": 41,
+     "bannedAgainstGames": 32,
+     "bannedAgainstWins": 13
+    },
     "Viktor": {
      "pickedGames": 5,
      "pickedWins": 4,
@@ -8543,6 +8733,22 @@
      "unpickedWins": 43,
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 2
+    },
+    "Azir": {
+     "pickedGames": 13,
+     "pickedWins": 6,
+     "unpickedGames": 89,
+     "unpickedWins": 41,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 5
+    },
+    "Rell": {
+     "pickedGames": 10,
+     "pickedWins": 5,
+     "unpickedGames": 92,
+     "unpickedWins": 42,
+     "bannedAgainstGames": 9,
+     "bannedAgainstWins": 4
     },
     "Varus": {
      "pickedGames": 15,
@@ -8559,22 +8765,6 @@
      "unpickedWins": 37,
      "bannedAgainstGames": 21,
      "bannedAgainstWins": 6
-    },
-    "Rell": {
-     "pickedGames": 10,
-     "pickedWins": 5,
-     "unpickedGames": 92,
-     "unpickedWins": 42,
-     "bannedAgainstGames": 9,
-     "bannedAgainstWins": 4
-    },
-    "Azir": {
-     "pickedGames": 13,
-     "pickedWins": 6,
-     "unpickedGames": 89,
-     "unpickedWins": 41,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 5
     },
     "Hwei": {
      "pickedGames": 2,
@@ -8600,13 +8790,13 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Nidalee": {
-     "pickedGames": 6,
-     "pickedWins": 2,
-     "unpickedGames": 96,
-     "unpickedWins": 45,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 3
+    "Jayce": {
+     "pickedGames": 5,
+     "pickedWins": 1,
+     "unpickedGames": 97,
+     "unpickedWins": 46,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 1
     },
     "Leona": {
      "pickedGames": 4,
@@ -8616,13 +8806,13 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 2
     },
-    "Jayce": {
-     "pickedGames": 5,
-     "pickedWins": 1,
-     "unpickedGames": 97,
-     "unpickedWins": 46,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 1
+    "Nidalee": {
+     "pickedGames": 6,
+     "pickedWins": 2,
+     "unpickedGames": 96,
+     "unpickedWins": 45,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 3
     },
     "Braum": {
      "pickedGames": 1,
@@ -8630,6 +8820,14 @@
      "unpickedGames": 101,
      "unpickedWins": 47,
      "bannedAgainstGames": 5,
+     "bannedAgainstWins": 1
+    },
+    "Alistar": {
+     "pickedGames": 11,
+     "pickedWins": 3,
+     "unpickedGames": 91,
+     "unpickedWins": 44,
+     "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
     "Aurora": {
@@ -8640,22 +8838,6 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 2
     },
-    "Alistar": {
-     "pickedGames": 11,
-     "pickedWins": 3,
-     "unpickedGames": 91,
-     "unpickedWins": 44,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 1
-    },
-    "Kalista": {
-     "pickedGames": 1,
-     "pickedWins": 1,
-     "unpickedGames": 101,
-     "unpickedWins": 46,
-     "bannedAgainstGames": 20,
-     "bannedAgainstWins": 9
-    },
     "Rakan": {
      "pickedGames": 10,
      "pickedWins": 7,
@@ -8664,13 +8846,13 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 2
     },
-    "Gragas": {
-     "pickedGames": 4,
-     "pickedWins": 3,
-     "unpickedGames": 98,
-     "unpickedWins": 44,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
+    "Kalista": {
+     "pickedGames": 1,
+     "pickedWins": 1,
+     "unpickedGames": 101,
+     "unpickedWins": 46,
+     "bannedAgainstGames": 20,
+     "bannedAgainstWins": 9
     },
     "Nocturne": {
      "pickedGames": 8,
@@ -8696,6 +8878,14 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 3
     },
+    "Gragas": {
+     "pickedGames": 4,
+     "pickedWins": 3,
+     "unpickedGames": 98,
+     "unpickedWins": 44,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
+    },
     "Renata": {
      "pickedGames": 0,
      "pickedWins": 0,
@@ -8703,6 +8893,14 @@
      "unpickedWins": 47,
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
+    },
+    "Zyra": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 101,
+     "unpickedWins": 47,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 0
     },
     "Corki": {
      "pickedGames": 14,
@@ -8712,14 +8910,6 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 2
     },
-    "Sion": {
-     "pickedGames": 11,
-     "pickedWins": 5,
-     "unpickedGames": 91,
-     "unpickedWins": 42,
-     "bannedAgainstGames": 13,
-     "bannedAgainstWins": 10
-    },
     "MissFortune": {
      "pickedGames": 5,
      "pickedWins": 2,
@@ -8728,13 +8918,13 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
     },
-    "Zyra": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 101,
-     "unpickedWins": 47,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
+    "Sion": {
+     "pickedGames": 11,
+     "pickedWins": 5,
+     "unpickedGames": 91,
+     "unpickedWins": 42,
+     "bannedAgainstGames": 13,
+     "bannedAgainstWins": 10
     },
     "Ambessa": {
      "pickedGames": 6,
@@ -8768,14 +8958,6 @@
      "bannedAgainstGames": 10,
      "bannedAgainstWins": 4
     },
-    "Caitlyn": {
-     "pickedGames": 2,
-     "pickedWins": 1,
-     "unpickedGames": 100,
-     "unpickedWins": 46,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 6
-    },
     "Ziggs": {
      "pickedGames": 0,
      "pickedWins": 0,
@@ -8783,6 +8965,14 @@
      "unpickedWins": 47,
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 2
+    },
+    "Caitlyn": {
+     "pickedGames": 2,
+     "pickedWins": 1,
+     "unpickedGames": 100,
+     "unpickedWins": 46,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 6
     },
     "Ahri": {
      "pickedGames": 7,
@@ -8832,14 +9022,6 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 1
     },
-    "Syndra": {
-     "pickedGames": 2,
-     "pickedWins": 0,
-     "unpickedGames": 100,
-     "unpickedWins": 47,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
     "XinZhao": {
      "pickedGames": 16,
      "pickedWins": 9,
@@ -8847,6 +9029,14 @@
      "unpickedWins": 38,
      "bannedAgainstGames": 7,
      "bannedAgainstWins": 3
+    },
+    "Syndra": {
+     "pickedGames": 2,
+     "pickedWins": 0,
+     "unpickedGames": 100,
+     "unpickedWins": 47,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Zeri": {
      "pickedGames": 2,
@@ -9104,14 +9294,6 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
     },
-    "Ashe": {
-     "pickedGames": 6,
-     "pickedWins": 4,
-     "unpickedGames": 96,
-     "unpickedWins": 43,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
-    },
     "Seraphine": {
      "pickedGames": 8,
      "pickedWins": 4,
@@ -9119,6 +9301,14 @@
      "unpickedWins": 43,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 0
+    },
+    "Ashe": {
+     "pickedGames": 6,
+     "pickedWins": 4,
+     "unpickedGames": 96,
+     "unpickedWins": 43,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
     },
     "Thresh": {
      "pickedGames": 1,
@@ -9264,6 +9454,44 @@
     "dryRoles": [
      "Jungle"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 51,
+     "wins": 26,
+     "firstPicks": {
+      "Azir": 6,
+      "Vi": 5,
+      "Varus": 5,
+      "Orianna": 5,
+      "KSante": 4
+     },
+     "bannedAgainst": {
+      "Yone": 16,
+      "Varus": 16,
+      "Kalista": 13,
+      "Nautilus": 13,
+      "Rumble": 11
+     }
+    },
+    "red": {
+     "games": 51,
+     "wins": 21,
+     "firstPicks": {
+      "Rumble": 5,
+      "Taliyah": 4,
+      "XinZhao": 4,
+      "Ryze": 4,
+      "Orianna": 3
+     },
+     "bannedAgainst": {
+      "Rumble": 17,
+      "Yone": 16,
+      "Nautilus": 14,
+      "Orianna": 12,
+      "Neeko": 11
+     }
+    }
    }
   },
   "hle": {
@@ -9309,36 +9537,36 @@
     "Ryze": 1
    },
    "bannedAgainst": {
-    "Varus": 20,
     "Poppy": 23,
-    "Rell": 5,
     "Yone": 56,
+    "Rell": 5,
+    "Varus": 20,
     "Vi": 24,
+    "Kalista": 30,
     "Skarner": 17,
     "Jhin": 6,
-    "Kalista": 30,
     "MissFortune": 4,
     "KSante": 3,
     "Caitlyn": 4,
-    "Nocturne": 8,
     "Corki": 5,
     "MonkeyKing": 9,
-    "Ashe": 7,
+    "Nocturne": 8,
     "Ezreal": 11,
     "Ziggs": 3,
-    "Jinx": 1,
-    "Jayce": 19,
+    "Ashe": 7,
     "Zyra": 6,
+    "Jayce": 19,
+    "Jinx": 1,
     "Sejuani": 7,
     "Sylas": 8,
     "Akali": 5,
     "Ivern": 2,
     "Viktor": 3,
     "Azir": 19,
-    "Gnar": 3,
     "Rakan": 21,
     "Rumble": 9,
     "Braum": 9,
+    "Gnar": 3,
     "Xayah": 7,
     "Galio": 5,
     "Nautilus": 3,
@@ -9351,8 +9579,8 @@
     "Leona": 3,
     "Karma": 1,
     "Lulu": 5,
-    "Nidalee": 4,
     "Elise": 4,
+    "Nidalee": 4,
     "Pantheon": 10,
     "Anivia": 3,
     "Olaf": 3,
@@ -9371,16 +9599,16 @@
     "Renata": 2,
     "Kaisa": 7,
     "Ahri": 2,
-    "Blitzcrank": 1,
     "Naafiri": 1,
+    "Blitzcrank": 1,
     "Lucian": 5,
     "Aatrox": 2,
     "Kennen": 1,
     "Jax": 2,
     "Senna": 3,
+    "Ornn": 2,
     "Trundle": 5,
     "TwistedFate": 2,
-    "Ornn": 2,
     "Sivir": 6,
     "Sion": 1,
     "Yunara": 6,
@@ -9779,13 +10007,13 @@
     }
    },
    "tendencies": {
-    "Ambessa": {
-     "pickedGames": 12,
-     "pickedWins": 6,
-     "unpickedGames": 99,
-     "unpickedWins": 63,
-     "bannedAgainstGames": 11,
-     "bannedAgainstWins": 10
+    "Zyra": {
+     "pickedGames": 4,
+     "pickedWins": 0,
+     "unpickedGames": 107,
+     "unpickedWins": 69,
+     "bannedAgainstGames": 6,
+     "bannedAgainstWins": 4
     },
     "Corki": {
      "pickedGames": 10,
@@ -9811,21 +10039,13 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 4
     },
-    "Zyra": {
-     "pickedGames": 4,
-     "pickedWins": 0,
-     "unpickedGames": 107,
-     "unpickedWins": 69,
-     "bannedAgainstGames": 6,
-     "bannedAgainstWins": 4
-    },
-    "Varus": {
-     "pickedGames": 13,
-     "pickedWins": 8,
-     "unpickedGames": 98,
-     "unpickedWins": 61,
-     "bannedAgainstGames": 20,
-     "bannedAgainstWins": 12
+    "Ambessa": {
+     "pickedGames": 12,
+     "pickedWins": 6,
+     "unpickedGames": 99,
+     "unpickedWins": 63,
+     "bannedAgainstGames": 11,
+     "bannedAgainstWins": 10
     },
     "Poppy": {
      "pickedGames": 15,
@@ -9835,6 +10055,14 @@
      "bannedAgainstGames": 23,
      "bannedAgainstWins": 13
     },
+    "Yone": {
+     "pickedGames": 11,
+     "pickedWins": 9,
+     "unpickedGames": 100,
+     "unpickedWins": 60,
+     "bannedAgainstGames": 56,
+     "bannedAgainstWins": 29
+    },
     "Rell": {
      "pickedGames": 15,
      "pickedWins": 9,
@@ -9843,13 +10071,13 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 4
     },
-    "Yone": {
-     "pickedGames": 11,
-     "pickedWins": 9,
-     "unpickedGames": 100,
-     "unpickedWins": 60,
-     "bannedAgainstGames": 56,
-     "bannedAgainstWins": 29
+    "Varus": {
+     "pickedGames": 13,
+     "pickedWins": 8,
+     "unpickedGames": 98,
+     "unpickedWins": 61,
+     "bannedAgainstGames": 20,
+     "bannedAgainstWins": 12
     },
     "Vi": {
      "pickedGames": 6,
@@ -9867,13 +10095,13 @@
      "bannedAgainstGames": 21,
      "bannedAgainstWins": 15
     },
-    "Aurora": {
-     "pickedGames": 13,
-     "pickedWins": 9,
-     "unpickedGames": 98,
-     "unpickedWins": 60,
-     "bannedAgainstGames": 7,
-     "bannedAgainstWins": 1
+    "Tristana": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 110,
+     "unpickedWins": 69,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Ornn": {
      "pickedGames": 5,
@@ -9883,13 +10111,21 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
-    "Tristana": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 110,
-     "unpickedWins": 69,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
+    "Aurora": {
+     "pickedGames": 13,
+     "pickedWins": 9,
+     "unpickedGames": 98,
+     "unpickedWins": 60,
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 1
+    },
+    "Kalista": {
+     "pickedGames": 7,
+     "pickedWins": 7,
+     "unpickedGames": 104,
+     "unpickedWins": 62,
+     "bannedAgainstGames": 30,
+     "bannedAgainstWins": 20
     },
     "Skarner": {
      "pickedGames": 5,
@@ -9907,14 +10143,6 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 3
     },
-    "Kalista": {
-     "pickedGames": 7,
-     "pickedWins": 7,
-     "unpickedGames": 104,
-     "unpickedWins": 62,
-     "bannedAgainstGames": 30,
-     "bannedAgainstWins": 20
-    },
     "MissFortune": {
      "pickedGames": 3,
      "pickedWins": 2,
@@ -9922,14 +10150,6 @@
      "unpickedWins": 67,
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 2
-    },
-    "Xayah": {
-     "pickedGames": 12,
-     "pickedWins": 8,
-     "unpickedGames": 99,
-     "unpickedWins": 61,
-     "bannedAgainstGames": 7,
-     "bannedAgainstWins": 3
     },
     "Azir": {
      "pickedGames": 17,
@@ -9939,13 +10159,13 @@
      "bannedAgainstGames": 19,
      "bannedAgainstWins": 13
     },
-    "XinZhao": {
-     "pickedGames": 20,
-     "pickedWins": 12,
-     "unpickedGames": 91,
-     "unpickedWins": 57,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 4
+    "Xayah": {
+     "pickedGames": 12,
+     "pickedWins": 8,
+     "unpickedGames": 99,
+     "unpickedWins": 61,
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 3
     },
     "Jayce": {
      "pickedGames": 13,
@@ -9954,6 +10174,14 @@
      "unpickedWins": 62,
      "bannedAgainstGames": 19,
      "bannedAgainstWins": 14
+    },
+    "XinZhao": {
+     "pickedGames": 20,
+     "pickedWins": 12,
+     "unpickedGames": 91,
+     "unpickedWins": 57,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 4
     },
     "KSante": {
      "pickedGames": 9,
@@ -9971,14 +10199,6 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
-    "Ashe": {
-     "pickedGames": 7,
-     "pickedWins": 4,
-     "unpickedGames": 104,
-     "unpickedWins": 65,
-     "bannedAgainstGames": 7,
-     "bannedAgainstWins": 6
-    },
     "Akali": {
      "pickedGames": 4,
      "pickedWins": 2,
@@ -9987,13 +10207,13 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 4
     },
-    "Nocturne": {
-     "pickedGames": 0,
-     "pickedWins": 0,
-     "unpickedGames": 111,
-     "unpickedWins": 69,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 5
+    "Ashe": {
+     "pickedGames": 7,
+     "pickedWins": 4,
+     "unpickedGames": 104,
+     "unpickedWins": 65,
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 6
     },
     "MonkeyKing": {
      "pickedGames": 11,
@@ -10001,6 +10221,14 @@
      "unpickedGames": 100,
      "unpickedWins": 60,
      "bannedAgainstGames": 9,
+     "bannedAgainstWins": 5
+    },
+    "Nocturne": {
+     "pickedGames": 0,
+     "pickedWins": 0,
+     "unpickedGames": 111,
+     "unpickedWins": 69,
+     "bannedAgainstGames": 8,
      "bannedAgainstWins": 5
     },
     "Maokai": {
@@ -10059,14 +10287,6 @@
      "bannedAgainstGames": 7,
      "bannedAgainstWins": 5
     },
-    "Gnar": {
-     "pickedGames": 10,
-     "pickedWins": 5,
-     "unpickedGames": 101,
-     "unpickedWins": 64,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 3
-    },
     "Taliyah": {
      "pickedGames": 13,
      "pickedWins": 12,
@@ -10082,6 +10302,14 @@
      "unpickedWins": 64,
      "bannedAgainstGames": 8,
      "bannedAgainstWins": 5
+    },
+    "Gnar": {
+     "pickedGames": 10,
+     "pickedWins": 5,
+     "unpickedGames": 101,
+     "unpickedWins": 64,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 3
     },
     "Sylas": {
      "pickedGames": 8,
@@ -10131,20 +10359,20 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 3
     },
-    "Anivia": {
-     "pickedGames": 1,
-     "pickedWins": 1,
-     "unpickedGames": 110,
-     "unpickedWins": 68,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 3
-    },
     "Elise": {
      "pickedGames": 3,
      "pickedWins": 1,
      "unpickedGames": 108,
      "unpickedWins": 68,
      "bannedAgainstGames": 4,
+     "bannedAgainstWins": 3
+    },
+    "Anivia": {
+     "pickedGames": 1,
+     "pickedWins": 1,
+     "unpickedGames": 110,
+     "unpickedWins": 68,
+     "bannedAgainstGames": 3,
      "bannedAgainstWins": 3
     },
     "Rumble": {
@@ -10203,14 +10431,6 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 1
     },
-    "Diana": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 110,
-     "unpickedWins": 69,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
-    },
     "Aatrox": {
      "pickedGames": 9,
      "pickedWins": 5,
@@ -10218,6 +10438,14 @@
      "unpickedWins": 64,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 2
+    },
+    "Diana": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 110,
+     "unpickedWins": 69,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
     },
     "Yasuo": {
      "pickedGames": 1,
@@ -10275,14 +10503,6 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
     },
-    "Pyke": {
-     "pickedGames": 2,
-     "pickedWins": 1,
-     "unpickedGames": 109,
-     "unpickedWins": 68,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 1
-    },
     "Jax": {
      "pickedGames": 7,
      "pickedWins": 5,
@@ -10291,6 +10511,14 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 0
     },
+    "Pyke": {
+     "pickedGames": 2,
+     "pickedWins": 1,
+     "unpickedGames": 109,
+     "unpickedWins": 68,
+     "bannedAgainstGames": 2,
+     "bannedAgainstWins": 1
+    },
     "Lulu": {
      "pickedGames": 1,
      "pickedWins": 0,
@@ -10298,6 +10526,14 @@
      "unpickedWins": 69,
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 2
+    },
+    "Fiora": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 110,
+     "unpickedWins": 69,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Shen": {
      "pickedGames": 2,
@@ -10315,11 +10551,11 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 1
     },
-    "Fiora": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 110,
-     "unpickedWins": 69,
+    "Zeri": {
+     "pickedGames": 3,
+     "pickedWins": 3,
+     "unpickedGames": 108,
+     "unpickedWins": 66,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
@@ -10330,14 +10566,6 @@
      "unpickedWins": 63,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 2
-    },
-    "Zeri": {
-     "pickedGames": 3,
-     "pickedWins": 3,
-     "unpickedGames": 108,
-     "unpickedWins": 66,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
     },
     "Smolder": {
      "pickedGames": 3,
@@ -10612,6 +10840,44 @@
      "ADC",
      "Support"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 49,
+     "wins": 30,
+     "firstPicks": {
+      "Azir": 7,
+      "Jayce": 5,
+      "Nidalee": 4,
+      "Vi": 3,
+      "Kalista": 3
+     },
+     "bannedAgainst": {
+      "Kalista": 20,
+      "Yone": 19,
+      "Vi": 16,
+      "Skarner": 15,
+      "Azir": 15
+     }
+    },
+    "red": {
+     "games": 62,
+     "wins": 39,
+     "firstPicks": {
+      "Galio": 5,
+      "Rumble": 5,
+      "Azir": 4,
+      "Gwen": 4,
+      "XinZhao": 3
+     },
+     "bannedAgainst": {
+      "Yone": 37,
+      "Alistar": 16,
+      "Poppy": 15,
+      "Varus": 13,
+      "Rakan": 12
+     }
+    }
    }
   },
   "kc": {
@@ -10662,35 +10928,35 @@
     "TwistedFate": 1
    },
    "bannedAgainst": {
+    "Maokai": 18,
+    "Viktor": 9,
     "Skarner": 19,
     "Blitzcrank": 2,
-    "Maokai": 18,
     "Pyke": 2,
-    "Viktor": 9,
-    "Corki": 6,
-    "Poppy": 20,
     "Renata": 9,
-    "Gragas": 1,
-    "Ezreal": 9,
-    "Rumble": 28,
-    "Yone": 20,
+    "Poppy": 20,
+    "Corki": 6,
     "Zyra": 4,
-    "Renekton": 8,
-    "Rell": 4,
+    "Ezreal": 9,
+    "Yone": 20,
+    "Rumble": 28,
+    "Gragas": 1,
     "Kalista": 22,
     "Jayce": 55,
+    "Rell": 4,
+    "Renekton": 8,
     "Jhin": 2,
     "Vi": 8,
-    "Varus": 37,
     "Braum": 14,
+    "Varus": 37,
     "Ahri": 3,
     "Aurora": 4,
     "Tristana": 3,
     "Pantheon": 11,
     "Draven": 12,
     "XinZhao": 8,
-    "Ambessa": 23,
     "Ivern": 3,
+    "Ambessa": 23,
     "Xayah": 6,
     "Gnar": 12,
     "Olaf": 1,
@@ -10712,22 +10978,22 @@
     "Ashe": 10,
     "Naafiri": 6,
     "Taliyah": 11,
-    "Jax": 3,
     "Akali": 8,
+    "Jax": 3,
     "Aatrox": 5,
     "Neeko": 15,
     "Lillia": 2,
     "Sion": 7,
     "Zeri": 3,
-    "Fiddlesticks": 1,
-    "Lulu": 6,
     "Bard": 19,
+    "Lulu": 6,
+    "Fiddlesticks": 1,
     "Lucian": 7,
     "Syndra": 1,
     "Orianna": 22,
-    "Mel": 4,
-    "JarvanIV": 20,
     "Hwei": 1,
+    "JarvanIV": 20,
+    "Mel": 4,
     "MonkeyKing": 4,
     "Trundle": 5,
     "Yunara": 22,
@@ -10743,8 +11009,8 @@
     "Nocturne": 10,
     "DrMundo": 3,
     "Nami": 1,
-    "Kennen": 1,
     "Leblanc": 2,
+    "Kennen": 1,
     "RekSai": 1,
     "Anivia": 5,
     "Milio": 5,
@@ -11181,13 +11447,13 @@
     }
    },
    "tendencies": {
-    "Gragas": {
+    "Zyra": {
      "pickedGames": 3,
      "pickedWins": 2,
      "unpickedGames": 151,
      "unpickedWins": 97,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
+     "bannedAgainstGames": 4,
+     "bannedAgainstWins": 2
     },
     "Corki": {
      "pickedGames": 21,
@@ -11197,14 +11463,6 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 6
     },
-    "Rell": {
-     "pickedGames": 7,
-     "pickedWins": 3,
-     "unpickedGames": 147,
-     "unpickedWins": 96,
-     "bannedAgainstGames": 4,
-     "bannedAgainstWins": 2
-    },
     "Draven": {
      "pickedGames": 4,
      "pickedWins": 3,
@@ -11213,13 +11471,37 @@
      "bannedAgainstGames": 12,
      "bannedAgainstWins": 7
     },
-    "Zyra": {
+    "Rell": {
+     "pickedGames": 7,
+     "pickedWins": 3,
+     "unpickedGames": 147,
+     "unpickedWins": 96,
+     "bannedAgainstGames": 4,
+     "bannedAgainstWins": 2
+    },
+    "Gragas": {
      "pickedGames": 3,
      "pickedWins": 2,
      "unpickedGames": 151,
      "unpickedWins": 97,
-     "bannedAgainstGames": 4,
-     "bannedAgainstWins": 2
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
+    },
+    "Maokai": {
+     "pickedGames": 10,
+     "pickedWins": 7,
+     "unpickedGames": 144,
+     "unpickedWins": 92,
+     "bannedAgainstGames": 18,
+     "bannedAgainstWins": 10
+    },
+    "Viktor": {
+     "pickedGames": 18,
+     "pickedWins": 14,
+     "unpickedGames": 136,
+     "unpickedWins": 85,
+     "bannedAgainstGames": 9,
+     "bannedAgainstWins": 6
     },
     "Skarner": {
      "pickedGames": 9,
@@ -11237,14 +11519,6 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 2
     },
-    "Maokai": {
-     "pickedGames": 10,
-     "pickedWins": 7,
-     "unpickedGames": 144,
-     "unpickedWins": 92,
-     "bannedAgainstGames": 18,
-     "bannedAgainstWins": 10
-    },
     "Pyke": {
      "pickedGames": 1,
      "pickedWins": 0,
@@ -11253,13 +11527,13 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 2
     },
-    "Viktor": {
+    "Jayce": {
      "pickedGames": 18,
-     "pickedWins": 14,
+     "pickedWins": 11,
      "unpickedGames": 136,
-     "unpickedWins": 85,
-     "bannedAgainstGames": 9,
-     "bannedAgainstWins": 6
+     "unpickedWins": 88,
+     "bannedAgainstGames": 55,
+     "bannedAgainstWins": 36
     },
     "Leona": {
      "pickedGames": 15,
@@ -11277,13 +11551,13 @@
      "bannedAgainstGames": 8,
      "bannedAgainstWins": 5
     },
-    "Jayce": {
-     "pickedGames": 18,
-     "pickedWins": 11,
-     "unpickedGames": 136,
-     "unpickedWins": 88,
-     "bannedAgainstGames": 55,
-     "bannedAgainstWins": 36
+    "Renata": {
+     "pickedGames": 4,
+     "pickedWins": 2,
+     "unpickedGames": 150,
+     "unpickedWins": 97,
+     "bannedAgainstGames": 9,
+     "bannedAgainstWins": 7
     },
     "Poppy": {
      "pickedGames": 8,
@@ -11293,21 +11567,13 @@
      "bannedAgainstGames": 20,
      "bannedAgainstWins": 13
     },
-    "Renata": {
-     "pickedGames": 4,
-     "pickedWins": 2,
-     "unpickedGames": 150,
-     "unpickedWins": 97,
-     "bannedAgainstGames": 9,
-     "bannedAgainstWins": 7
-    },
-    "Ambessa": {
-     "pickedGames": 16,
-     "pickedWins": 12,
-     "unpickedGames": 138,
-     "unpickedWins": 87,
-     "bannedAgainstGames": 23,
-     "bannedAgainstWins": 14
+    "Kalista": {
+     "pickedGames": 8,
+     "pickedWins": 8,
+     "unpickedGames": 146,
+     "unpickedWins": 91,
+     "bannedAgainstGames": 22,
+     "bannedAgainstWins": 13
     },
     "Sejuani": {
      "pickedGames": 11,
@@ -11317,13 +11583,13 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Kalista": {
-     "pickedGames": 8,
-     "pickedWins": 8,
-     "unpickedGames": 146,
-     "unpickedWins": 91,
-     "bannedAgainstGames": 22,
-     "bannedAgainstWins": 13
+    "Ambessa": {
+     "pickedGames": 16,
+     "pickedWins": 12,
+     "unpickedGames": 138,
+     "unpickedWins": 87,
+     "bannedAgainstGames": 23,
+     "bannedAgainstWins": 14
     },
     "Ezreal": {
      "pickedGames": 17,
@@ -11333,14 +11599,6 @@
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 7
     },
-    "Rumble": {
-     "pickedGames": 28,
-     "pickedWins": 21,
-     "unpickedGames": 126,
-     "unpickedWins": 78,
-     "bannedAgainstGames": 28,
-     "bannedAgainstWins": 19
-    },
     "Yone": {
      "pickedGames": 9,
      "pickedWins": 7,
@@ -11348,6 +11606,14 @@
      "unpickedWins": 92,
      "bannedAgainstGames": 20,
      "bannedAgainstWins": 14
+    },
+    "Rumble": {
+     "pickedGames": 28,
+     "pickedWins": 21,
+     "unpickedGames": 126,
+     "unpickedWins": 78,
+     "bannedAgainstGames": 28,
+     "bannedAgainstWins": 19
     },
     "Azir": {
      "pickedGames": 26,
@@ -11405,14 +11671,6 @@
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 5
     },
-    "Varus": {
-     "pickedGames": 17,
-     "pickedWins": 9,
-     "unpickedGames": 137,
-     "unpickedWins": 90,
-     "bannedAgainstGames": 37,
-     "bannedAgainstWins": 26
-    },
     "Braum": {
      "pickedGames": 9,
      "pickedWins": 6,
@@ -11420,6 +11678,14 @@
      "unpickedWins": 93,
      "bannedAgainstGames": 14,
      "bannedAgainstWins": 11
+    },
+    "Varus": {
+     "pickedGames": 17,
+     "pickedWins": 9,
+     "unpickedGames": 137,
+     "unpickedWins": 90,
+     "bannedAgainstGames": 37,
+     "bannedAgainstWins": 26
     },
     "Taliyah": {
      "pickedGames": 15,
@@ -11445,14 +11711,6 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 2
     },
-    "Gnar": {
-     "pickedGames": 19,
-     "pickedWins": 13,
-     "unpickedGames": 135,
-     "unpickedWins": 86,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 9
-    },
     "Nautilus": {
      "pickedGames": 10,
      "pickedWins": 6,
@@ -11460,6 +11718,14 @@
      "unpickedWins": 93,
      "bannedAgainstGames": 18,
      "bannedAgainstWins": 11
+    },
+    "Gnar": {
+     "pickedGames": 19,
+     "pickedWins": 13,
+     "unpickedGames": 135,
+     "unpickedWins": 86,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 9
     },
     "Galio": {
      "pickedGames": 10,
@@ -11493,14 +11759,6 @@
      "bannedAgainstGames": 11,
      "bannedAgainstWins": 8
     },
-    "KSante": {
-     "pickedGames": 8,
-     "pickedWins": 4,
-     "unpickedGames": 146,
-     "unpickedWins": 95,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
-    },
     "Lulu": {
      "pickedGames": 11,
      "pickedWins": 9,
@@ -11508,6 +11766,14 @@
      "unpickedWins": 90,
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 4
+    },
+    "KSante": {
+     "pickedGames": 8,
+     "pickedWins": 4,
+     "unpickedGames": 146,
+     "unpickedWins": 95,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
     },
     "Ivern": {
      "pickedGames": 4,
@@ -11541,14 +11807,6 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Senna": {
-     "pickedGames": 2,
-     "pickedWins": 1,
-     "unpickedGames": 152,
-     "unpickedWins": 98,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 2
-    },
     "Yasuo": {
      "pickedGames": 1,
      "pickedWins": 0,
@@ -11564,6 +11822,14 @@
      "unpickedWins": 99,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
+    },
+    "Senna": {
+     "pickedGames": 2,
+     "pickedWins": 1,
+     "unpickedGames": 152,
+     "unpickedWins": 98,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 2
     },
     "Olaf": {
      "pickedGames": 1,
@@ -11589,14 +11855,6 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 3
     },
-    "Sion": {
-     "pickedGames": 14,
-     "pickedWins": 9,
-     "unpickedGames": 140,
-     "unpickedWins": 90,
-     "bannedAgainstGames": 7,
-     "bannedAgainstWins": 4
-    },
     "Ryze": {
      "pickedGames": 13,
      "pickedWins": 7,
@@ -11604,6 +11862,14 @@
      "unpickedWins": 92,
      "bannedAgainstGames": 7,
      "bannedAgainstWins": 7
+    },
+    "Sion": {
+     "pickedGames": 14,
+     "pickedWins": 9,
+     "unpickedGames": 140,
+     "unpickedWins": 90,
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 4
     },
     "Rakan": {
      "pickedGames": 17,
@@ -11613,14 +11879,6 @@
      "bannedAgainstGames": 13,
      "bannedAgainstWins": 10
     },
-    "Ashe": {
-     "pickedGames": 14,
-     "pickedWins": 10,
-     "unpickedGames": 140,
-     "unpickedWins": 89,
-     "bannedAgainstGames": 10,
-     "bannedAgainstWins": 7
-    },
     "Hwei": {
      "pickedGames": 5,
      "pickedWins": 5,
@@ -11628,6 +11886,14 @@
      "unpickedWins": 94,
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
+    },
+    "Ashe": {
+     "pickedGames": 14,
+     "pickedWins": 10,
+     "unpickedGames": 140,
+     "unpickedWins": 89,
+     "bannedAgainstGames": 10,
+     "bannedAgainstWins": 7
     },
     "Zilean": {
      "pickedGames": 1,
@@ -11853,14 +12119,6 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 2
     },
-    "Milio": {
-     "pickedGames": 2,
-     "pickedWins": 2,
-     "unpickedGames": 152,
-     "unpickedWins": 97,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 2
-    },
     "Yunara": {
      "pickedGames": 11,
      "pickedWins": 8,
@@ -11868,6 +12126,14 @@
      "unpickedWins": 91,
      "bannedAgainstGames": 22,
      "bannedAgainstWins": 14
+    },
+    "Milio": {
+     "pickedGames": 2,
+     "pickedWins": 2,
+     "unpickedGames": 152,
+     "unpickedWins": 97,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 2
     },
     "Annie": {
      "pickedGames": 9,
@@ -12110,6 +12376,44 @@
      "Support",
      "Top"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 71,
+     "wins": 48,
+     "firstPicks": {
+      "Rumble": 9,
+      "Azir": 7,
+      "Jayce": 5,
+      "Varus": 5,
+      "Orianna": 5
+     },
+     "bannedAgainst": {
+      "Jayce": 24,
+      "Azir": 20,
+      "Skarner": 16,
+      "Poppy": 15,
+      "Varus": 15
+     }
+    },
+    "red": {
+     "games": 83,
+     "wins": 51,
+     "firstPicks": {
+      "Rumble": 8,
+      "Varus": 7,
+      "Ashe": 7,
+      "Azir": 7,
+      "Yunara": 5
+     },
+     "bannedAgainst": {
+      "Jayce": 31,
+      "Varus": 22,
+      "Rumble": 18,
+      "Ambessa": 14,
+      "Azir": 14
+     }
+    }
    }
   },
   "kt": {
@@ -12152,61 +12456,61 @@
    },
    "bannedAgainst": {
     "Skarner": 12,
-    "Ambessa": 4,
+    "Jax": 1,
     "KSante": 3,
     "Ornn": 4,
-    "Jax": 1,
-    "Aurora": 7,
-    "Sejuani": 9,
+    "Ambessa": 4,
     "Azir": 37,
-    "Ezreal": 3,
-    "Vi": 19,
+    "Sejuani": 9,
+    "Aurora": 7,
     "Kalista": 26,
     "Lucian": 8,
+    "Ezreal": 3,
+    "Vi": 19,
     "Ashe": 13,
-    "Jinx": 1,
     "MissFortune": 7,
+    "Jinx": 1,
     "Maokai": 2,
     "Zyra": 2,
-    "Taliyah": 28,
     "Renata": 4,
+    "Taliyah": 28,
     "Yone": 32,
     "Alistar": 16,
     "Caitlyn": 4,
-    "Nidalee": 10,
     "Leona": 2,
-    "Gnar": 2,
+    "Nidalee": 10,
     "Nocturne": 5,
     "Rumble": 13,
+    "Gnar": 2,
     "Ahri": 2,
     "Galio": 4,
     "Poppy": 14,
     "Renekton": 5,
-    "Varus": 12,
     "Nautilus": 5,
+    "Varus": 12,
     "Mel": 4,
     "Syndra": 2,
     "Sylas": 4,
     "Jayce": 5,
     "Gwen": 15,
-    "Rell": 3,
     "Braum": 10,
+    "Rell": 3,
     "Corki": 6,
     "XinZhao": 5,
     "Ryze": 10,
     "Viego": 3,
     "Jhin": 4,
     "Sion": 6,
-    "Neeko": 28,
     "Elise": 2,
+    "Neeko": 28,
     "Kaisa": 7,
     "Naafiri": 1,
     "Yorick": 7,
     "Rakan": 13,
     "Lillia": 1,
     "Senna": 4,
-    "Orianna": 6,
     "Lulu": 6,
+    "Orianna": 6,
     "Xayah": 6,
     "Pantheon": 13,
     "Trundle": 12,
@@ -12584,21 +12888,13 @@
     }
    },
    "tendencies": {
-    "Ashe": {
-     "pickedGames": 7,
-     "pickedWins": 5,
-     "unpickedGames": 101,
-     "unpickedWins": 48,
-     "bannedAgainstGames": 13,
-     "bannedAgainstWins": 7
-    },
-    "Renekton": {
-     "pickedGames": 11,
-     "pickedWins": 6,
-     "unpickedGames": 97,
-     "unpickedWins": 47,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 3
+    "Zyra": {
+     "pickedGames": 3,
+     "pickedWins": 2,
+     "unpickedGames": 105,
+     "unpickedWins": 51,
+     "bannedAgainstGames": 2,
+     "bannedAgainstWins": 1
     },
     "Yone": {
      "pickedGames": 9,
@@ -12608,6 +12904,14 @@
      "bannedAgainstGames": 32,
      "bannedAgainstWins": 18
     },
+    "Ashe": {
+     "pickedGames": 7,
+     "pickedWins": 5,
+     "unpickedGames": 101,
+     "unpickedWins": 48,
+     "bannedAgainstGames": 13,
+     "bannedAgainstWins": 7
+    },
     "Braum": {
      "pickedGames": 6,
      "pickedWins": 3,
@@ -12616,13 +12920,13 @@
      "bannedAgainstGames": 10,
      "bannedAgainstWins": 8
     },
-    "Zyra": {
-     "pickedGames": 3,
-     "pickedWins": 2,
-     "unpickedGames": 105,
-     "unpickedWins": 51,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 1
+    "Renekton": {
+     "pickedGames": 11,
+     "pickedWins": 6,
+     "unpickedGames": 97,
+     "unpickedWins": 47,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 3
     },
     "Skarner": {
      "pickedGames": 3,
@@ -12632,12 +12936,12 @@
      "bannedAgainstGames": 12,
      "bannedAgainstWins": 6
     },
-    "Ambessa": {
-     "pickedGames": 11,
+    "Jax": {
+     "pickedGames": 3,
      "pickedWins": 2,
-     "unpickedGames": 97,
+     "unpickedGames": 105,
      "unpickedWins": 51,
-     "bannedAgainstGames": 4,
+     "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
     "KSante": {
@@ -12656,12 +12960,12 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 1
     },
-    "Jax": {
-     "pickedGames": 3,
+    "Ambessa": {
+     "pickedGames": 11,
      "pickedWins": 2,
-     "unpickedGames": 105,
+     "unpickedGames": 97,
      "unpickedWins": 51,
-     "bannedAgainstGames": 1,
+     "bannedAgainstGames": 4,
      "bannedAgainstWins": 1
     },
     "Poppy": {
@@ -12672,13 +12976,13 @@
      "bannedAgainstGames": 14,
      "bannedAgainstWins": 3
     },
-    "Caitlyn": {
-     "pickedGames": 4,
-     "pickedWins": 3,
-     "unpickedGames": 104,
-     "unpickedWins": 50,
-     "bannedAgainstGames": 4,
-     "bannedAgainstWins": 1
+    "Jayce": {
+     "pickedGames": 13,
+     "pickedWins": 8,
+     "unpickedGames": 95,
+     "unpickedWins": 45,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 3
     },
     "XinZhao": {
      "pickedGames": 19,
@@ -12688,13 +12992,13 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 2
     },
-    "Jayce": {
-     "pickedGames": 13,
-     "pickedWins": 8,
-     "unpickedGames": 95,
-     "unpickedWins": 45,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 3
+    "Caitlyn": {
+     "pickedGames": 4,
+     "pickedWins": 3,
+     "unpickedGames": 104,
+     "unpickedWins": 50,
+     "bannedAgainstGames": 4,
+     "bannedAgainstWins": 1
     },
     "Viktor": {
      "pickedGames": 5,
@@ -12704,13 +13008,13 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Aurora": {
-     "pickedGames": 5,
-     "pickedWins": 3,
-     "unpickedGames": 103,
-     "unpickedWins": 50,
-     "bannedAgainstGames": 7,
-     "bannedAgainstWins": 2
+    "Azir": {
+     "pickedGames": 8,
+     "pickedWins": 4,
+     "unpickedGames": 100,
+     "unpickedWins": 49,
+     "bannedAgainstGames": 37,
+     "bannedAgainstWins": 16
     },
     "Sejuani": {
      "pickedGames": 3,
@@ -12720,21 +13024,13 @@
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 6
     },
-    "Azir": {
-     "pickedGames": 8,
-     "pickedWins": 4,
-     "unpickedGames": 100,
-     "unpickedWins": 49,
-     "bannedAgainstGames": 37,
-     "bannedAgainstWins": 16
-    },
-    "Jinx": {
-     "pickedGames": 4,
+    "Aurora": {
+     "pickedGames": 5,
      "pickedWins": 3,
-     "unpickedGames": 104,
+     "unpickedGames": 103,
      "unpickedWins": 50,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 2
     },
     "Lulu": {
      "pickedGames": 3,
@@ -12744,21 +13040,13 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 1
     },
-    "Ezreal": {
-     "pickedGames": 14,
-     "pickedWins": 8,
-     "unpickedGames": 94,
-     "unpickedWins": 45,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 2
-    },
-    "Vi": {
-     "pickedGames": 5,
-     "pickedWins": 1,
-     "unpickedGames": 103,
-     "unpickedWins": 52,
-     "bannedAgainstGames": 19,
-     "bannedAgainstWins": 11
+    "Jinx": {
+     "pickedGames": 4,
+     "pickedWins": 3,
+     "unpickedGames": 104,
+     "unpickedWins": 50,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 0
     },
     "Kalista": {
      "pickedGames": 7,
@@ -12776,6 +13064,22 @@
      "bannedAgainstGames": 8,
      "bannedAgainstWins": 3
     },
+    "Ezreal": {
+     "pickedGames": 14,
+     "pickedWins": 8,
+     "unpickedGames": 94,
+     "unpickedWins": 45,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 2
+    },
+    "Vi": {
+     "pickedGames": 5,
+     "pickedWins": 1,
+     "unpickedGames": 103,
+     "unpickedWins": 52,
+     "bannedAgainstGames": 19,
+     "bannedAgainstWins": 11
+    },
     "Kaisa": {
      "pickedGames": 5,
      "pickedWins": 1,
@@ -12784,14 +13088,6 @@
      "bannedAgainstGames": 7,
      "bannedAgainstWins": 3
     },
-    "Rumble": {
-     "pickedGames": 20,
-     "pickedWins": 10,
-     "unpickedGames": 88,
-     "unpickedWins": 43,
-     "bannedAgainstGames": 13,
-     "bannedAgainstWins": 7
-    },
     "Leona": {
      "pickedGames": 18,
      "pickedWins": 7,
@@ -12799,6 +13095,14 @@
      "unpickedWins": 46,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
+    },
+    "Rumble": {
+     "pickedGames": 20,
+     "pickedWins": 10,
+     "unpickedGames": 88,
+     "unpickedWins": 43,
+     "bannedAgainstGames": 13,
+     "bannedAgainstWins": 7
     },
     "Galio": {
      "pickedGames": 4,
@@ -12816,14 +13120,6 @@
      "bannedAgainstGames": 7,
      "bannedAgainstWins": 3
     },
-    "Viego": {
-     "pickedGames": 6,
-     "pickedWins": 1,
-     "unpickedGames": 102,
-     "unpickedWins": 52,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 2
-    },
     "Alistar": {
      "pickedGames": 18,
      "pickedWins": 11,
@@ -12831,6 +13127,14 @@
      "unpickedWins": 42,
      "bannedAgainstGames": 16,
      "bannedAgainstWins": 8
+    },
+    "Viego": {
+     "pickedGames": 6,
+     "pickedWins": 1,
+     "unpickedGames": 102,
+     "unpickedWins": 52,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 2
     },
     "Ziggs": {
      "pickedGames": 7,
@@ -12848,14 +13152,6 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
-    "Varus": {
-     "pickedGames": 12,
-     "pickedWins": 5,
-     "unpickedGames": 96,
-     "unpickedWins": 48,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 7
-    },
     "Sylas": {
      "pickedGames": 4,
      "pickedWins": 2,
@@ -12872,13 +13168,13 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 0
     },
-    "Taliyah": {
-     "pickedGames": 16,
-     "pickedWins": 7,
-     "unpickedGames": 92,
-     "unpickedWins": 46,
-     "bannedAgainstGames": 28,
-     "bannedAgainstWins": 11
+    "Varus": {
+     "pickedGames": 12,
+     "pickedWins": 5,
+     "unpickedGames": 96,
+     "unpickedWins": 48,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 7
     },
     "Renata": {
      "pickedGames": 2,
@@ -12888,13 +13184,13 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 1
     },
-    "Ahri": {
-     "pickedGames": 13,
-     "pickedWins": 6,
-     "unpickedGames": 95,
-     "unpickedWins": 47,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 1
+    "Taliyah": {
+     "pickedGames": 16,
+     "pickedWins": 7,
+     "unpickedGames": 92,
+     "unpickedWins": 46,
+     "bannedAgainstGames": 28,
+     "bannedAgainstWins": 11
     },
     "MonkeyKing": {
      "pickedGames": 16,
@@ -12902,6 +13198,14 @@
      "unpickedGames": 92,
      "unpickedWins": 42,
      "bannedAgainstGames": 8,
+     "bannedAgainstWins": 1
+    },
+    "Ahri": {
+     "pickedGames": 13,
+     "pickedWins": 6,
+     "unpickedGames": 95,
+     "unpickedWins": 47,
+     "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
     "Nautilus": {
@@ -12936,14 +13240,6 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
-    "Gnar": {
-     "pickedGames": 2,
-     "pickedWins": 0,
-     "unpickedGames": 106,
-     "unpickedWins": 53,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 2
-    },
     "Nocturne": {
      "pickedGames": 3,
      "pickedWins": 2,
@@ -12951,6 +13247,14 @@
      "unpickedWins": 51,
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 5
+    },
+    "Gnar": {
+     "pickedGames": 2,
+     "pickedWins": 0,
+     "unpickedGames": 106,
+     "unpickedWins": 53,
+     "bannedAgainstGames": 2,
+     "bannedAgainstWins": 2
     },
     "Pantheon": {
      "pickedGames": 7,
@@ -12976,14 +13280,6 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Syndra": {
-     "pickedGames": 3,
-     "pickedWins": 3,
-     "unpickedGames": 105,
-     "unpickedWins": 50,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 1
-    },
     "Jhin": {
      "pickedGames": 16,
      "pickedWins": 6,
@@ -12991,6 +13287,14 @@
      "unpickedWins": 47,
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 2
+    },
+    "Syndra": {
+     "pickedGames": 3,
+     "pickedWins": 3,
+     "unpickedGames": 105,
+     "unpickedWins": 50,
+     "bannedAgainstGames": 2,
+     "bannedAgainstWins": 1
     },
     "Karma": {
      "pickedGames": 2,
@@ -13120,14 +13424,6 @@
      "bannedAgainstGames": 7,
      "bannedAgainstWins": 3
     },
-    "Annie": {
-     "pickedGames": 10,
-     "pickedWins": 4,
-     "unpickedGames": 98,
-     "unpickedWins": 49,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 0
-    },
     "JarvanIV": {
      "pickedGames": 8,
      "pickedWins": 6,
@@ -13135,6 +13431,14 @@
      "unpickedWins": 47,
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 4
+    },
+    "Annie": {
+     "pickedGames": 10,
+     "pickedWins": 4,
+     "unpickedGames": 98,
+     "unpickedWins": 49,
+     "bannedAgainstGames": 2,
+     "bannedAgainstWins": 0
     },
     "Xayah": {
      "pickedGames": 8,
@@ -13361,6 +13665,44 @@
      "Top",
      "ADC"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 55,
+     "wins": 22,
+     "firstPicks": {
+      "Rumble": 6,
+      "Jayce": 5,
+      "Kalista": 5,
+      "Taliyah": 5,
+      "Ryze": 4
+     },
+     "bannedAgainst": {
+      "Azir": 28,
+      "Vi": 18,
+      "Kalista": 16,
+      "Yone": 13,
+      "Pantheon": 12
+     }
+    },
+    "red": {
+     "games": 53,
+     "wins": 31,
+     "firstPicks": {
+      "Rumble": 8,
+      "Renekton": 3,
+      "Jayce": 3,
+      "Varus": 3,
+      "Sion": 3
+     },
+     "bannedAgainst": {
+      "Neeko": 22,
+      "Taliyah": 21,
+      "Yone": 19,
+      "Alistar": 10,
+      "Kalista": 10
+     }
+    }
    }
   },
   "mkoi": {
@@ -13407,52 +13749,52 @@
     "Seraphine": 1
    },
    "bannedAgainst": {
-    "Orianna": 25,
-    "Kalista": 9,
-    "Kaisa": 5,
     "Azir": 31,
+    "Kalista": 9,
     "Zyra": 14,
+    "Orianna": 25,
+    "Kaisa": 5,
     "Corki": 5,
+    "Jayce": 11,
     "Braum": 16,
     "Vi": 40,
-    "Jayce": 11,
     "KSante": 6,
-    "Gnar": 7,
     "Ambessa": 15,
-    "Skarner": 8,
-    "Nidalee": 8,
+    "Gnar": 7,
     "Maokai": 7,
+    "Skarner": 8,
     "Lillia": 2,
-    "Varus": 41,
+    "Nidalee": 8,
     "Nautilus": 26,
+    "Varus": 41,
     "Akali": 9,
     "Yone": 13,
     "Nocturne": 12,
     "Ezreal": 9,
-    "Ornn": 2,
     "Leona": 3,
+    "Ornn": 2,
     "Ahri": 2,
     "Rell": 4,
-    "Ivern": 2,
     "Sejuani": 5,
+    "Ivern": 2,
     "Rumble": 22,
-    "Pantheon": 13,
     "MonkeyKing": 6,
+    "Pantheon": 13,
     "Rakan": 7,
     "Renata": 3,
     "Viego": 1,
     "Hwei": 2,
     "Naafiri": 15,
     "JarvanIV": 16,
-    "Aurora": 9,
-    "Gwen": 23,
     "Ziggs": 1,
+    "Gwen": 23,
+    "Aurora": 9,
     "Jhin": 3,
     "Sion": 10,
     "MissFortune": 4,
     "Xayah": 4,
-    "Ashe": 6,
     "AurelionSol": 2,
+    "Ashe": 6,
     "Poppy": 12,
     "Neeko": 10,
     "Taliyah": 16,
@@ -13473,8 +13815,8 @@
     "Volibear": 1,
     "Milio": 4,
     "Sivir": 2,
-    "Cassiopeia": 2,
     "Zeri": 1,
+    "Cassiopeia": 2,
     "Bard": 4,
     "Karma": 6,
     "Elise": 1,
@@ -13907,14 +14249,6 @@
     }
    },
    "tendencies": {
-    "Ambessa": {
-     "pickedGames": 16,
-     "pickedWins": 13,
-     "unpickedGames": 112,
-     "unpickedWins": 62,
-     "bannedAgainstGames": 15,
-     "bannedAgainstWins": 4
-    },
     "Corki": {
      "pickedGames": 16,
      "pickedWins": 9,
@@ -13922,6 +14256,14 @@
      "unpickedWins": 66,
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 4
+    },
+    "Vi": {
+     "pickedGames": 17,
+     "pickedWins": 14,
+     "unpickedGames": 111,
+     "unpickedWins": 61,
+     "bannedAgainstGames": 40,
+     "bannedAgainstWins": 23
     },
     "Taliyah": {
      "pickedGames": 17,
@@ -13939,20 +14281,20 @@
      "bannedAgainstGames": 16,
      "bannedAgainstWins": 9
     },
-    "Vi": {
-     "pickedGames": 17,
-     "pickedWins": 14,
-     "unpickedGames": 111,
-     "unpickedWins": 61,
-     "bannedAgainstGames": 40,
-     "bannedAgainstWins": 23
+    "Ambessa": {
+     "pickedGames": 16,
+     "pickedWins": 13,
+     "unpickedGames": 112,
+     "unpickedWins": 62,
+     "bannedAgainstGames": 15,
+     "bannedAgainstWins": 4
     },
-    "Orianna": {
-     "pickedGames": 4,
-     "pickedWins": 2,
-     "unpickedGames": 124,
-     "unpickedWins": 73,
-     "bannedAgainstGames": 25,
+    "Azir": {
+     "pickedGames": 24,
+     "pickedWins": 11,
+     "unpickedGames": 104,
+     "unpickedWins": 64,
+     "bannedAgainstGames": 31,
      "bannedAgainstWins": 19
     },
     "Kalista": {
@@ -13963,22 +14305,6 @@
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 9
     },
-    "Kaisa": {
-     "pickedGames": 15,
-     "pickedWins": 10,
-     "unpickedGames": 113,
-     "unpickedWins": 65,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 5
-    },
-    "Azir": {
-     "pickedGames": 24,
-     "pickedWins": 11,
-     "unpickedGames": 104,
-     "unpickedWins": 64,
-     "bannedAgainstGames": 31,
-     "bannedAgainstWins": 19
-    },
     "Zyra": {
      "pickedGames": 4,
      "pickedWins": 3,
@@ -13986,6 +14312,22 @@
      "unpickedWins": 72,
      "bannedAgainstGames": 14,
      "bannedAgainstWins": 8
+    },
+    "Orianna": {
+     "pickedGames": 4,
+     "pickedWins": 2,
+     "unpickedGames": 124,
+     "unpickedWins": 73,
+     "bannedAgainstGames": 25,
+     "bannedAgainstWins": 19
+    },
+    "Kaisa": {
+     "pickedGames": 15,
+     "pickedWins": 10,
+     "unpickedGames": 113,
+     "unpickedWins": 65,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 5
     },
     "Ezreal": {
      "pickedGames": 17,
@@ -13995,14 +14337,6 @@
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 7
     },
-    "Yone": {
-     "pickedGames": 16,
-     "pickedWins": 11,
-     "unpickedGames": 112,
-     "unpickedWins": 64,
-     "bannedAgainstGames": 13,
-     "bannedAgainstWins": 11
-    },
     "Leona": {
      "pickedGames": 4,
      "pickedWins": 1,
@@ -14010,6 +14344,14 @@
      "unpickedWins": 74,
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 3
+    },
+    "Yone": {
+     "pickedGames": 16,
+     "pickedWins": 11,
+     "unpickedGames": 112,
+     "unpickedWins": 64,
+     "bannedAgainstGames": 13,
+     "bannedAgainstWins": 11
     },
     "Jayce": {
      "pickedGames": 6,
@@ -14019,14 +14361,6 @@
      "bannedAgainstGames": 11,
      "bannedAgainstWins": 5
     },
-    "Hwei": {
-     "pickedGames": 1,
-     "pickedWins": 1,
-     "unpickedGames": 127,
-     "unpickedWins": 74,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 1
-    },
     "Nautilus": {
      "pickedGames": 12,
      "pickedWins": 8,
@@ -14035,6 +14369,14 @@
      "bannedAgainstGames": 26,
      "bannedAgainstWins": 15
     },
+    "Hwei": {
+     "pickedGames": 1,
+     "pickedWins": 1,
+     "unpickedGames": 127,
+     "unpickedWins": 74,
+     "bannedAgainstGames": 2,
+     "bannedAgainstWins": 1
+    },
     "KSante": {
      "pickedGames": 14,
      "pickedWins": 7,
@@ -14042,14 +14384,6 @@
      "unpickedWins": 68,
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 4
-    },
-    "Varus": {
-     "pickedGames": 12,
-     "pickedWins": 8,
-     "unpickedGames": 116,
-     "unpickedWins": 67,
-     "bannedAgainstGames": 41,
-     "bannedAgainstWins": 25
     },
     "Rakan": {
      "pickedGames": 19,
@@ -14067,6 +14401,14 @@
      "bannedAgainstGames": 23,
      "bannedAgainstWins": 13
     },
+    "Varus": {
+     "pickedGames": 12,
+     "pickedWins": 8,
+     "unpickedGames": 116,
+     "unpickedWins": 67,
+     "bannedAgainstGames": 41,
+     "bannedAgainstWins": 25
+    },
     "Gnar": {
      "pickedGames": 3,
      "pickedWins": 0,
@@ -14074,6 +14416,14 @@
      "unpickedWins": 75,
      "bannedAgainstGames": 7,
      "bannedAgainstWins": 1
+    },
+    "Ziggs": {
+     "pickedGames": 3,
+     "pickedWins": 3,
+     "unpickedGames": 125,
+     "unpickedWins": 72,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 0
     },
     "Sejuani": {
      "pickedGames": 8,
@@ -14091,13 +14441,13 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 1
     },
-    "Ziggs": {
-     "pickedGames": 3,
-     "pickedWins": 3,
-     "unpickedGames": 125,
-     "unpickedWins": 72,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
+    "Maokai": {
+     "pickedGames": 5,
+     "pickedWins": 2,
+     "unpickedGames": 123,
+     "unpickedWins": 73,
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 5
     },
     "Skarner": {
      "pickedGames": 7,
@@ -14107,22 +14457,6 @@
      "bannedAgainstGames": 8,
      "bannedAgainstWins": 6
     },
-    "Nidalee": {
-     "pickedGames": 2,
-     "pickedWins": 2,
-     "unpickedGames": 126,
-     "unpickedWins": 73,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 5
-    },
-    "Maokai": {
-     "pickedGames": 5,
-     "pickedWins": 2,
-     "unpickedGames": 123,
-     "unpickedWins": 73,
-     "bannedAgainstGames": 7,
-     "bannedAgainstWins": 5
-    },
     "Lillia": {
      "pickedGames": 2,
      "pickedWins": 1,
@@ -14130,6 +14464,14 @@
      "unpickedWins": 74,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
+    },
+    "Nidalee": {
+     "pickedGames": 2,
+     "pickedWins": 2,
+     "unpickedGames": 126,
+     "unpickedWins": 73,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 5
     },
     "Akali": {
      "pickedGames": 7,
@@ -14179,14 +14521,6 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
-    "LeeSin": {
-     "pickedGames": 3,
-     "pickedWins": 1,
-     "unpickedGames": 125,
-     "unpickedWins": 74,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
-    },
     "Xayah": {
      "pickedGames": 7,
      "pickedWins": 4,
@@ -14194,6 +14528,14 @@
      "unpickedWins": 71,
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 3
+    },
+    "LeeSin": {
+     "pickedGames": 3,
+     "pickedWins": 1,
+     "unpickedGames": 125,
+     "unpickedWins": 74,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 0
     },
     "Ivern": {
      "pickedGames": 3,
@@ -14227,14 +14569,6 @@
      "bannedAgainstGames": 12,
      "bannedAgainstWins": 5
     },
-    "Pantheon": {
-     "pickedGames": 14,
-     "pickedWins": 9,
-     "unpickedGames": 114,
-     "unpickedWins": 66,
-     "bannedAgainstGames": 13,
-     "bannedAgainstWins": 5
-    },
     "MonkeyKing": {
      "pickedGames": 7,
      "pickedWins": 3,
@@ -14242,6 +14576,14 @@
      "unpickedWins": 72,
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 2
+    },
+    "Pantheon": {
+     "pickedGames": 14,
+     "pickedWins": 9,
+     "unpickedGames": 114,
+     "unpickedWins": 66,
+     "bannedAgainstGames": 13,
+     "bannedAgainstWins": 5
     },
     "Alistar": {
      "pickedGames": 13,
@@ -14291,13 +14633,13 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
-    "Camille": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 127,
-     "unpickedWins": 75,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
+    "Sivir": {
+     "pickedGames": 9,
+     "pickedWins": 5,
+     "unpickedGames": 119,
+     "unpickedWins": 70,
+     "bannedAgainstGames": 2,
+     "bannedAgainstWins": 2
     },
     "Lulu": {
      "pickedGames": 9,
@@ -14307,22 +14649,6 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
-    "Amumu": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 127,
-     "unpickedWins": 75,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
-    "Sivir": {
-     "pickedGames": 9,
-     "pickedWins": 5,
-     "unpickedGames": 119,
-     "unpickedWins": 70,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 2
-    },
     "Ryze": {
      "pickedGames": 12,
      "pickedWins": 6,
@@ -14330,6 +14656,22 @@
      "unpickedWins": 69,
      "bannedAgainstGames": 12,
      "bannedAgainstWins": 9
+    },
+    "Camille": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 127,
+     "unpickedWins": 75,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
+    },
+    "Amumu": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 127,
+     "unpickedWins": 75,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Naafiri": {
      "pickedGames": 5,
@@ -14371,14 +14713,6 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 2
     },
-    "Gragas": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 127,
-     "unpickedWins": 75,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
     "Viktor": {
      "pickedGames": 6,
      "pickedWins": 4,
@@ -14386,6 +14720,14 @@
      "unpickedWins": 71,
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
+    },
+    "Gragas": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 127,
+     "unpickedWins": 75,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "MissFortune": {
      "pickedGames": 5,
@@ -14411,14 +14753,6 @@
      "bannedAgainstGames": 10,
      "bannedAgainstWins": 6
     },
-    "Ashe": {
-     "pickedGames": 5,
-     "pickedWins": 4,
-     "unpickedGames": 123,
-     "unpickedWins": 71,
-     "bannedAgainstGames": 6,
-     "bannedAgainstWins": 5
-    },
     "AurelionSol": {
      "pickedGames": 1,
      "pickedWins": 1,
@@ -14426,6 +14760,14 @@
      "unpickedWins": 74,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 2
+    },
+    "Ashe": {
+     "pickedGames": 5,
+     "pickedWins": 4,
+     "unpickedGames": 123,
+     "unpickedWins": 71,
+     "bannedAgainstGames": 6,
+     "bannedAgainstWins": 5
     },
     "Caitlyn": {
      "pickedGames": 7,
@@ -14435,20 +14777,20 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 2
     },
-    "Zeri": {
-     "pickedGames": 6,
-     "pickedWins": 3,
-     "unpickedGames": 122,
-     "unpickedWins": 72,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
-    },
     "Kennen": {
      "pickedGames": 1,
      "pickedWins": 1,
      "unpickedGames": 127,
      "unpickedWins": 74,
      "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
+    },
+    "Zeri": {
+     "pickedGames": 6,
+     "pickedWins": 3,
+     "unpickedGames": 122,
+     "unpickedWins": 72,
+     "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
     },
     "Galio": {
@@ -14827,6 +15169,44 @@
      "Mid",
      "ADC"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 74,
+     "wins": 48,
+     "firstPicks": {
+      "Azir": 8,
+      "Varus": 6,
+      "JarvanIV": 6,
+      "Vi": 5,
+      "Taliyah": 5
+     },
+     "bannedAgainst": {
+      "Vi": 27,
+      "Varus": 23,
+      "Azir": 19,
+      "Rumble": 19,
+      "Orianna": 17
+     }
+    },
+    "red": {
+     "games": 54,
+     "wins": 27,
+     "firstPicks": {
+      "Rumble": 8,
+      "Vi": 6,
+      "Azir": 4,
+      "Ryze": 4,
+      "Corki": 3
+     },
+     "bannedAgainst": {
+      "Varus": 18,
+      "Vi": 13,
+      "Azir": 12,
+      "Gwen": 12,
+      "Nautilus": 11
+     }
+    }
    }
   },
   "t1": {
@@ -14875,23 +15255,23 @@
     "Ziggs": 1
    },
    "bannedAgainst": {
-    "Varus": 26,
     "Kalista": 38,
     "Poppy": 20,
     "Sejuani": 8,
     "Braum": 6,
-    "Skarner": 8,
-    "Nocturne": 14,
+    "Varus": 26,
     "Azir": 41,
-    "Aurora": 14,
+    "Nocturne": 14,
+    "Skarner": 8,
     "Xayah": 13,
     "Caitlyn": 11,
+    "Aurora": 14,
     "Renata": 11,
-    "Lillia": 5,
     "Elise": 3,
+    "Lillia": 5,
     "Corki": 8,
-    "Ambessa": 7,
     "Rumble": 12,
+    "Ambessa": 7,
     "LeeSin": 6,
     "Zyra": 2,
     "KSante": 2,
@@ -14902,17 +15282,17 @@
     "Jhin": 9,
     "MissFortune": 5,
     "Zeri": 1,
-    "Camille": 2,
     "Jax": 1,
+    "Camille": 2,
     "Orianna": 3,
     "TwistedFate": 1,
-    "Leona": 1,
     "Nautilus": 4,
+    "Leona": 1,
     "Viktor": 9,
     "Gwen": 15,
     "Jayce": 5,
-    "Vi": 22,
     "Ryze": 3,
+    "Vi": 22,
     "Alistar": 11,
     "Sion": 5,
     "Bard": 23,
@@ -14929,13 +15309,13 @@
     "Gnar": 1,
     "Pantheon": 16,
     "Ahri": 2,
-    "Trundle": 9,
     "MonkeyKing": 9,
+    "Trundle": 9,
     "Sylas": 1,
     "Ashe": 1,
     "Ornn": 4,
-    "Yorick": 2,
     "Zed": 1,
+    "Yorick": 2,
     "JarvanIV": 5,
     "Thresh": 1,
     "Aphelios": 1,
@@ -14943,8 +15323,8 @@
     "Lulu": 2,
     "Renekton": 3,
     "Sivir": 4,
-    "Gragas": 2,
     "Qiyana": 1,
+    "Gragas": 2,
     "Zoe": 1
    },
    "rolePools": {
@@ -15351,28 +15731,12 @@
     }
    },
    "tendencies": {
-    "Ashe": {
-     "pickedGames": 4,
-     "pickedWins": 1,
-     "unpickedGames": 102,
-     "unpickedWins": 67,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
-    },
-    "Gragas": {
-     "pickedGames": 6,
-     "pickedWins": 4,
-     "unpickedGames": 100,
-     "unpickedWins": 64,
+    "Zyra": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 105,
+     "unpickedWins": 68,
      "bannedAgainstGames": 2,
-     "bannedAgainstWins": 2
-    },
-    "Rell": {
-     "pickedGames": 6,
-     "pickedWins": 5,
-     "unpickedGames": 100,
-     "unpickedWins": 63,
-     "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
     "Yone": {
@@ -15383,21 +15747,29 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Zyra": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 105,
-     "unpickedWins": 68,
-     "bannedAgainstGames": 2,
+    "Ashe": {
+     "pickedGames": 4,
+     "pickedWins": 1,
+     "unpickedGames": 102,
+     "unpickedWins": 67,
+     "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
-    "Varus": {
-     "pickedGames": 8,
+    "Rell": {
+     "pickedGames": 6,
+     "pickedWins": 5,
+     "unpickedGames": 100,
+     "unpickedWins": 63,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
+    },
+    "Gragas": {
+     "pickedGames": 6,
      "pickedWins": 4,
-     "unpickedGames": 98,
+     "unpickedGames": 100,
      "unpickedWins": 64,
-     "bannedAgainstGames": 26,
-     "bannedAgainstWins": 19
+     "bannedAgainstGames": 2,
+     "bannedAgainstWins": 2
     },
     "Kalista": {
      "pickedGames": 2,
@@ -15431,13 +15803,13 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 4
     },
-    "KSante": {
-     "pickedGames": 4,
+    "Varus": {
+     "pickedGames": 8,
      "pickedWins": 4,
-     "unpickedGames": 102,
+     "unpickedGames": 98,
      "unpickedWins": 64,
-     "bannedAgainstGames": 2,
-     "bannedAgainstWins": 2
+     "bannedAgainstGames": 26,
+     "bannedAgainstWins": 19
     },
     "Renata": {
      "pickedGames": 8,
@@ -15446,6 +15818,14 @@
      "unpickedWins": 65,
      "bannedAgainstGames": 11,
      "bannedAgainstWins": 9
+    },
+    "KSante": {
+     "pickedGames": 4,
+     "pickedWins": 4,
+     "unpickedGames": 102,
+     "unpickedWins": 64,
+     "bannedAgainstGames": 2,
+     "bannedAgainstWins": 2
     },
     "XinZhao": {
      "pickedGames": 18,
@@ -15463,13 +15843,13 @@
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 3
     },
-    "Skarner": {
+    "Azir": {
      "pickedGames": 10,
-     "pickedWins": 5,
+     "pickedWins": 8,
      "unpickedGames": 96,
-     "unpickedWins": 63,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 8
+     "unpickedWins": 60,
+     "bannedAgainstGames": 41,
+     "bannedAgainstWins": 25
     },
     "Nocturne": {
      "pickedGames": 11,
@@ -15479,13 +15859,13 @@
      "bannedAgainstGames": 14,
      "bannedAgainstWins": 11
     },
-    "Azir": {
+    "Skarner": {
      "pickedGames": 10,
-     "pickedWins": 8,
+     "pickedWins": 5,
      "unpickedGames": 96,
-     "unpickedWins": 60,
-     "bannedAgainstGames": 41,
-     "bannedAgainstWins": 25
+     "unpickedWins": 63,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 8
     },
     "Bard": {
      "pickedGames": 10,
@@ -15511,14 +15891,6 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
     },
-    "Aurora": {
-     "pickedGames": 8,
-     "pickedWins": 4,
-     "unpickedGames": 98,
-     "unpickedWins": 64,
-     "bannedAgainstGames": 14,
-     "bannedAgainstWins": 11
-    },
     "Xayah": {
      "pickedGames": 14,
      "pickedWins": 11,
@@ -15534,6 +15906,14 @@
      "unpickedWins": 65,
      "bannedAgainstGames": 11,
      "bannedAgainstWins": 7
+    },
+    "Aurora": {
+     "pickedGames": 8,
+     "pickedWins": 4,
+     "unpickedGames": 98,
+     "unpickedWins": 64,
+     "bannedAgainstGames": 14,
+     "bannedAgainstWins": 11
     },
     "Rakan": {
      "pickedGames": 14,
@@ -15567,14 +15947,6 @@
      "bannedAgainstGames": 6,
      "bannedAgainstWins": 4
     },
-    "Rumble": {
-     "pickedGames": 16,
-     "pickedWins": 11,
-     "unpickedGames": 90,
-     "unpickedWins": 57,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 6
-    },
     "Elise": {
      "pickedGames": 4,
      "pickedWins": 3,
@@ -15583,13 +15955,13 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 2
     },
-    "Gnar": {
-     "pickedGames": 3,
-     "pickedWins": 2,
-     "unpickedGames": 103,
-     "unpickedWins": 66,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
+    "Rumble": {
+     "pickedGames": 16,
+     "pickedWins": 11,
+     "unpickedGames": 90,
+     "unpickedWins": 57,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 6
     },
     "Kaisa": {
      "pickedGames": 6,
@@ -15598,6 +15970,14 @@
      "unpickedWins": 64,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
+    },
+    "Gnar": {
+     "pickedGames": 3,
+     "pickedWins": 2,
+     "unpickedGames": 103,
+     "unpickedWins": 66,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
     },
     "Lillia": {
      "pickedGames": 3,
@@ -15655,14 +16035,6 @@
      "bannedAgainstGames": 16,
      "bannedAgainstWins": 13
     },
-    "Jinx": {
-     "pickedGames": 3,
-     "pickedWins": 2,
-     "unpickedGames": 103,
-     "unpickedWins": 66,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 0
-    },
     "Lulu": {
      "pickedGames": 5,
      "pickedWins": 4,
@@ -15670,6 +16042,14 @@
      "unpickedWins": 64,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
+    },
+    "Jinx": {
+     "pickedGames": 3,
+     "pickedWins": 2,
+     "unpickedGames": 103,
+     "unpickedWins": 66,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 0
     },
     "Vi": {
      "pickedGames": 6,
@@ -15695,14 +16075,6 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 3
     },
-    "Zeri": {
-     "pickedGames": 2,
-     "pickedWins": 2,
-     "unpickedGames": 104,
-     "unpickedWins": 66,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
-    },
     "MonkeyKing": {
      "pickedGames": 9,
      "pickedWins": 8,
@@ -15710,6 +16082,14 @@
      "unpickedWins": 60,
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 3
+    },
+    "Zeri": {
+     "pickedGames": 2,
+     "pickedWins": 2,
+     "unpickedGames": 104,
+     "unpickedWins": 66,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
     },
     "MissFortune": {
      "pickedGames": 9,
@@ -15724,6 +16104,14 @@
      "pickedWins": 1,
      "unpickedGames": 104,
      "unpickedWins": 67,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
+    },
+    "Leblanc": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 105,
+     "unpickedWins": 68,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
@@ -15743,14 +16131,6 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Leblanc": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 105,
-     "unpickedWins": 68,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
     "Camille": {
      "pickedGames": 3,
      "pickedWins": 3,
@@ -15758,6 +16138,14 @@
      "unpickedWins": 65,
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
+    },
+    "Viego": {
+     "pickedGames": 3,
+     "pickedWins": 2,
+     "unpickedGames": 103,
+     "unpickedWins": 66,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Ahri": {
      "pickedGames": 7,
@@ -15767,11 +16155,11 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 2
     },
-    "Viego": {
-     "pickedGames": 3,
-     "pickedWins": 2,
-     "unpickedGames": 103,
-     "unpickedWins": 66,
+    "Soraka": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 105,
+     "unpickedWins": 68,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
@@ -15788,14 +16176,6 @@
      "pickedWins": 2,
      "unpickedGames": 102,
      "unpickedWins": 66,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
-    "Soraka": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 105,
-     "unpickedWins": 68,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
@@ -15911,14 +16291,6 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
     },
-    "Renekton": {
-     "pickedGames": 5,
-     "pickedWins": 5,
-     "unpickedGames": 101,
-     "unpickedWins": 63,
-     "bannedAgainstGames": 3,
-     "bannedAgainstWins": 0
-    },
     "Lucian": {
      "pickedGames": 11,
      "pickedWins": 7,
@@ -15926,6 +16298,14 @@
      "unpickedWins": 61,
      "bannedAgainstGames": 9,
      "bannedAgainstWins": 4
+    },
+    "Renekton": {
+     "pickedGames": 5,
+     "pickedWins": 5,
+     "unpickedGames": 101,
+     "unpickedWins": 63,
+     "bannedAgainstGames": 3,
+     "bannedAgainstWins": 0
     },
     "Senna": {
      "pickedGames": 2,
@@ -16191,6 +16571,44 @@
      "Top",
      "ADC"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 50,
+     "wins": 34,
+     "firstPicks": {
+      "Gwen": 6,
+      "Viktor": 5,
+      "Rumble": 4,
+      "Azir": 4,
+      "Jayce": 3
+     },
+     "bannedAgainst": {
+      "Azir": 35,
+      "Kalista": 22,
+      "Vi": 17,
+      "Bard": 11,
+      "Gwen": 9
+     }
+    },
+    "red": {
+     "games": 56,
+     "wins": 34,
+     "firstPicks": {
+      "Rumble": 8,
+      "Orianna": 5,
+      "XinZhao": 4,
+      "Sejuani": 3,
+      "Gwen": 3
+     },
+     "bannedAgainst": {
+      "Varus": 19,
+      "Kalista": 16,
+      "Poppy": 14,
+      "Neeko": 14,
+      "Bard": 12
+     }
+    }
    }
   },
   "tl": {
@@ -16240,50 +16658,50 @@
     "LeeSin": 1
    },
    "bannedAgainst": {
-    "Varus": 24,
     "Corki": 4,
-    "Vi": 18,
     "Ivern": 3,
     "XinZhao": 3,
+    "Varus": 24,
+    "Vi": 18,
     "Ornn": 8,
     "Braum": 5,
     "Galio": 5,
-    "Ashe": 2,
+    "Kalista": 19,
+    "Lulu": 5,
     "Skarner": 8,
     "KSante": 8,
-    "Lulu": 5,
-    "Kalista": 19,
+    "Ashe": 2,
     "Renata": 6,
     "Taliyah": 15,
     "Rell": 1,
-    "Pantheon": 23,
     "Poppy": 11,
+    "Pantheon": 23,
+    "Sejuani": 2,
     "Cassiopeia": 9,
     "Aurora": 7,
-    "Sejuani": 2,
-    "Caitlyn": 2,
     "Kaisa": 4,
+    "Caitlyn": 2,
     "Draven": 3,
     "Karma": 18,
-    "Renekton": 9,
     "MonkeyKing": 5,
     "Jayce": 12,
+    "Renekton": 9,
     "MissFortune": 4,
-    "Ezreal": 9,
     "Maokai": 3,
+    "Ezreal": 9,
     "Ziggs": 12,
     "Jax": 5,
-    "Hwei": 2,
     "AurelionSol": 1,
-    "Gangplank": 1,
+    "Hwei": 2,
     "Rumble": 15,
+    "Gangplank": 1,
     "Tristana": 2,
-    "Gwen": 5,
     "Azir": 11,
+    "Gwen": 5,
     "Lillia": 1,
     "Bard": 9,
-    "Alistar": 1,
     "Nautilus": 10,
+    "Alistar": 1,
     "Naafiri": 9,
     "Sion": 4,
     "Lucian": 12,
@@ -16305,8 +16723,8 @@
     "JarvanIV": 10,
     "Yunara": 1,
     "Akali": 9,
-    "Trundle": 4,
     "Sylas": 7,
+    "Trundle": 4,
     "Nami": 2,
     "Anivia": 4,
     "Blitzcrank": 1,
@@ -16730,13 +17148,13 @@
     }
    },
    "tendencies": {
-    "KSante": {
-     "pickedGames": 6,
-     "pickedWins": 3,
-     "unpickedGames": 99,
-     "unpickedWins": 56,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 6
+    "Azir": {
+     "pickedGames": 12,
+     "pickedWins": 7,
+     "unpickedGames": 93,
+     "unpickedWins": 52,
+     "bannedAgainstGames": 11,
+     "bannedAgainstWins": 7
     },
     "Renata": {
      "pickedGames": 8,
@@ -16762,21 +17180,13 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 2
     },
-    "Azir": {
-     "pickedGames": 12,
-     "pickedWins": 7,
-     "unpickedGames": 93,
-     "unpickedWins": 52,
-     "bannedAgainstGames": 11,
-     "bannedAgainstWins": 7
-    },
-    "Varus": {
-     "pickedGames": 10,
-     "pickedWins": 8,
-     "unpickedGames": 95,
-     "unpickedWins": 51,
-     "bannedAgainstGames": 24,
-     "bannedAgainstWins": 15
+    "KSante": {
+     "pickedGames": 6,
+     "pickedWins": 3,
+     "unpickedGames": 99,
+     "unpickedWins": 56,
+     "bannedAgainstGames": 8,
+     "bannedAgainstWins": 6
     },
     "Corki": {
      "pickedGames": 8,
@@ -16785,14 +17195,6 @@
      "unpickedWins": 55,
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 3
-    },
-    "Vi": {
-     "pickedGames": 10,
-     "pickedWins": 4,
-     "unpickedGames": 95,
-     "unpickedWins": 55,
-     "bannedAgainstGames": 18,
-     "bannedAgainstWins": 8
     },
     "Ivern": {
      "pickedGames": 0,
@@ -16810,12 +17212,20 @@
      "bannedAgainstGames": 3,
      "bannedAgainstWins": 2
     },
-    "Pantheon": {
-     "pickedGames": 14,
-     "pickedWins": 10,
-     "unpickedGames": 91,
-     "unpickedWins": 49,
-     "bannedAgainstGames": 23,
+    "Varus": {
+     "pickedGames": 10,
+     "pickedWins": 8,
+     "unpickedGames": 95,
+     "unpickedWins": 51,
+     "bannedAgainstGames": 24,
+     "bannedAgainstWins": 15
+    },
+    "Vi": {
+     "pickedGames": 10,
+     "pickedWins": 4,
+     "unpickedGames": 95,
+     "unpickedWins": 55,
+     "bannedAgainstGames": 18,
      "bannedAgainstWins": 8
     },
     "Taliyah": {
@@ -16825,6 +17235,14 @@
      "unpickedWins": 51,
      "bannedAgainstGames": 15,
      "bannedAgainstWins": 7
+    },
+    "Pantheon": {
+     "pickedGames": 14,
+     "pickedWins": 10,
+     "unpickedGames": 91,
+     "unpickedWins": 49,
+     "bannedAgainstGames": 23,
+     "bannedAgainstWins": 8
     },
     "Renekton": {
      "pickedGames": 16,
@@ -16858,12 +17276,12 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 2
     },
-    "Aurora": {
-     "pickedGames": 5,
-     "pickedWins": 1,
-     "unpickedGames": 100,
-     "unpickedWins": 58,
-     "bannedAgainstGames": 7,
+    "Nautilus": {
+     "pickedGames": 9,
+     "pickedWins": 6,
+     "unpickedGames": 96,
+     "unpickedWins": 53,
+     "bannedAgainstGames": 10,
      "bannedAgainstWins": 4
     },
     "Rumble": {
@@ -16874,12 +17292,36 @@
      "bannedAgainstGames": 15,
      "bannedAgainstWins": 9
     },
-    "Nautilus": {
-     "pickedGames": 9,
-     "pickedWins": 6,
-     "unpickedGames": 96,
-     "unpickedWins": 53,
-     "bannedAgainstGames": 10,
+    "Aurora": {
+     "pickedGames": 5,
+     "pickedWins": 1,
+     "unpickedGames": 100,
+     "unpickedWins": 58,
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 4
+    },
+    "Kalista": {
+     "pickedGames": 5,
+     "pickedWins": 3,
+     "unpickedGames": 100,
+     "unpickedWins": 56,
+     "bannedAgainstGames": 19,
+     "bannedAgainstWins": 9
+    },
+    "Lulu": {
+     "pickedGames": 4,
+     "pickedWins": 2,
+     "unpickedGames": 101,
+     "unpickedWins": 57,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 2
+    },
+    "Skarner": {
+     "pickedGames": 6,
+     "pickedWins": 4,
+     "unpickedGames": 99,
+     "unpickedWins": 55,
+     "bannedAgainstGames": 8,
      "bannedAgainstWins": 4
     },
     "Ashe": {
@@ -16890,43 +17332,11 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
-    "Skarner": {
-     "pickedGames": 6,
-     "pickedWins": 4,
-     "unpickedGames": 99,
-     "unpickedWins": 55,
-     "bannedAgainstGames": 8,
-     "bannedAgainstWins": 4
-    },
-    "Lulu": {
-     "pickedGames": 4,
-     "pickedWins": 2,
-     "unpickedGames": 101,
-     "unpickedWins": 57,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 2
-    },
-    "Kalista": {
-     "pickedGames": 5,
-     "pickedWins": 3,
-     "unpickedGames": 100,
-     "unpickedWins": 56,
-     "bannedAgainstGames": 19,
-     "bannedAgainstWins": 9
-    },
-    "Ambessa": {
-     "pickedGames": 5,
-     "pickedWins": 3,
-     "unpickedGames": 100,
-     "unpickedWins": 56,
-     "bannedAgainstGames": 7,
-     "bannedAgainstWins": 3
-    },
-    "Jinx": {
-     "pickedGames": 1,
-     "pickedWins": 0,
-     "unpickedGames": 104,
-     "unpickedWins": 59,
+    "Zyra": {
+     "pickedGames": 2,
+     "pickedWins": 1,
+     "unpickedGames": 103,
+     "unpickedWins": 58,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
@@ -16938,13 +17348,21 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Zyra": {
-     "pickedGames": 2,
-     "pickedWins": 1,
-     "unpickedGames": 103,
-     "unpickedWins": 58,
+    "Jinx": {
+     "pickedGames": 1,
+     "pickedWins": 0,
+     "unpickedGames": 104,
+     "unpickedWins": 59,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
+    },
+    "Ambessa": {
+     "pickedGames": 5,
+     "pickedWins": 3,
+     "unpickedGames": 100,
+     "unpickedWins": 56,
+     "bannedAgainstGames": 7,
+     "bannedAgainstWins": 3
     },
     "Rell": {
      "pickedGames": 12,
@@ -16970,13 +17388,13 @@
      "bannedAgainstGames": 8,
      "bannedAgainstWins": 5
     },
-    "Volibear": {
-     "pickedGames": 1,
-     "pickedWins": 1,
-     "unpickedGames": 104,
-     "unpickedWins": 58,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
+    "Jayce": {
+     "pickedGames": 3,
+     "pickedWins": 2,
+     "unpickedGames": 102,
+     "unpickedWins": 57,
+     "bannedAgainstGames": 12,
+     "bannedAgainstWins": 6
     },
     "Kaisa": {
      "pickedGames": 13,
@@ -16986,21 +17404,13 @@
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 1
     },
-    "Jayce": {
-     "pickedGames": 3,
-     "pickedWins": 2,
-     "unpickedGames": 102,
-     "unpickedWins": 57,
-     "bannedAgainstGames": 12,
-     "bannedAgainstWins": 6
-    },
-    "Cassiopeia": {
-     "pickedGames": 5,
-     "pickedWins": 2,
-     "unpickedGames": 100,
-     "unpickedWins": 57,
-     "bannedAgainstGames": 9,
-     "bannedAgainstWins": 8
+    "Volibear": {
+     "pickedGames": 1,
+     "pickedWins": 1,
+     "unpickedGames": 104,
+     "unpickedWins": 58,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
     },
     "Sejuani": {
      "pickedGames": 4,
@@ -17010,6 +17420,14 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
+    "Cassiopeia": {
+     "pickedGames": 5,
+     "pickedWins": 2,
+     "unpickedGames": 100,
+     "unpickedWins": 57,
+     "bannedAgainstGames": 9,
+     "bannedAgainstWins": 8
+    },
     "Caitlyn": {
      "pickedGames": 5,
      "pickedWins": 4,
@@ -17018,14 +17436,6 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 1
     },
-    "Ezreal": {
-     "pickedGames": 15,
-     "pickedWins": 8,
-     "unpickedGames": 90,
-     "unpickedWins": 51,
-     "bannedAgainstGames": 9,
-     "bannedAgainstWins": 5
-    },
     "Ziggs": {
      "pickedGames": 11,
      "pickedWins": 6,
@@ -17033,6 +17443,14 @@
      "unpickedWins": 53,
      "bannedAgainstGames": 12,
      "bannedAgainstWins": 3
+    },
+    "Ezreal": {
+     "pickedGames": 15,
+     "pickedWins": 8,
+     "unpickedGames": 90,
+     "unpickedWins": 51,
+     "bannedAgainstGames": 9,
+     "bannedAgainstWins": 5
     },
     "Karma": {
      "pickedGames": 4,
@@ -17050,14 +17468,6 @@
      "bannedAgainstGames": 5,
      "bannedAgainstWins": 4
     },
-    "Shen": {
-     "pickedGames": 4,
-     "pickedWins": 4,
-     "unpickedGames": 101,
-     "unpickedWins": 55,
-     "bannedAgainstGames": 1,
-     "bannedAgainstWins": 1
-    },
     "Xayah": {
      "pickedGames": 8,
      "pickedWins": 6,
@@ -17065,6 +17475,14 @@
      "unpickedWins": 53,
      "bannedAgainstGames": 4,
      "bannedAgainstWins": 2
+    },
+    "Shen": {
+     "pickedGames": 4,
+     "pickedWins": 4,
+     "unpickedGames": 101,
+     "unpickedWins": 55,
+     "bannedAgainstGames": 1,
+     "bannedAgainstWins": 1
     },
     "MissFortune": {
      "pickedGames": 0,
@@ -17154,13 +17572,13 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 1
     },
-    "JarvanIV": {
-     "pickedGames": 8,
-     "pickedWins": 3,
-     "unpickedGames": 97,
-     "unpickedWins": 56,
-     "bannedAgainstGames": 10,
-     "bannedAgainstWins": 8
+    "Gwen": {
+     "pickedGames": 3,
+     "pickedWins": 1,
+     "unpickedGames": 102,
+     "unpickedWins": 58,
+     "bannedAgainstGames": 5,
+     "bannedAgainstWins": 3
     },
     "Ahri": {
      "pickedGames": 5,
@@ -17170,13 +17588,13 @@
      "bannedAgainstGames": 2,
      "bannedAgainstWins": 0
     },
-    "Gwen": {
-     "pickedGames": 3,
-     "pickedWins": 1,
-     "unpickedGames": 102,
-     "unpickedWins": 58,
-     "bannedAgainstGames": 5,
-     "bannedAgainstWins": 3
+    "JarvanIV": {
+     "pickedGames": 8,
+     "pickedWins": 3,
+     "unpickedGames": 97,
+     "unpickedWins": 56,
+     "bannedAgainstGames": 10,
+     "bannedAgainstWins": 8
     },
     "Tristana": {
      "pickedGames": 1,
@@ -17394,19 +17812,19 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Camille": {
-     "pickedGames": 2,
-     "pickedWins": 1,
-     "unpickedGames": 103,
-     "unpickedWins": 58,
-     "bannedAgainstGames": 0,
-     "bannedAgainstWins": 0
-    },
     "DrMundo": {
      "pickedGames": 1,
      "pickedWins": 0,
      "unpickedGames": 104,
      "unpickedWins": 59,
+     "bannedAgainstGames": 0,
+     "bannedAgainstWins": 0
+    },
+    "Camille": {
+     "pickedGames": 2,
+     "pickedWins": 1,
+     "unpickedGames": 103,
+     "unpickedWins": 58,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
@@ -17426,14 +17844,6 @@
      "bannedAgainstGames": 1,
      "bannedAgainstWins": 0
     },
-    "Yone": {
-     "pickedGames": 6,
-     "pickedWins": 4,
-     "unpickedGames": 99,
-     "unpickedWins": 55,
-     "bannedAgainstGames": 6,
-     "bannedAgainstWins": 4
-    },
     "TahmKench": {
      "pickedGames": 1,
      "pickedWins": 0,
@@ -17441,6 +17851,14 @@
      "unpickedWins": 59,
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
+    },
+    "Yone": {
+     "pickedGames": 6,
+     "pickedWins": 4,
+     "unpickedGames": 99,
+     "unpickedWins": 55,
+     "bannedAgainstGames": 6,
+     "bannedAgainstWins": 4
     },
     "Seraphine": {
      "pickedGames": 7,
@@ -17474,7 +17892,7 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "Mel": {
+    "TwistedFate": {
      "pickedGames": 1,
      "pickedWins": 0,
      "unpickedGames": 104,
@@ -17482,7 +17900,7 @@
      "bannedAgainstGames": 0,
      "bannedAgainstWins": 0
     },
-    "TwistedFate": {
+    "Mel": {
      "pickedGames": 1,
      "pickedWins": 0,
      "unpickedGames": 104,
@@ -17639,6 +18057,44 @@
     "dryRoles": [
      "Support"
     ]
+   },
+   "sideSplits": {
+    "blue": {
+     "games": 63,
+     "wins": 37,
+     "firstPicks": {
+      "Varus": 8,
+      "Vi": 6,
+      "Skarner": 3,
+      "Taliyah": 3,
+      "Neeko": 3
+     },
+     "bannedAgainst": {
+      "Pantheon": 17,
+      "Nocturne": 15,
+      "Kalista": 14,
+      "Varus": 14,
+      "Vi": 13
+     }
+    },
+    "red": {
+     "games": 42,
+     "wins": 22,
+     "firstPicks": {
+      "Rumble": 8,
+      "Ezreal": 3,
+      "KSante": 2,
+      "Corki": 2,
+      "Ambessa": 2
+     },
+     "bannedAgainst": {
+      "Varus": 10,
+      "Taliyah": 9,
+      "Ziggs": 9,
+      "Rumble": 7,
+      "Ornn": 6
+     }
+    }
    }
   }
  },

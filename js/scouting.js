@@ -23,6 +23,10 @@
  *                               removedAvg, poolRemovedAvg, seriesN }] }
  *   lateSeries:      { longSeries, avgTop5GoneByG4, avgTop5GoneByG5,
  *                      top5, dryRoles }
+ *   sideSplits:      { blue: { games, wins, firstPicks, bannedAgainst },
+ *                      red:  { games, wins, firstPicks, bannedAgainst } }
+ *                    // per-side splits; the two count tables hold only
+ *                    // the top 5 champions by count (see aggregate.py)
  */
 (function (global) {
   "use strict";
@@ -110,6 +114,25 @@
       };
     });
     return out;
+  }
+
+  /* Per-side (blue / red) splits: record, win rate and the top-5
+   * first-pick / banned-against tables for each side. Returns null
+   * when the loaded dataset carries no side splits for the team. */
+  function sideSplits(data, teamId) {
+    var p = profile(data, teamId);
+    if (!p || !p.sideSplits) return null;
+    var norm = function (s) {
+      s = s || {};
+      return {
+        games: s.games || 0,
+        wins: s.wins || 0,
+        winRate: s.games ? s.wins / s.games : 0,
+        firstPicks: sortedCounts(s.firstPicks, 5),
+        bannedAgainst: sortedCounts(s.bannedAgainst, 5)
+      };
+    };
+    return { blue: norm(p.sideSplits.blue), red: norm(p.sideSplits.red) };
   }
 
   function fearlessShift(data, teamId) {
@@ -334,6 +357,7 @@
     championStats: championStats,
     firstPickFrequency: firstPickFrequency,
     bannedAgainst: bannedAgainst,
+    sideSplits: sideSplits,
     rolePools: rolePools,
     fearlessShift: fearlessShift,
     insights: insights

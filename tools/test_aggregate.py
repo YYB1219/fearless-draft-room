@@ -20,6 +20,13 @@ output (the tests FAIL against the pre-fix aggregation):
      and 4 gone at Game 5 of series s1, so the correct values are
      3.0 and 4.0; the old ">= 4" bucket averaged them into 3.5.
 
+  3. sideSplits must bucket each game by the side the team actually
+     played. The second fixture below gives Alpha different first
+     picks, different bans-against and a different win rate on blue
+     (series y1) vs red (series y2), so a side-blind aggregation
+     cannot pass; the pre-sideSplits aggregation has no "sideSplits"
+     key at all and fails outright.
+
 Run: python3 tools/test_aggregate.py   (exit code 0 = all passed)
 """
 import os
@@ -104,6 +111,82 @@ check("avgTop5GoneByG5 measured at Game 5 (4.0)",
       late["avgTop5GoneByG5"] == 4.0)
 check("dryRoles: Top NOT dry under volume-sorted top-5 (2/5 gone < 50%)",
       "Top" not in late["dryRoles"])
+
+# ---------------------------------------------------------------------------
+# Side splits fixture: Alpha is BLUE for all of y1 and RED for all of y2,
+# with deliberately different tendencies per side.
+#   y1 (Alpha blue vs Beta): first pick BlueOpener every game, Beta bans
+#     BlueTarget every game, Alpha wins G1 only -> blue 3 games / 1 win.
+#   y2 (Alpha red vs Beta): first pick RedOpener every game, Beta bans
+#     RedTarget every game, Alpha wins G1+G2 -> red 3 games / 2 wins.
+def game_with_bans(series, gn, blue, red, winner, blue_picks, red_picks,
+                   blue_bans, red_bans):
+    rec = game(series, gn, blue, red, winner, blue_picks, red_picks)
+    rec["blueBans"] = blue_bans
+    rec["redBans"] = red_bans
+    return rec
+
+
+side_records = [
+    game_with_bans("y1", 1, "alpha", "beta", "alpha",
+                   ["BlueOpener", "J1", "M1", "D1", "S1"], filler("y1a"),
+                   [], ["BlueTarget"]),
+    game_with_bans("y1", 2, "alpha", "beta", "beta",
+                   ["BlueOpener", "J2", "M2", "D2", "S2"], filler("y1b"),
+                   [], ["BlueTarget"]),
+    game_with_bans("y1", 3, "alpha", "beta", "beta",
+                   ["BlueOpener", "J3", "M3", "D3", "S3"], filler("y1c"),
+                   [], ["BlueTarget"]),
+    game_with_bans("y2", 1, "beta", "alpha", "alpha",
+                   filler("y2a"), ["RedOpener", "J4", "M4", "D4", "S4"],
+                   ["RedTarget"], []),
+    game_with_bans("y2", 2, "beta", "alpha", "alpha",
+                   filler("y2b"), ["RedOpener", "J5", "M5", "D5", "S5"],
+                   ["RedTarget"], []),
+    game_with_bans("y2", 3, "beta", "alpha", "beta",
+                   filler("y2c"), ["RedOpener", "J6", "M6", "D6", "S6"],
+                   ["RedTarget"], []),
+]
+side_alpha = aggregate(side_records, teams_meta)["profiles"]["alpha"]
+splits = side_alpha["sideSplits"]
+blue_top_fp = list(splits["blue"]["firstPicks"].items())[0]
+red_top_fp = list(splits["red"]["firstPicks"].items())[0]
+blue_top_ba = list(splits["blue"]["bannedAgainst"].items())[0]
+red_top_ba = list(splits["red"]["bannedAgainst"].items())[0]
+
+check("sideSplits: Alpha has 3 blue games and 3 red games",
+      splits["blue"]["games"] == 3 and splits["red"]["games"] == 3)
+check("sideSplits: blue wins 1, red wins 2 (per-side records differ)",
+      splits["blue"]["wins"] == 1 and splits["red"]["wins"] == 2)
+check("sideSplits: blue top first pick is BlueOpener x3",
+      blue_top_fp == ("BlueOpener", 3))
+check("sideSplits: red top first pick is RedOpener x3",
+      red_top_fp == ("RedOpener", 3))
+check("sideSplits: the two sides' top first picks DIFFER (not side-blind)",
+      blue_top_fp[0] != red_top_fp[0])
+check("sideSplits: top banned-against differs per side (BlueTarget/RedTarget x3)",
+      blue_top_ba == ("BlueTarget", 3) and red_top_ba == ("RedTarget", 3))
+check("sideSplits: splits sum back to the overall record (6 games, 3 wins)",
+      splits["blue"]["games"] + splits["red"]["games"] == side_alpha["games"] == 6
+      and splits["blue"]["wins"] + splits["red"]["wins"] == side_alpha["wins"] == 3)
+
+# Cap fixture: one team plays 7 blue games with 6 distinct first picks;
+# the split must keep only the top 5 by count, and the never-played red
+# side must come out as a well-formed empty split.
+cap_records = []
+for i in range(7):
+    fp = "CapA" if i < 2 else "Cap" + str(i)  # CapA x2, Cap2..Cap6 x1 each
+    cap_records.append(game("cap", i + 1, "solo", "opp", "solo",
+                            [fp, "J", "M", "D", "S"], filler("c" + str(i))))
+cap_meta = {"solo": {"name": "Solo", "tag": "SO"},
+            "opp": {"name": "Opp", "tag": "OP"}}
+cap_splits = aggregate(cap_records, cap_meta)["profiles"]["solo"]["sideSplits"]
+check("sideSplits: first-pick list is capped at the top 5 by count",
+      len(cap_splits["blue"]["firstPicks"]) == 5
+      and cap_splits["blue"]["firstPicks"].get("CapA") == 2)
+check("sideSplits: a side never played is an empty, well-formed split",
+      cap_splits["red"] == {"games": 0, "wins": 0,
+                            "firstPicks": {}, "bannedAgainst": {}})
 
 print("\n" + (str(failures) + " FAILURE(S)" if failures else "ALL TESTS PASSED"))
 sys.exit(1 if failures else 0)

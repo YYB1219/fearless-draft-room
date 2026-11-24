@@ -19,7 +19,11 @@ and emits the profile schema consumed by js/scouting.js:
                                   bannedAgainstWins}},
         fearlessShift:   {seriesCount, byGame: [{gameNumber, topPicks,
                                   removedAvg, poolRemovedAvg, seriesN}]},
-        lateSeries:      {longSeries, avgTop5GoneByG4, top5, dryRoles}
+        lateSeries:      {longSeries, avgTop5GoneByG4, top5, dryRoles},
+        sideSplits:      {blue: {games, wins, firstPicks, bannedAgainst},
+                          red:  {games, wins, firstPicks, bannedAgainst}}
+                          # per-side splits; firstPicks / bannedAgainst
+                          # hold only the top 5 champions by count
     }}
   }
 
@@ -206,6 +210,32 @@ def aggregate(records, teams_meta):
                          if gone4_checks and v / gone4_checks >= 0.5],
         }
 
+        # ---- Side splits (blue vs red) ----
+        # The perspective from _team_games carries the side the team
+        # played THIS game (records always know both teams' sides —
+        # build_scouting_from_grid.py drops games whose feed states no
+        # side for either team, so no side is ever guessed here). The
+        # counting mirrors the overall tables above: first pick = the
+        # team's first pick of the game; banned-against counts each
+        # distinct champion the opponent banned, once per game. Only
+        # the top 5 by count are kept for each list.
+        side_splits = {}
+        for side in ("blue", "red"):
+            side_games = [g for _, g in games if g["side"] == side]
+            side_fp = Counter()
+            side_ba = Counter()
+            for g in side_games:
+                if g["myPicks"]:
+                    side_fp[g["myPicks"][0]["champion"]] += 1
+                for champ in set(g["oppBans"]):
+                    side_ba[champ] += 1
+            side_splits[side] = {
+                "games": len(side_games),
+                "wins": sum(1 for g in side_games if g["won"]),
+                "firstPicks": dict(side_fp.most_common(5)),
+                "bannedAgainst": dict(side_ba.most_common(5)),
+            }
+
         profiles[team_id] = {
             "games": n,
             "wins": wins,
@@ -215,6 +245,7 @@ def aggregate(records, teams_meta):
             "tendencies": {k: dict(v) for k, v in tendencies.items()},
             "fearlessShift": fearless_shift,
             "lateSeries": late_series,
+            "sideSplits": side_splits,
         }
 
     teams_out = []

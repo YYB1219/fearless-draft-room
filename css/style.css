@@ -286,6 +286,11 @@ table.tend .bar-cell { width: 45%; }
 .pools { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 12px; }
 .pool-role h4 { margin: 0 0 6px; font-size: 13.5px; }
 .pool-role .player { color: var(--muted); font-weight: normal; }
+.side-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 860px) { .side-cols { grid-template-columns: 1fr; } }
+.side-col h4 { margin: 0 0 2px; font-size: 13.5px; }
+.side-col h5 { margin: 10px 0 4px; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; }
+.side-col .side-record { margin: 0 0 2px; color: var(--muted); font-size: 12.5px; font-variant-numeric: tabular-nums; }
 .insights { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
 .insight {
   background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent);
