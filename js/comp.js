@@ -66,178 +66,194 @@
  * global scope at call time, the same pattern copilot.js uses.
  */
 (function (global) {
-  "use strict";
+    "use strict";
 
-  function Draft() { return global.DraftCore; }
-
-  var ROLES = ["Top", "Jungle", "Mid", "ADC", "Support"];
-
-  /* Tag baselines for Engage / Control (see rubric above). */
-  var TAG_BASELINES = {
-    Tank:     { engage: 7, control: 7 },
-    Support:  { engage: 6, control: 7 },
-    Fighter:  { engage: 5, control: 4 },
-    Assassin: { engage: 5, control: 2 },
-    Mage:     { engage: 3, control: 6 },
-    Marksman: { engage: 2, control: 3 }
-  };
-
-  /* Editorial overrides — widely-known hard engage (fight-starting
-   * ultimates / point-and-click lockdown engages). Raise-only. */
-  var ENGAGE_OVERRIDES = {
-    Malphite: 10, Amumu: 10, Leona: 10, Rell: 10,
-    Nautilus: 9, Ornn: 9, Sejuani: 9, Zac: 9, Rakan: 9, Alistar: 9,
-    Kennen: 9, Maokai: 8, JarvanIV: 8, Vi: 8,
-    Ashe: 7 // engage via Enchanted Crystal Arrow
-  };
-
-  /* Editorial overrides — heavy crowd control (chain CC, terrain,
-   * long-duration lockdown). Raise-only. */
-  var CONTROL_OVERRIDES = {
-    Leona: 10, Nautilus: 10, Amumu: 10,
-    Blitzcrank: 9, Thresh: 9, Morgana: 9, Lissandra: 9, Sejuani: 9,
-    Ornn: 9, Malphite: 9, Rell: 9,
-    Anivia: 8, Veigar: 8, Ashe: 8, Zyra: 8, Renata: 8, Maokai: 8,
-    Galio: 8, Seraphine: 8, Braum: 8
-  };
-
-  /*
-   * championScores(champion) -> {engage, control, frontline, scaling}
-   * on 0–10 scales, or null when the champion carries no Data Dragon
-   * info ratings (the caller then skips it).
-   */
-  function championScores(champion) {
-    if (!champion || !champion.info) return null;
-    var info = champion.info;
-    var tags = champion.tags || [];
-    var engage = 0, control = 0;
-    tags.forEach(function (tag) {
-      var base = TAG_BASELINES[tag];
-      if (!base) return;
-      if (base.engage > engage) engage = base.engage;
-      if (base.control > control) control = base.control;
-    });
-    var eOver = ENGAGE_OVERRIDES[champion.id];
-    if (eOver != null && eOver > engage) engage = eOver;
-    var cOver = CONTROL_OVERRIDES[champion.id];
-    if (cOver != null && cOver > control) control = cOver;
-    var scaling = Math.max(info.attack || 0, info.magic || 0);
-    if (tags.indexOf("Marksman") !== -1 || tags.indexOf("Mage") !== -1) {
-      scaling += 1;
+    function Draft() {
+        return global.DraftCore;
     }
-    if (scaling > 10) scaling = 10;
-    return {
-      engage: engage,
-      control: control,
-      frontline: info.defense || 0,
-      scaling: scaling
+
+    const ROLES = ["Top", "Jungle", "Mid", "ADC", "Support"];
+
+    /* Tag baselines for Engage / Control (see rubric above). */
+    const TAG_BASELINES = {
+        Tank: {engage: 7, control: 7},
+        Support: {engage: 6, control: 7},
+        Fighter: {engage: 5, control: 4},
+        Assassin: {engage: 5, control: 2},
+        Mage: {engage: 3, control: 6},
+        Marksman: {engage: 2, control: 3}
     };
-  }
 
-  function round1(x) { return Math.round(x * 10) / 10; }
-
-  function mean(vals) {
-    if (!vals.length) return 0;
-    return vals.reduce(function (a, b) { return a + b; }, 0) / vals.length;
-  }
-
-  function top2Mean(scored, key) {
-    var vals = scored.map(function (s) { return s[key]; })
-      .sort(function (a, b) { return b - a; })
-      .slice(0, 2);
-    return mean(vals);
-  }
-
-  /*
-   * teamComposition(championsById, pickIds) ->
-   *   { picks, engage, frontline, control, scaling, balance }
-   * championsById: { championId: champion } from data/champions.json.
-   * Aggregation per the rubric in the header comment.
-   */
-  function teamComposition(championsById, pickIds) {
-    var scored = [];
-    var sumAttack = 0, sumMagic = 0;
-    (pickIds || []).forEach(function (id) {
-      var champ = (championsById || {})[id];
-      var s = championScores(champ);
-      if (!s) return;
-      scored.push(s);
-      sumAttack += champ.info.attack || 0;
-      sumMagic += champ.info.magic || 0;
-    });
-    var balance = 0;
-    if (scored.length && (sumAttack + sumMagic) > 0) {
-      balance = (1 - Math.abs(sumAttack - sumMagic) / (sumAttack + sumMagic)) * 10;
-    }
-    return {
-      picks: scored.length,
-      engage: round1(top2Mean(scored, "engage")),
-      frontline: round1(top2Mean(scored, "frontline")),
-      control: round1(mean(scored.map(function (s) { return s.control; }))),
-      scaling: round1(mean(scored.map(function (s) { return s.scaling; }))),
-      balance: round1(balance)
+    /* Editorial overrides — widely-known hard engage (fight-starting
+     * ultimates / point-and-click lockdown engages). Raise-only. */
+    const ENGAGE_OVERRIDES = {
+        Malphite: 10, Amumu: 10, Leona: 10, Rell: 10,
+        Nautilus: 9, Ornn: 9, Sejuani: 9, Zac: 9, Rakan: 9, Alistar: 9,
+        Kennen: 9, Maokai: 8, JarvanIV: 8, Vi: 8,
+        Ashe: 7 // engage via Enchanted Crystal Arrow
     };
-  }
 
-  /*
-   * poolDepletion(profile, series) -> { roles: { role: {
-   *   champions: [{champion, games, wins, available, reason}],
-   *   total, remaining, alert } } } | null
-   * profile is the RAW profile from data/scouting.json
-   * (profiles[teamId], rolePools[role].champions = {id: {games, wins}}).
-   * Returns null without a profile or a series.
-   */
-  function poolDepletion(profile, series) {
-    if (!profile || !series) return null;
-    var D = Draft();
-    var fearless = D.fearlessPool(series);
-    var pickedNow = {}, bannedNow = {};
-    D.currentGame(series).actions.forEach(function (a) {
-      if (a.type === "pick") pickedNow[a.championId] = true;
-      else bannedNow[a.championId] = true;
-    });
-    var roles = {};
-    ROLES.forEach(function (role) {
-      var pool = (profile.rolePools || {})[role];
-      var champs = [];
-      if (pool && pool.champions) {
-        champs = Object.keys(pool.champions).map(function (id) {
-          var c = pool.champions[id];
-          return { champion: id, games: c.games, wins: c.wins };
-        }).sort(function (a, b) {
-          return (b.games - a.games) || (b.wins - a.wins) ||
-            (a.champion < b.champion ? -1 : a.champion > b.champion ? 1 : 0);
-        }).slice(0, 5).map(function (c) {
-          var reason = fearless.has(c.champion) ? "fearless"
-            : pickedNow[c.champion] ? "picked"
-            : bannedNow[c.champion] ? "banned" : null;
-          return {
-            champion: c.champion, games: c.games, wins: c.wins,
-            available: !reason, reason: reason
-          };
+    /* Editorial overrides — heavy crowd control (chain CC, terrain,
+     * long-duration lockdown). Raise-only. */
+    const CONTROL_OVERRIDES = {
+        Leona: 10, Nautilus: 10, Amumu: 10,
+        Blitzcrank: 9, Thresh: 9, Morgana: 9, Lissandra: 9, Sejuani: 9,
+        Ornn: 9, Malphite: 9, Rell: 9,
+        Anivia: 8, Veigar: 8, Ashe: 8, Zyra: 8, Renata: 8, Maokai: 8,
+        Galio: 8, Seraphine: 8, Braum: 8
+    };
+
+    /*
+     * championScores(champion) -> {engage, control, frontline, scaling}
+     * on 0–10 scales, or null when the champion carries no Data Dragon
+     * info ratings (the caller then skips it).
+     */
+    function championScores(champion) {
+        if (!champion || !champion.info) return null;
+        const info = champion.info;
+        const tags = champion.tags || [];
+        let engage = 0, control = 0;
+        tags.forEach(function (tag) {
+            const base = TAG_BASELINES[tag];
+            if (!base) return;
+            if (base.engage > engage) engage = base.engage;
+            if (base.control > control) control = base.control;
         });
-      }
-      var remaining = champs.filter(function (c) { return c.available; }).length;
-      roles[role] = {
-        champions: champs,
-        total: champs.length,
-        remaining: remaining,
-        alert: champs.length > 0 && remaining <= 1
-      };
-    });
-    return { roles: roles };
-  }
+        const eOver = ENGAGE_OVERRIDES[champion.id];
+        if (eOver != null && eOver > engage) engage = eOver;
+        const cOver = CONTROL_OVERRIDES[champion.id];
+        if (cOver != null && cOver > control) control = cOver;
+        let scaling = Math.max(info.attack || 0, info.magic || 0);
+        if (tags.indexOf("Marksman") !== -1 || tags.indexOf("Mage") !== -1) {
+            scaling += 1;
+        }
+        if (scaling > 10) scaling = 10;
+        return {
+            engage: engage,
+            control: control,
+            frontline: info.defense || 0,
+            scaling: scaling
+        };
+    }
 
-  var api = {
-    ROLES: ROLES,
-    TAG_BASELINES: TAG_BASELINES,
-    ENGAGE_OVERRIDES: ENGAGE_OVERRIDES,
-    CONTROL_OVERRIDES: CONTROL_OVERRIDES,
-    championScores: championScores,
-    teamComposition: teamComposition,
-    poolDepletion: poolDepletion
-  };
+    function round1(x) {
+        return Math.round(x * 10) / 10;
+    }
 
-  if (typeof module !== "undefined" && module.exports) module.exports = api;
-  global.Comp = api;
+    function mean(vals) {
+        if (!vals.length) return 0;
+        return vals.reduce(function (a, b) {
+            return a + b;
+        }, 0) / vals.length;
+    }
+
+    function top2Mean(scored, key) {
+        const vals = scored.map(function (s) {
+            return s[key];
+        })
+            .sort(function (a, b) {
+                return b - a;
+            })
+            .slice(0, 2);
+        return mean(vals);
+    }
+
+    /*
+     * teamComposition(championsById, pickIds) ->
+     *   { picks, engage, frontline, control, scaling, balance }
+     * championsById: { championId: champion } from data/champions.json.
+     * Aggregation per the rubric in the header comment.
+     */
+    function teamComposition(championsById, pickIds) {
+        const scored = [];
+        let sumAttack = 0, sumMagic = 0;
+        (pickIds || []).forEach(function (id) {
+            const champ = (championsById || {})[id];
+            const s = championScores(champ);
+            if (!s) return;
+            scored.push(s);
+            sumAttack += champ.info.attack || 0;
+            sumMagic += champ.info.magic || 0;
+        });
+        let balance = 0;
+        if (scored.length && (sumAttack + sumMagic) > 0) {
+            balance = (1 - Math.abs(sumAttack - sumMagic) / (sumAttack + sumMagic)) * 10;
+        }
+        return {
+            picks: scored.length,
+            engage: round1(top2Mean(scored, "engage")),
+            frontline: round1(top2Mean(scored, "frontline")),
+            control: round1(mean(scored.map(function (s) {
+                return s.control;
+            }))),
+            scaling: round1(mean(scored.map(function (s) {
+                return s.scaling;
+            }))),
+            balance: round1(balance)
+        };
+    }
+
+    /*
+     * poolDepletion(profile, series) -> { roles: { role: {
+     *   champions: [{champion, games, wins, available, reason}],
+     *   total, remaining, alert } } } | null
+     * profile is the RAW profile from data/scouting.json
+     * (profiles[teamId], rolePools[role].champions = {id: {games, wins}}).
+     * Returns null without a profile or a series.
+     */
+    function poolDepletion(profile, series) {
+        if (!profile || !series) return null;
+        const D = Draft();
+        const fearless = D.fearlessPool(series);
+        const pickedNow = {}, bannedNow = {};
+        D.currentGame(series).actions.forEach(function (a) {
+            if (a.type === "pick") pickedNow[a.championId] = true;
+            else bannedNow[a.championId] = true;
+        });
+        const roles = {};
+        ROLES.forEach(function (role) {
+            const pool = (profile.rolePools || {})[role];
+            let champs = [];
+            if (pool && pool.champions) {
+                champs = Object.keys(pool.champions).map(function (id) {
+                    const c = pool.champions[id];
+                    return {champion: id, games: c.games, wins: c.wins};
+                }).sort(function (a, b) {
+                    return (b.games - a.games) || (b.wins - a.wins) ||
+                        (a.champion < b.champion ? -1 : a.champion > b.champion ? 1 : 0);
+                }).slice(0, 5).map(function (c) {
+                    const reason = fearless.has(c.champion) ? "fearless"
+                        : pickedNow[c.champion] ? "picked"
+                            : bannedNow[c.champion] ? "banned" : null;
+                    return {
+                        champion: c.champion, games: c.games, wins: c.wins,
+                        available: !reason, reason: reason
+                    };
+                });
+            }
+            const remaining = champs.filter(function (c) {
+                return c.available;
+            }).length;
+            roles[role] = {
+                champions: champs,
+                total: champs.length,
+                remaining: remaining,
+                alert: champs.length > 0 && remaining <= 1
+            };
+        });
+        return {roles: roles};
+    }
+
+    const api = {
+        ROLES: ROLES,
+        TAG_BASELINES: TAG_BASELINES,
+        ENGAGE_OVERRIDES: ENGAGE_OVERRIDES,
+        CONTROL_OVERRIDES: CONTROL_OVERRIDES,
+        championScores: championScores,
+        teamComposition: teamComposition,
+        poolDepletion: poolDepletion
+    };
+
+    if (typeof module !== "undefined" && module.exports) module.exports = api;
+    global.Comp = api;
 })(typeof window !== "undefined" ? window : globalThis);

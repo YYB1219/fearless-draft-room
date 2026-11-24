@@ -90,7 +90,7 @@ The radar scores each team's *current-game picks* on five 0–10 dimensions, fro
 
 The app itself is deliberately dependency-free: hand-written HTML/CSS/JS (`js/draft.js` is a pure, DOM-free state machine — the same file the Node smoke tests exercise; `js/scouting.js` is pure analytics over the aggregate profiles; `js/app.js` is rendering only). Data tooling is Python 3 stdlib plus `zstandard` for reading GRID feeds.
 
-> **[TO FINALIZE — JetBrains tooling paragraph.]** This paragraph will be completed truthfully at polish time: the project will be opened in **WebStorm** (JetBrains All Products trial obtained via this hackathon's registration) and **Junie / JetBrains Air** will be used during the polish pass; the final text will describe only the JetBrains tools actually used and what they were used for. If the bonus "Best AI-Powered Workflow" entry is submitted, its case study (`docs/submission.md`) is valid only under the same condition.
+**JetBrains tooling.** This repository is an **IntelliJ IDEA** project — its `.idea` project files are committed with the code. During the polish pass the project was opened in IntelliJ IDEA and its built-in code inspections (Project Default profile) were run over the composition/depletion analytics module, `js/comp.js`. The ES2015-migration inspection's quick-fix converted all 27 `var` declarations in that file to `let`/`const`, and the file was then reformatted with IDEA's formatter. The pass is behavior-neutral: the full Node smoke suite and the Python aggregate tests pass unchanged, and the pass is visible as its own commit in the repo history.
 
 ## Project structure
 
