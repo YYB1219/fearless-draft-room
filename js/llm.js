@@ -184,6 +184,32 @@
       ? new AbortController() : null;
     var timer = controller
       ? setTimeout(function () { controller.abort(); }, 30000) : null;
+    var payload = {
+      model: cfg.model,
+      temperature: 0.4,
+      max_tokens: 2000,
+      messages: [
+        {
+          role: "system",
+          content: "You are a League of Legends draft analyst writing for a " +
+            "professional coach. Turn the structured facts you are given " +
+            "into a short, sharp narrative (at most ~200 words). Use ONLY " +
+            "the facts and numbers provided — never invent statistics, " +
+            "matchups, or player names. If the facts include warnings, " +
+            "surface them prominently. " +
+            (currentLocale() === "zh"
+              ? "Write the narrative in Simplified Chinese."
+              : "Write the narrative in English.")
+        },
+        { role: "user", content: factsText }
+      ]
+    };
+    // Reasoning models served via DashScope (e.g. deepseek-v4.1-flash)
+    // can spend the entire token budget on hidden reasoning and return
+    // an empty message; ask that endpoint to answer directly instead.
+    if (cfg.baseUrl.indexOf("dashscope.aliyuncs.com") !== -1) {
+      payload.enable_thinking = false;
+    }
     var request = fetchFn(url, {
       signal: controller ? controller.signal : undefined,
       method: "POST",
@@ -191,26 +217,7 @@
         "Content-Type": "application/json",
         "Authorization": "Bearer " + cfg.apiKey
       },
-      body: JSON.stringify({
-        model: cfg.model,
-        temperature: 0.4,
-        max_tokens: 800,
-        messages: [
-          {
-            role: "system",
-            content: "You are a League of Legends draft analyst writing for a " +
-              "professional coach. Turn the structured facts you are given " +
-              "into a short, sharp narrative (at most ~200 words). Use ONLY " +
-              "the facts and numbers provided — never invent statistics, " +
-              "matchups, or player names. If the facts include warnings, " +
-              "surface them prominently. " +
-              (currentLocale() === "zh"
-                ? "Write the narrative in Simplified Chinese."
-                : "Write the narrative in English.")
-          },
-          { role: "user", content: factsText }
-        ]
-      })
+      body: JSON.stringify(payload)
     }).then(function (res) {
       if (!res.ok) {
         return res.text().then(function (body) {
