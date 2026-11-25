@@ -1047,7 +1047,7 @@
         t("common.period") + "</p>";
     });
     html += "</div>";
-    html += '<div class="brief-sec"><h4>' + t("brief.sec5") + "</h4>" +
+    html += '<div class="brief-sec brief-sec-wide"><h4>' + t("brief.sec5") + "</h4>" +
       brief.seriesPlan.map(function (step) {
         return '<div class="brief-step"><b>' + esc(step.title) + "</b><ul>" +
           step.points.map(function (pt) { return "<li>" + esc(pt) + "</li>"; }).join("") +

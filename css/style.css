@@ -451,7 +451,7 @@ table.tend .bar-cell { width: 45%; }
 .settings-actions { display: flex; gap: var(--sp-2); align-items: center; margin-top: 12px; flex-wrap: wrap; }
 
 /* ---------- AI brief ---------- */
-.brief-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; }
+.brief-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; align-items: start; }
 .brief-sec {
   background: var(--card-2); border: 1px solid var(--line);
   border-left: 3px solid var(--line-strong);
@@ -467,6 +467,15 @@ table.tend .bar-cell { width: 45%; }
 .brief-step { margin-bottom: 8px; }
 .brief-step ul { margin: 4px 0 0; padding-left: 18px; color: var(--text-2); font-size: 13px; }
 .brief-step li { margin-bottom: 3px; }
+/* Section 5 (series plan) spans the full row; its Game 1–5 steps flow in
+   responsive columns instead of one tall narrow stack. */
+.brief-sec-wide {
+  grid-column: 1 / -1; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 2px 18px;
+}
+.brief-sec-wide h4 { grid-column: 1 / -1; }
+.brief-sec-wide .brief-step { margin-bottom: 4px; }
 
 /* ---------- AI draft copilot ---------- */
 .copilot-card { border-color: rgba(0, 196, 179, .5); }
