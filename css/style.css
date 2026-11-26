@@ -808,6 +808,11 @@ table.tend .bar-cell { width: 45%; }
 .showcase-card.is-fearless .showcase-badge {
   background: var(--gold); color: var(--gold-dim);
 }
+.showcase-card.is-banned { opacity: .55; }
+.showcase-card.is-banned img { filter: grayscale(1) brightness(.6); }
+.showcase-card.is-banned .showcase-badge {
+  background: var(--red); color: #fff;
+}
 @media (max-width: 1100px) {
   .showcase-stage { --ring-r: 205px; height: 232px; }
 }

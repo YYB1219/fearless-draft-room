@@ -52,9 +52,10 @@
       /* ---- hero showcase ring (js/showcase.js) ---- */
       "showcase.eyebrow": "FEARLESS SHOWCASE",
       "showcase.subtitle": "The most-played champions of the GRID dataset, on one rotating stage.",
-      "showcase.note": "Drag to spin — the ring mirrors the live draft: picked champions light up, fearless bans dim.",
+      "showcase.note": "Drag to spin — the ring mirrors the live draft: picked champions light up, banned and fearless-banned champions dim.",
       "showcase.stats": "{games} games · {wr}% WR",
       "showcase.picked": "PICKED",
+      "showcase.banned": "BANNED",
 
       /* ---- roles / phases / common ---- */
       "role.All": "All",
@@ -371,9 +372,10 @@
       /* ---- 英雄展示环 (js/showcase.js) ---- */
       "showcase.eyebrow": "无畏征召 · 英雄展示",
       "showcase.subtitle": "GRID 数据集中出场最多的英雄，尽在一座旋转展示台。",
-      "showcase.note": "拖动旋转——展示环与实时 BP 同步：已选英雄亮起，无畏禁用的英雄变暗。",
+      "showcase.note": "拖动旋转——展示环与实时 BP 同步：已选英雄亮起，本局禁用与无畏禁用的英雄变暗。",
       "showcase.stats": "{games} 局 · 胜率 {wr}%",
       "showcase.picked": "已选",
+      "showcase.banned": "已禁",
 
       /* ---- 位置 / 阶段 / 通用 ---- */
       "role.All": "全部",

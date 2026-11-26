@@ -7,8 +7,9 @@
  * Zero dependencies, zero network calls, zero game logic. The module
  * never mutates draft state: app.js calls Showcase.sync(state) at the
  * end of renderDraft and the ring merely REFLECTS that state (current-
- * game picks light up, fearless-banned champions dim with the same
- * F·G# badge the board itself uses). Every entry point is wrapped so a
+ * game picks light up, current-game bans dim with a BANNED badge, and
+ * fearless-banned champions dim with the same F·G# badge the board
+ * itself uses). Every entry point is wrapped so a
  * failure here can never break the draft — the worst case is a static
  * page that looks like the previous version.
  *
@@ -190,6 +191,7 @@
       if (!state || !state.scouting || !state.champById) return;
       if (!ringBuilt && !buildRing(state)) return;
       var picked = {};
+      var banned = {};
       var fearless = new Map();
       var s = state.series;
       if (s && global.DraftCore) {
@@ -198,6 +200,7 @@
         if (game && game.actions) {
           game.actions.forEach(function (a) {
             if (a.type === "pick") picked[a.championId] = true;
+            else if (a.type === "ban") banned[a.championId] = true;
           });
         }
       }
@@ -209,11 +212,16 @@
         var wr = st.games ? Math.round((st.wins / st.games) * 100) : 0;
         rec.stats.textContent = tr("showcase.stats", { games: st.games, wr: wr });
         var isF = fearless.has(id);
-        var isP = !isF && !!picked[id];
+        var isB = !isF && !!banned[id];
+        var isP = !isF && !isB && !!picked[id];
         rec.el.classList.toggle("is-fearless", isF);
+        rec.el.classList.toggle("is-banned", isB);
         rec.el.classList.toggle("is-picked", isP);
         if (isF) {
           rec.badge.textContent = "F·G" + fearless.get(id);
+          rec.badge.hidden = false;
+        } else if (isB) {
+          rec.badge.textContent = tr("showcase.banned");
           rec.badge.hidden = false;
         } else if (isP) {
           rec.badge.textContent = tr("showcase.picked");
