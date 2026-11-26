@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fearless Draft Room — Cloud9 × JetBrains, Category 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Russo+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -26,7 +29,7 @@
     <button id="btn-lang" class="btn btn-ghost lang-toggle" type="button" aria-label="Switch language">
       <span class="lang-opt" data-lang-opt="en">EN</span><span class="lang-sep">/</span><span class="lang-opt" data-lang-opt="zh">ZH</span>
     </button>
-    <button id="btn-ai-settings" class="btn" data-i18n="nav.aiSettings">⚙ AI settings (BYOK)</button>
+    <button id="btn-ai-settings" class="btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="nav.aiSettings">AI settings (BYOK)</span></button>
     <button id="btn-demo" class="btn btn-accent" data-i18n="nav.demo">▶ Load demo series (BO5)</button>
   </div>
 </header>
@@ -159,7 +162,7 @@
         <div id="copilot-recs" class="copilot-recs"></div>
         <div id="copilot-warnings" class="copilot-warnings"></div>
         <div class="llm-row">
-          <button id="btn-copilot-llm" class="btn btn-small llm-btn" data-i18n="llm.narrateBtn">✨ AI narration (my model)</button>
+          <button id="btn-copilot-llm" class="btn btn-small llm-btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 4l1.9 5.1L17 11l-5.1 1.9L10 18l-1.9-5.1L3 11l5.1-1.9L10 4z"/><path d="M19 3l.8 2.2L22 6l-2.2.8L19 9l-.8-2.2L16 6l2.2-.8L19 3z"/></svg><span data-i18n="llm.narrateBtn">AI narration (my model)</span></button>
           <span class="hint llm-hint"></span>
         </div>
         <div id="copilot-llm-out" class="llm-out" hidden></div>
@@ -271,7 +274,7 @@
       <h3><span data-i18n="brief.title">AI Brief — pre-match brief</span> <span class="hint" data-i18n="brief.titleHint">(generated locally from the aggregates above; every number carries its n)</span></h3>
       <div>
         <button id="btn-brief-copy" class="btn btn-small" data-i18n="brief.copy">Copy brief</button>
-        <button id="btn-brief-llm" class="btn btn-small llm-btn" data-i18n="llm.narrateBtn">✨ AI narration (my model)</button>
+        <button id="btn-brief-llm" class="btn btn-small llm-btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 4l1.9 5.1L17 11l-5.1 1.9L10 18l-1.9-5.1L3 11l5.1-1.9L10 4z"/><path d="M19 3l.8 2.2L22 6l-2.2.8L19 9l-.8-2.2L16 6l2.2-.8L19 3z"/></svg><span data-i18n="llm.narrateBtn">AI narration (my model)</span></button>
       </div>
     </div>
     <div id="brief-panel" class="brief-panel"></div>

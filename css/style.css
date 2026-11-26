@@ -4,8 +4,10 @@
    Polish pass: GRID / Oracle's-Elixir-grade dashboard finish — a strict
    spacing + type scale, layered surfaces, hairline dividers, tabular
    numbers, team-color accents (blue/red), gold reserved for the
-   pool-shrink headline and warnings. System font stack only; the app
-   stays fully offline-capable. */
+   pool-shrink headline and warnings. Display type uses Russo One /
+   Chakra Petch as a progressive enhancement loaded from Google Fonts;
+   body text keeps the system stack, and offline the app falls back to
+   that stack unchanged. */
 :root {
   /* surfaces & lines */
   --bg: #0a0e17;
@@ -18,7 +20,7 @@
   --text: #e9eef8;
   --text-2: #c6cfe0;        /* body copy inside cards */
   --muted: #8b98b4;
-  --faint: #7383a3;
+  --faint: #8296ba;
   /* team + signal colors */
   --blue: #3b8bf0;
   --blue-dim: #173a63;
@@ -32,6 +34,10 @@
   --gold-dim: #241c07;
   --danger: #b03030;
   --violet: #b07fe0;
+  /* display type: esports webfonts first for Latin glyphs; Chinese
+     glyphs fall through to the system sans stack (intended) */
+  --font-display: "Russo One", "Chakra Petch", "Segoe UI", system-ui,
+    -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
   /* scale */
   --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px;
   --r-s: 6px; --r-m: 8px; --r-l: 12px;
@@ -60,7 +66,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 h1 {
-  font-size: 19px; margin: 0; letter-spacing: .3px; font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 19px; margin: 0; letter-spacing: .5px; font-weight: 700;
   background: linear-gradient(93deg, #f5f9ff 15%, #bfe0ff 48%, var(--accent) 88%);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; color: transparent;
@@ -144,12 +151,15 @@ html { scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--bg); }
   background: linear-gradient(180deg, var(--accent), rgba(0, 196, 179, .15));
 }
 .btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 40px;
   background: #1b2540; color: var(--text); border: 1px solid var(--line-strong);
   border-radius: var(--r-m); padding: 7px 14px; cursor: pointer;
   font: inherit; font-size: 13px; font-weight: 600;
   transition: border-color .18s var(--ease), background .18s var(--ease),
     transform .15s var(--ease), box-shadow .18s var(--ease);
 }
+.btn svg { width: 16px; height: 16px; flex: none; }
 .btn:hover { border-color: var(--accent); box-shadow: var(--shadow-1); transform: translateY(-1px); }
 .btn:active { transform: translateY(1px); }
 .btn:disabled { opacity: .4; cursor: not-allowed; box-shadow: none; transform: none; }
@@ -159,7 +169,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--bg); }
 .btn-ghost:hover { border-color: var(--line-strong); }
 .btn-danger { border-color: var(--danger); color: #ff9c94; background: transparent; }
 .btn-danger:hover { border-color: #e5503f; }
-.btn-small { padding: 4px 10px; font-size: 12px; }
+.btn-small { padding: 4px 10px; font-size: 12px; min-height: 32px; }
 .setup { display: flex; flex-wrap: wrap; gap: 14px; align-items: end; }
 .setup label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); font-weight: 600; }
 .setup input, .setup select {
@@ -169,7 +179,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--bg); }
 }
 .setup input:hover, .setup select:hover,
 .setup input:focus, .setup select:focus { border-color: var(--line-strong); }
-.series-score { font-weight: 700; font-size: 15px; margin-left: auto; font-variant-numeric: tabular-nums; }
+.series-score { font-family: var(--font-display); font-weight: 700; font-size: 15px; margin-left: auto; font-variant-numeric: tabular-nums; }
 
 /* ---------- demo preload notice (first-load only, dismissible) ---------- */
 .demo-notice {
@@ -268,6 +278,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--bg); }
 .center-col { min-width: 0; }
 .phase-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 10px; flex-wrap: wrap; }
 #phase-label {
+  font-family: var(--font-display);
   font-size: 17px; font-weight: 700; letter-spacing: .4px;
   background: linear-gradient(180deg, rgba(233, 238, 248, .08), rgba(233, 238, 248, 0) 55%), var(--bg2);
   border: 1px solid var(--line-strong); border-radius: 999px;
@@ -344,7 +355,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--bg); }
 button.tile { font: inherit; color: inherit; width: 100%; }
 .tile[hidden] { display: none; }
 .tile img { width: 44px; height: 44px; border-radius: var(--r-s); display: block; margin: 0 auto; }
-.tile .tname { font-size: 10.5px; display: block; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tile .tname { font-size: 11px; display: block; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tile .icon-fallback {
   width: 44px; height: 44px; margin: 0 auto; border-radius: var(--r-s); display: flex;
   align-items: center; justify-content: center; background: #24304d; font-weight: 700;
@@ -720,6 +731,7 @@ table.tend .bar-cell { width: 45%; }
   color: var(--accent); text-transform: uppercase; margin-bottom: 6px;
 }
 .hero-title {
+  font-family: var(--font-display);
   font-size: clamp(34px, 6vw, 56px); font-weight: 800;
   letter-spacing: .5px; line-height: 1.08;
   background: linear-gradient(93deg, #f5f9ff 12%, #bfe0ff 46%, var(--accent) 88%);
@@ -785,7 +797,7 @@ table.tend .bar-cell { width: 45%; }
   align-items: center; justify-content: center;
   background: #24304d; font-weight: 700; font-size: 24px;
 }
-.showcase-name { font-size: 13px; font-weight: 700; line-height: 1.25; }
+.showcase-name { font-family: var(--font-display); font-size: 13px; font-weight: 700; line-height: 1.25; }
 .showcase-stats {
   font-size: 10.5px; color: var(--muted); font-variant-numeric: tabular-nums;
 }
@@ -842,6 +854,12 @@ table.tend .bar-cell { width: 45%; }
     rgba(190, 224, 255, .30), rgba(190, 224, 255, 0) 65%);
   opacity: var(--shine);
   transition: opacity .25s var(--ease);
+}
+
+/* ---------- coarse pointers: 44px touch targets ---------- */
+@media (pointer: coarse) {
+  .btn, .btn-small, .chip, .tab { min-height: 44px; }
+  .chip, .tab { display: inline-flex; align-items: center; }
 }
 
 /* ---------- reduced motion ---------- */
