@@ -26,7 +26,7 @@
   </div>
   <div class="top-actions">
     <span id="data-badge" class="badge" data-i18n="app.loading">loading data…</span>
-    <button id="btn-lang" class="btn btn-ghost lang-toggle" type="button" aria-label="Switch language">
+    <button id="btn-lang" class="btn btn-ghost lang-toggle" type="button" data-i18n-aria="nav.langToggle" aria-label="Switch language">
       <span class="lang-opt" data-lang-opt="en">EN</span><span class="lang-sep">/</span><span class="lang-opt" data-lang-opt="zh">ZH</span>
     </button>
     <button id="btn-ai-settings" class="btn" type="button" aria-expanded="false" aria-controls="ai-settings"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="nav.aiSettings">AI settings (BYOK)</span></button>
@@ -34,9 +34,9 @@
   </div>
 </header>
 
-<nav class="tabs" role="tablist">
-  <button id="tab-draft" class="tab active" type="button" role="tab" aria-selected="true" aria-controls="view-draft" data-view="draft" data-i18n="nav.draftTab">Draft Room</button>
-  <button id="tab-scouting" class="tab" type="button" role="tab" aria-selected="false" aria-controls="view-scouting" data-view="scouting" data-i18n="nav.scoutingTab">Scouting &amp; Tendencies</button>
+<nav class="tabs" role="tablist" data-i18n-aria="nav.viewsLabel" aria-label="Main views">
+  <button id="tab-draft" class="tab active" type="button" role="tab" tabindex="0" aria-selected="true" aria-controls="view-draft" data-view="draft" data-i18n="nav.draftTab">Draft Room</button>
+  <button id="tab-scouting" class="tab" type="button" role="tab" tabindex="-1" aria-selected="false" aria-controls="view-scouting" data-view="scouting" data-i18n="nav.scoutingTab">Scouting &amp; Tendencies</button>
 </nav>
 
 <!-- ======================= BYOK AI SETTINGS ======================= -->
@@ -77,24 +77,33 @@
   <!-- Hero showcase: a CSS-3D ring of the dataset's most-played
        champions (js/showcase.js). Purely decorative — it mirrors the
        live draft state but never feeds back into it. -->
-  <section class="hero" id="showcase-hero">
-    <div class="hero-eyebrow" data-i18n="showcase.eyebrow">FEARLESS SHOWCASE</div>
-    <div class="hero-title" aria-hidden="true">Fearless Draft Room</div>
-    <p class="hero-sub" data-i18n="showcase.subtitle">The most-played champions of the GRID dataset, on one rotating stage.</p>
-    <div class="showcase-stage" id="showcase-stage">
-      <div class="showcase-drag" id="showcase-drag">
-        <div class="showcase-tilt">
-          <div class="showcase-rotor" id="showcase-rotor"></div>
-        </div>
+  <section class="hero is-collapsed" id="showcase-hero">
+    <div class="hero-bar">
+      <div class="hero-bar-text">
+        <span class="hero-eyebrow" data-i18n="showcase.eyebrow">FEARLESS SHOWCASE</span>
+        <span class="hero-bar-sub" data-i18n="showcase.subtitle">The most-played champions of the GRID dataset, on one rotating stage.</span>
       </div>
-      <div class="showcase-floor" aria-hidden="true"></div>
+      <button id="btn-showcase-toggle" class="btn btn-small btn-ghost" type="button" aria-expanded="false" aria-controls="showcase-body" data-i18n="showcase.show">Show 3D showcase</button>
     </div>
-    <p class="hero-note" data-i18n="showcase.note">Drag to spin — the ring mirrors the live draft: picked champions light up, fearless bans dim.</p>
+    <div id="showcase-body" class="hero-body" hidden>
+      <div class="hero-title" aria-hidden="true">Fearless Draft Room</div>
+      <p class="hero-sub" data-i18n="showcase.subtitle">The most-played champions of the GRID dataset, on one rotating stage.</p>
+      <div class="showcase-stage" id="showcase-stage" aria-hidden="true">
+        <div class="showcase-drag" id="showcase-drag">
+          <div class="showcase-tilt">
+            <div class="showcase-rotor" id="showcase-rotor"></div>
+          </div>
+        </div>
+        <div class="showcase-floor" aria-hidden="true"></div>
+      </div>
+      <p class="hero-note" data-i18n="showcase.note">Drag to spin — the ring mirrors the live draft: picked champions light up, fearless bans dim.</p>
+    </div>
   </section>
   <div id="demo-notice" class="demo-notice" hidden>
     <span data-i18n="demo.preloadNotice">Demo BO5 preloaded at Game 3 — 20 champions are fearless-banned. Use Reset for a fresh draft.</span>
     <button id="btn-demo-notice-dismiss" class="btn btn-small" type="button" data-i18n="demo.dismiss">Dismiss</button>
   </div>
+  <div id="demo-controls" class="demo-controls" hidden></div>
   <section class="setup card">
     <label><span data-i18n="setup.format">Format</span>
       <select id="setup-format">
@@ -170,7 +179,7 @@
 
       <div class="grid-tools">
         <input id="grid-search" type="search" data-i18n-ph="grid.searchPh" placeholder="Search champions…">
-        <div class="role-filters" id="role-filters" role="group">
+        <div class="role-filters" id="role-filters" role="group" data-i18n-aria="grid.roleFilterLabel" aria-label="Filter by role">
           <button type="button" data-role="All" class="chip active" aria-pressed="true" data-i18n="role.All">All</button>
           <button type="button" data-role="Top" class="chip" aria-pressed="false" data-i18n="role.Top">Top</button>
           <button type="button" data-role="Jungle" class="chip" aria-pressed="false" data-i18n="role.Jungle">Jungle</button>

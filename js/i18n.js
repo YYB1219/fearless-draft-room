@@ -43,6 +43,8 @@
       "nav.demo": "▶ Load demo series (BO5)",
       "nav.draftTab": "Draft Room",
       "nav.scoutingTab": "Scouting & Tendencies",
+      "nav.viewsLabel": "Main views",
+      "nav.langToggle": "Switch language",
       "badge.grid": "Match data: GRID (official hackathon dataset)",
       "badge.sample": "Match data: SAMPLE — demonstration only",
       "footer.gridData": "Scouting data derived from the official GRID starter dataset for the Cloud9 × JetBrains Hackathon (aggregates only; raw GRID feeds are license-restricted and are not redistributed with this project).",
@@ -56,6 +58,8 @@
       "showcase.stats": "{games} games · {wr}% WR",
       "showcase.picked": "PICKED",
       "showcase.banned": "BANNED",
+      "showcase.show": "Show 3D showcase",
+      "showcase.hide": "Hide 3D showcase",
 
       /* ---- roles / phases / common ---- */
       "role.All": "All",
@@ -70,7 +74,7 @@
       "phase.pick2": "Pick Phase 2",
       "phase.draftComplete": "Draft complete",
       "phase.complete": "Game {game} draft complete — mark the winner, then advance.",
-      "phase.turn": "{phase} — {team} to {verb} {kind}",
+      "phase.turn": "{phase} — {team} to {verb}",
       "kind.pick": "PICK",
       "kind.ban": "BAN",
       "kind.watch": "WATCH",
@@ -115,6 +119,7 @@
       "toast.settingsIncomplete": "Saved, but endpoint, model and key are all required to enable narration.",
       "toast.settingsCleared": "AI settings cleared from this browser.",
       "toast.briefCopied": "Brief copied.",
+      "toast.exportCopied": "Draft history copied.",
 
       /* ---- draft room setup / board ---- */
       "setup.format": "Format",
@@ -140,6 +145,7 @@
       "wr.title": "Heuristic estimate — see README for the formula and its limits",
       "grid.searchPh": "Search champions…",
       "grid.noMatch": "No champions match.",
+      "grid.roleFilterLabel": "Filter by role",
       "summary.title": "Series summary & export",
       "summary.copy": "Copy draft history",
       "summary.game": "Game {game}",
@@ -169,6 +175,7 @@
 
       /* ---- composition radar + pool depletion (draft view) ---- */
       "comp.title": "Composition radar",
+      "comp.radarLabel": "Composition radar comparing both teams across five dimensions",
       "comp.empty": "No picks yet — the radar fills in as champions are locked in.",
       "comp.note": "Heuristic estimate: Data Dragon info ratings + tag baselines + editorial engage/CC overrides — rubric and limits in README.",
       "comp.dim.engage": "Engage",
@@ -363,6 +370,8 @@
       "nav.demo": "▶ 加载演示系列赛 (BO5)",
       "nav.draftTab": "BP 室",
       "nav.scoutingTab": "侦察与倾向",
+      "nav.viewsLabel": "主视图",
+      "nav.langToggle": "切换语言",
       "badge.grid": "比赛数据：GRID（黑客松官方数据集）",
       "badge.sample": "比赛数据：样本——仅供演示",
       "footer.gridData": "侦察数据来自 Cloud9 × JetBrains 黑客松官方 GRID 起始数据集（仅聚合结果；GRID 原始数据受许可限制，不随本项目分发）。",
@@ -376,6 +385,8 @@
       "showcase.stats": "{games} 局 · 胜率 {wr}%",
       "showcase.picked": "已选",
       "showcase.banned": "已禁",
+      "showcase.show": "展开 3D 展示",
+      "showcase.hide": "收起 3D 展示",
 
       /* ---- 位置 / 阶段 / 通用 ---- */
       "role.All": "全部",
@@ -390,7 +401,7 @@
       "phase.pick2": "选用阶段 2",
       "phase.draftComplete": "BP 已完成",
       "phase.complete": "第 {game} 局 BP 已完成——标记胜者后进入下一局。",
-      "phase.turn": "{phase} —— {team} {kind}",
+      "phase.turn": "{phase} —— {team} {verb}",
       "kind.pick": "选用",
       "kind.ban": "禁用",
       "kind.watch": "警戒",
@@ -435,6 +446,7 @@
       "toast.settingsIncomplete": "已保存，但端点、模型和密钥都填齐才能启用解读。",
       "toast.settingsCleared": "AI 设置已从本浏览器清除。",
       "toast.briefCopied": "简报已复制。",
+      "toast.exportCopied": "BP 记录已复制。",
 
       /* ---- BP 室设置 / 面板 ---- */
       "setup.format": "赛制",
@@ -460,6 +472,7 @@
       "wr.title": "启发式估算——公式与局限见 README",
       "grid.searchPh": "搜索英雄…",
       "grid.noMatch": "没有符合的英雄。",
+      "grid.roleFilterLabel": "按位置筛选",
       "summary.title": "系列赛总结与导出",
       "summary.copy": "复制 BP 记录",
       "summary.game": "第 {game} 局",
@@ -489,6 +502,7 @@
 
       /* ---- 阵容雷达 + 英雄池枯竭（BP 视图） ---- */
       "comp.title": "阵容雷达",
+      "comp.radarLabel": "对比双方队伍五个维度的阵容雷达图",
       "comp.empty": "尚未选用英雄——锁定英雄后雷达会逐步成形。",
       "comp.note": "启发式估算：Data Dragon info 评分 + 职业标签基线 + 开团/控制编辑修正——规则与局限见 README。",
       "comp.dim.engage": "开团",

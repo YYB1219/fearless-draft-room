@@ -139,6 +139,9 @@
     document.querySelectorAll("[data-i18n-ph]").forEach(function (el) {
       el.placeholder = t(el.getAttribute("data-i18n-ph"));
     });
+    document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+      el.setAttribute("aria-label", t(el.getAttribute("data-i18n-aria")));
+    });
     document.title = t("app.title");
     document.documentElement.lang =
       window.I18n.getLocale() === "zh" ? "zh-CN" : "en";
@@ -181,9 +184,9 @@
    * The Blue/Red setup fields are <select>s over the dataset's team
    * list (data/scouting.json): option values are team ids, while the
    * series itself stores NAMES (DraftCore is name-based). A name with
-   * no dataset entry (the demo's fictional "Sentinels Five") rides a
-   * synthetic "name:<name>" option so it can still be selected and
-   * displayed faithfully. */
+   * no dataset entry (e.g. a user-typed or restored non-dataset name)
+   * rides a synthetic "name:<name>" option so it can still be selected
+   * and displayed faithfully. */
   function teamOptionsHTML() {
     return state.scouting.teams.map(function (tm) {
       return '<option value="' + esc(tm.id) + '">' +
@@ -355,10 +358,7 @@
       : idx < 16 ? t("phase.ban2") : t("phase.pick2");
     var team = esc(step.side === "B" ? blueName : redName);
     var verb = step.type === "ban" ? t("common.banVerb") : t("common.pickVerb");
-    var kind = step.type === "ban"
-      ? '<span class="phase-kind-ban">' + t("kind.ban") + "</span>"
-      : '<span class="phase-kind-pick">' + t("kind.pick") + "</span>";
-    return t("phase.turn", { phase: phase, team: team, verb: verb, kind: kind }) +
+    return t("phase.turn", { phase: phase, team: team, verb: verb }) +
       ' <span style="color:var(--muted);font-size:12px">(' + (idx + 1) + "/20)</span>";
   }
 
@@ -685,7 +685,9 @@
         return pt(i, comp[d.key] / 10);
       }).join(" ");
     }
-    var html = '<svg class="radar" viewBox="0 0 284 196" role="img">';
+    var label = t("comp.radarLabel");
+    var html = '<svg class="radar" viewBox="0 0 284 196" role="img" aria-label="' +
+      esc(label) + '"><title>' + esc(label) + "</title>";
     [0.25, 0.5, 0.75, 1].forEach(function (f) {
       html += '<polygon class="radar-grid" points="' +
         RADAR_DIMS.map(function (d, i) { return pt(i, f); }).join(" ") + '"/>';
@@ -769,8 +771,8 @@
    * applies one every 900ms. This is exactly the flow the demo video
    * script (docs/video-script.md) walks through. */
   /* Point the setup controls at the demo's matchup (format, teams,
-   * patch). The demo's blue team is a dataset team; its red team is
-   * fictional and rides a synthetic select option. */
+   * patch). Both demo teams are dataset teams (Cloud9 Kia vs. Gen.G);
+   * teamValueForName still supports synthetic options for non-dataset names. */
   function setDemoMatchup() {
     $("setup-format").value = state.demo.format;
     setTeamSelects(teamValueForName(state.demo.meta.blueName),
@@ -831,6 +833,7 @@
       state.demoQueue.push({ kind: "winner", side: g.winner });
       if (gi < state.demo.games.length - 1) state.demoQueue.push({ kind: "advance" });
     });
+    if ($("demo-controls")) $("demo-controls").hidden = false;
     $("btn-demo-step").style.display = "";
     $("btn-demo-auto").style.display = "";
     renderDraft();
@@ -856,9 +859,10 @@
   function stopDemo() {
     if (state.demoTimer) { clearInterval(state.demoTimer); state.demoTimer = null; }
     state.demoQueue = [];
-    var a = $("btn-demo-auto"), st = $("btn-demo-step");
+    var a = $("btn-demo-auto"), st = $("btn-demo-step"), dc = $("demo-controls");
     if (a) { a.style.display = "none"; a.textContent = t("demo.autoplay"); }
     if (st) st.style.display = "none";
+    if (dc) dc.hidden = true;
   }
 
   /* ---------------- scouting view ---------------- */
@@ -1270,16 +1274,30 @@
 
   /* ---------------- events ---------------- */
 
-  document.querySelectorAll(".tab").forEach(function (tab) {
-    tab.addEventListener("click", function () {
-      document.querySelectorAll(".tab").forEach(function (tb) {
-        tb.classList.remove("active");
-        tb.setAttribute("aria-selected", "false");
-      });
-      document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("active"); });
-      tab.classList.add("active");
-      tab.setAttribute("aria-selected", "true");
-      $("view-" + tab.dataset.view).classList.add("active");
+  var tabEls = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+  function activateTab(tab, moveFocus) {
+    tabEls.forEach(function (tb) {
+      var on = tb === tab;
+      tb.classList.toggle("active", on);
+      tb.setAttribute("aria-selected", on ? "true" : "false");
+      tb.setAttribute("tabindex", on ? "0" : "-1");
+    });
+    document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("active"); });
+    $("view-" + tab.dataset.view).classList.add("active");
+    if (moveFocus) tab.focus();
+  }
+  tabEls.forEach(function (tab, idx) {
+    tab.addEventListener("click", function () { activateTab(tab, false); });
+    tab.addEventListener("keydown", function (e) {
+      var nextIdx = null;
+      if (e.key === "ArrowRight") nextIdx = (idx + 1) % tabEls.length;
+      else if (e.key === "ArrowLeft") nextIdx = (idx - 1 + tabEls.length) % tabEls.length;
+      else if (e.key === "Home") nextIdx = 0;
+      else if (e.key === "End") nextIdx = tabEls.length - 1;
+      if (nextIdx !== null) {
+        e.preventDefault();
+        activateTab(tabEls[nextIdx], true);
+      }
     });
   });
 
@@ -1287,8 +1305,27 @@
     setLanguage(window.I18n.getLocale() === "zh" ? "en" : "zh");
   });
 
-  // Demo controls are injected next to the header demo button's flow:
-  var controlsHost = document.querySelector(".draft-controls");
+  // Collapsible 3D hero showcase (collapsed by default on load)
+  function setShowcaseOpen(open) {
+    var hero = $("showcase-hero");
+    var body = $("showcase-body");
+    var btn = $("btn-showcase-toggle");
+    if (!hero || !body || !btn) return;
+    hero.classList.toggle("is-collapsed", !open);
+    body.hidden = !open;
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    var key = open ? "showcase.hide" : "showcase.show";
+    btn.setAttribute("data-i18n", key);
+    btn.textContent = t(key);
+  }
+  if ($("btn-showcase-toggle")) {
+    $("btn-showcase-toggle").addEventListener("click", function () {
+      setShowcaseOpen($("showcase-body").hidden);
+    });
+  }
+
+  // Demo controls live in the top demo-controls row next to #demo-notice:
+  var controlsHost = $("demo-controls");
   var stepBtn = document.createElement("button");
   stepBtn.type = "button";
   stepBtn.id = "btn-demo-step"; stepBtn.className = "btn"; stepBtn.textContent = t("demo.step");
@@ -1332,9 +1369,19 @@
   $("btn-win-blue").addEventListener("click", function () { DraftCore.setWinner(state.series, "blue"); renderDraft(); });
   $("btn-win-red").addEventListener("click", function () { DraftCore.setWinner(state.series, "red"); renderDraft(); });
   $("btn-copy-export").addEventListener("click", function () {
+    var text = $("export-text").value;
     $("export-text").select();
-    if (navigator.clipboard) navigator.clipboard.writeText($("export-text").value);
-    else document.execCommand("copy");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        toast(t("toast.exportCopied"));
+      }, function () {
+        document.execCommand("copy");
+        toast(t("toast.exportCopied"));
+      });
+    } else {
+      document.execCommand("copy");
+      toast(t("toast.exportCopied"));
+    }
   });
   $("grid-search").addEventListener("input", function (e) { state.search = e.target.value; renderGrid(); });
   $("role-filters").addEventListener("click", function (e) {
