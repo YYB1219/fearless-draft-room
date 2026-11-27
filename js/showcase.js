@@ -58,6 +58,8 @@
     var ctx = canvas.getContext("2d");
     var DPR = Math.min(global.devicePixelRatio || 1, 1.25);
     var W = 0, H = 0, stars = [], raf = null, last = 0;
+    var MIN_FRAME_MS = 33; // ~30fps is smooth for slow-drifting stars and halves canvas work
+    var TWO_PI = Math.PI * 2;
     var TINTS = [
       "207,224,255", "207,224,255", "207,224,255", "207,224,255",
       "0,196,179", "232,179,60"
@@ -73,7 +75,7 @@
           y: Math.random() * H,
           r: 0.4 + Math.random() * 1.1,
           a: 0.16 + Math.random() * 0.5,
-          ph: Math.random() * Math.PI * 2,
+          ph: Math.random() * TWO_PI,
           drift: 0.006 + Math.random() * 0.028,  // px per 60fps frame
           tw: 0.006 + Math.random() * 0.02,      // twinkle speed
           tint: TINTS[Math.floor(Math.random() * TINTS.length)]
@@ -96,16 +98,17 @@
         var alpha = s.a * (0.72 + 0.28 * Math.sin(s.ph));
         if (alpha <= 0.01) continue;
         ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, s.r, 0, TWO_PI);
         ctx.fillStyle = "rgba(" + s.tint + "," + alpha.toFixed(3) + ")";
         ctx.fill();
       }
     }
     function drawStatic() { paint(); }
     function frame(ts) {
+      if (document.hidden) { raf = null; return; }
       raf = global.requestAnimationFrame(frame);
-      if (document.hidden) return;
-      var dt = Math.min(50, last ? ts - last : 16.7);
+      if (last && ts - last < MIN_FRAME_MS) return;
+      var dt = Math.min(60, last ? ts - last : 33.3);
       last = ts;
       var k = dt / 16.7;
       for (var i = 0; i < stars.length; i++) {
@@ -158,6 +161,7 @@
     var tops = topChampions(state);
     if (!tops.length) return false;
     var step = 360 / tops.length;
+    var frag = document.createDocumentFragment();
     tops.forEach(function (c, i) {
       var champ = state.champById[c.id];
       if (!champ) return;
@@ -167,20 +171,47 @@
         "rotateY(" + (i * step).toFixed(1) + "deg) translateZ(var(--ring-r))";
       card.innerHTML =
         '<span class="showcase-badge" hidden></span>' +
-        '<img src="' + esc(champ.icon) + '" alt="" loading="lazy" ' +
+        '<img src="' + esc(champ.icon) + '" alt="" loading="lazy" decoding="async" ' +
           'data-icon-fallback="' + esc(champ.name.charAt(0)) + '">' +
         '<span class="showcase-name"></span>' +
         '<span class="showcase-stats"></span>';
-      rotor.appendChild(card);
+      frag.appendChild(card);
       ringCards[c.id] = {
         el: card,
         badge: card.querySelector(".showcase-badge"),
         name: card.querySelector(".showcase-name"),
-        stats: card.querySelector(".showcase-stats")
+        stats: card.querySelector(".showcase-stats"),
+        lastName: null,
+        lastStats: null,
+        lastBadge: null,
+        lastBadgeHidden: true
       };
     });
+    rotor.appendChild(frag);
     ringBuilt = Object.keys(ringCards).length > 0;
     return ringBuilt;
+  }
+
+  /* Pause the 3D ring animation while off-screen or while the tab is
+   * hidden so scrolling down to the draft board does not spend
+   * compositor cycles on an unseen 3D rotor. */
+  function initRingPause() {
+    var stage = document.getElementById("showcase-stage");
+    if (!stage) return;
+    var offscreen = false;
+    function updatePause() {
+      stage.classList.toggle("is-paused", document.hidden || offscreen);
+    }
+    document.addEventListener("visibilitychange", updatePause);
+    if (typeof global.IntersectionObserver === "function") {
+      var io = new global.IntersectionObserver(function (entries) {
+        if (!entries || !entries.length) return;
+        offscreen = !entries[0].isIntersecting;
+        updatePause();
+      }, { threshold: 0 });
+      io.observe(stage);
+    }
+    updatePause();
   }
 
   /* Called from app.js's renderDraft (single additive hook). Reflects
@@ -207,27 +238,43 @@
       var statsAll = state.scouting.championStats || {};
       Object.keys(ringCards).forEach(function (id) {
         var rec = ringCards[id];
-        rec.name.textContent = champName(state, id);
+        var nextName = champName(state, id);
+        if (rec.lastName !== nextName) {
+          rec.name.textContent = nextName;
+          rec.lastName = nextName;
+        }
         var st = statsAll[id] || { games: 0, wins: 0 };
         var wr = st.games ? Math.round((st.wins / st.games) * 100) : 0;
-        rec.stats.textContent = tr("showcase.stats", { games: st.games, wr: wr });
+        var nextStats = tr("showcase.stats", { games: st.games, wr: wr });
+        if (rec.lastStats !== nextStats) {
+          rec.stats.textContent = nextStats;
+          rec.lastStats = nextStats;
+        }
         var isF = fearless.has(id);
         var isB = !isF && !!banned[id];
         var isP = !isF && !isB && !!picked[id];
         rec.el.classList.toggle("is-fearless", isF);
         rec.el.classList.toggle("is-banned", isB);
         rec.el.classList.toggle("is-picked", isP);
+        var badgeText = "";
+        var badgeHidden = true;
         if (isF) {
-          rec.badge.textContent = "F·G" + fearless.get(id);
-          rec.badge.hidden = false;
+          badgeText = "F·G" + fearless.get(id);
+          badgeHidden = false;
         } else if (isB) {
-          rec.badge.textContent = tr("showcase.banned");
-          rec.badge.hidden = false;
+          badgeText = tr("showcase.banned");
+          badgeHidden = false;
         } else if (isP) {
-          rec.badge.textContent = tr("showcase.picked");
-          rec.badge.hidden = false;
-        } else {
-          rec.badge.hidden = true;
+          badgeText = tr("showcase.picked");
+          badgeHidden = false;
+        }
+        if (!badgeHidden && rec.lastBadge !== badgeText) {
+          rec.badge.textContent = badgeText;
+          rec.lastBadge = badgeText;
+        }
+        if (rec.lastBadgeHidden !== badgeHidden) {
+          rec.badge.hidden = badgeHidden;
+          rec.lastBadgeHidden = badgeHidden;
         }
       });
     } catch (e) { /* the visual layer must never break the draft */ }
@@ -272,6 +319,7 @@
       dragging = false;
       if (reducedMotion || Math.abs(vel) < 0.05) return;
       var step = function () {
+        if (document.hidden) { inertiaRaf = null; return; }
         vel *= 0.94;
         setOffset(offset + vel);
         if (Math.abs(vel) > 0.05) inertiaRaf = requestAnimationFrame(step);
@@ -298,22 +346,33 @@
     var grid = document.getElementById("champion-grid");
     if (!grid) return;
     var current = null;
+    var currentRect = null;
     function reset(tile) {
       tile.style.setProperty("--rx", "0deg");
       tile.style.setProperty("--ry", "0deg");
       tile.style.setProperty("--shine", "0");
     }
+    var scroller = grid.parentElement;
+    if (scroller) {
+      scroller.addEventListener("scroll", function () { currentRect = null; }, { passive: true });
+    }
+    global.addEventListener("resize", function () { currentRect = null; }, { passive: true });
     grid.addEventListener("pointermove", function (e) {
       var tile = e.target && e.target.closest
         ? e.target.closest(".tile") : null;
       if (!tile || tile.classList.contains("used") ||
           tile.classList.contains("fearless")) {
-        if (current) { reset(current); current = null; }
+        if (current) { reset(current); current = null; currentRect = null; }
         return;
       }
-      if (current && current !== tile) reset(current);
-      current = tile;
-      var r = tile.getBoundingClientRect();
+      if (current !== tile) {
+        if (current) reset(current);
+        current = tile;
+        currentRect = tile.getBoundingClientRect();
+      } else if (!currentRect) {
+        currentRect = tile.getBoundingClientRect();
+      }
+      var r = currentRect;
       if (!r.width || !r.height) return;
       var px = (e.clientX - r.left) / r.width;
       var py = (e.clientY - r.top) / r.height;
@@ -324,7 +383,7 @@
       tile.style.setProperty("--shine", "1");
     });
     grid.addEventListener("pointerleave", function () {
-      if (current) { reset(current); current = null; }
+      if (current) { reset(current); current = null; currentRect = null; }
     });
   }
 
@@ -332,6 +391,7 @@
 
   global.Showcase = { sync: sync };
   try { initStars(); } catch (e) {}
+  try { initRingPause(); } catch (e) {}
   try { initDrag(); } catch (e) {}
   try { initTilt(); } catch (e) {}
 })(window);

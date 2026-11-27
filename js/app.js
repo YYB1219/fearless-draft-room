@@ -13,7 +13,15 @@
 (function () {
   "use strict";
 
-  var $ = function (id) { return document.getElementById(id); };
+  var domCache = {};
+  var $ = function (id) {
+    var el = domCache[id];
+    if (!el) {
+      el = document.getElementById(id);
+      if (el) domCache[id] = el;
+    }
+    return el;
+  };
   var t = function (key, params) { return window.I18n.t(key, params); };
   var roleName = function (r) { return window.I18n.role(r); };
   /* Every user- or data-derived string spliced into innerHTML goes
@@ -36,6 +44,7 @@
 
   var state = {
     champions: [],          // from data/champions.json
+    championIds: [],        // cached id array for Copilot.advise
     champById: {},
     rolesOf: {},            // championId -> [roles]
     scouting: null,         // from data/scouting.json
@@ -78,9 +87,11 @@
       loadJSON("data/demo_series.json").catch(function () { return null; })
     ]).then(function (results) {
       state.champions = results[0].champions;
-      state.champions.forEach(function (c) {
+      state.championIds = state.champions.map(function (c) {
+        c._search = (c.name + "\n" + (c.nameZh || "") + "\n" + c.id).toLowerCase();
         state.champById[c.id] = c;
         state.rolesOf[c.id] = c.roles;
+        return c.id;
       });
       state.scouting = results[1];
       state.demo = results[2];
@@ -132,6 +143,7 @@
     document.documentElement.lang =
       window.I18n.getLocale() === "zh" ? "zh-CN" : "en";
     $("wr-wrap").title = t("wr.title");
+    $("grid-search").setAttribute("aria-label", t("grid.searchPh"));
     document.querySelectorAll("[data-lang-opt]").forEach(function (el) {
       el.classList.toggle("active",
         el.getAttribute("data-lang-opt") === window.I18n.getLocale());
@@ -172,11 +184,15 @@
    * no dataset entry (the demo's fictional "Sentinels Five") rides a
    * synthetic "name:<name>" option so it can still be selected and
    * displayed faithfully. */
-  function buildTeamSelects() {
-    var html = state.scouting.teams.map(function (tm) {
+  function teamOptionsHTML() {
+    return state.scouting.teams.map(function (tm) {
       return '<option value="' + esc(tm.id) + '">' +
         esc(tm.name + " (" + tm.tag + ")") + "</option>";
     }).join("");
+  }
+
+  function buildTeamSelects() {
+    var html = teamOptionsHTML();
     $("setup-blue").innerHTML = html;
     $("setup-red").innerHTML = html;
     // Defaults: T1 on blue, Gen.G on red (fallbacks: first two teams).
@@ -324,13 +340,12 @@
   function iconHTML(c, cls) {
     var display = champName(c.id);
     return '<img class="' + (cls || "") + '" src="' + esc(c.icon) + '" alt="' +
-      esc(display) + '" loading="lazy" data-icon-fallback="' +
+      esc(display) + '" loading="lazy" decoding="async" data-icon-fallback="' +
       esc(display.charAt(0)) + '">';
   }
 
-  function phaseText() {
+  function phaseText(step, blueName, redName) {
     var s = state.series;
-    var step = DraftCore.nextAction(s);
     var game = DraftCore.currentGame(s);
     if (!step) {
       return t("phase.complete", { game: game.number });
@@ -338,7 +353,7 @@
     var idx = game.actions.length;
     var phase = idx < 6 ? t("phase.ban1") : idx < 12 ? t("phase.pick1")
       : idx < 16 ? t("phase.ban2") : t("phase.pick2");
-    var team = esc(step.side === "B" ? DraftCore.blueTeamName(s) : DraftCore.redTeamName(s));
+    var team = esc(step.side === "B" ? blueName : redName);
     var verb = step.type === "ban" ? t("common.banVerb") : t("common.pickVerb");
     var kind = step.type === "ban"
       ? '<span class="phase-kind-ban">' + t("kind.ban") + "</span>"
@@ -352,6 +367,9 @@
     if (!s) return;
     var game = DraftCore.currentGame(s);
     var b = DraftCore.gameBreakdown(game);
+    var step = DraftCore.nextAction(s);
+    var blueName = DraftCore.blueTeamName(s);
+    var redName = DraftCore.redTeamName(s);
 
     /* Pick/ban animation bookkeeping: when the action count grew by
      * exactly one since the previous render, the newest action's slot
@@ -375,22 +393,22 @@
 
     // Panels show the CURRENT game's side assignment (teams may swap
     // sides between games); the series score is per TEAM.
-    $("name-blue").textContent = DraftCore.blueTeamName(s);
-    $("name-red").textContent = DraftCore.redTeamName(s);
+    $("name-blue").textContent = blueName;
+    $("name-red").textContent = redName;
     $("series-score").textContent = t("draft.scoreLine", {
       blue: s.teams[0], bw: s.wins[0], rw: s.wins[1], red: s.teams[1],
       game: game.number, format: s.format
     });
-    $("phase-label").innerHTML = phaseText();
+    var phaseEl = $("phase-label");
+    phaseEl.innerHTML = phaseText(step, blueName, redName);
 
     // The phase banner pulses once when the draft moves into a new
     // phase (or a new game). Re-adding the class after a reflow
     // restarts the keyframe; no timers involved.
     var stepIdx = game.actions.length;
-    var phaseIdx = !DraftCore.nextAction(s) ? 4
+    var phaseIdx = !step ? 4
       : stepIdx < 6 ? 0 : stepIdx < 12 ? 1 : stepIdx < 16 ? 2 : 3;
     var phaseKey = game.number + ":" + phaseIdx;
-    var phaseEl = $("phase-label");
     phaseEl.classList.remove("pulse");
     if (state.phaseKey && state.phaseKey !== phaseKey) {
       void phaseEl.offsetWidth;
@@ -399,7 +417,6 @@
     state.phaseKey = phaseKey;
 
     // Turn highlight
-    var step = DraftCore.nextAction(s);
     $("panel-blue").classList.toggle("active-turn", !!step && step.side === "B");
     $("panel-red").classList.toggle("active-turn", !!step && step.side === "R");
 
@@ -430,8 +447,8 @@
     $("wr-blue").style.width = (p.blue * 100) + "%";
     $("wr-red").style.width = (p.red * 100) + "%";
     $("wr-text").textContent =
-      DraftCore.blueTeamName(s) + " " + Math.round(p.blue * 100) + "% — " +
-      Math.round(p.red * 100) + "% " + DraftCore.redTeamName(s);
+      blueName + " " + Math.round(p.blue * 100) + "% — " +
+      Math.round(p.red * 100) + "% " + redName;
 
     // Game tabs
     $("game-tabs").innerHTML = s.games.map(function (g, i) {
@@ -487,15 +504,16 @@
   }
 
   /* Champion grid: the tiles are built ONCE as real <button>s, cached
-   * by champion id. Filtering toggles `hidden`; draft-state and
-   * language changes update classes, badges, title and name text in
-   * place — no full innerHTML rebuilds after the first build. */
+   * by champion id along with their inner badge/name spans and last
+   * rendered values. Filtering and state updates diff in place — no
+   * querySelector calls or redundant DOM writes on unchanged tiles. */
   var tileCache = {};
   var gridBuilt = false;
   function buildGrid() {
     var grid = $("champion-grid");
     grid.innerHTML = "";
     tileCache = {};
+    var frag = document.createDocumentFragment();
     state.champions.forEach(function (c) {
       var b = document.createElement("button");
       b.type = "button";
@@ -504,9 +522,20 @@
       b.innerHTML = iconHTML(c) +
         '<span class="badge-slot"></span>' +
         '<span class="tname"></span>';
-      grid.appendChild(b);
-      tileCache[c.id] = b;
+      frag.appendChild(b);
+      tileCache[c.id] = {
+        el: b,
+        badge: b.querySelector(".badge-slot"),
+        name: b.querySelector(".tname"),
+        lastHidden: false,
+        lastDisabled: false,
+        lastCls: "tile",
+        lastBadge: "",
+        lastTitle: "",
+        lastName: ""
+      };
     });
+    grid.appendChild(frag);
     gridBuilt = true;
     updateGridTiles();
   }
@@ -524,39 +553,64 @@
       });
     }
     var q = state.search.toLowerCase();
+    var banLabel = t("kind.ban");
     var anyVisible = false;
     state.champions.forEach(function (c) {
-      var el = tileCache[c.id];
-      if (!el) return;
+      var rec = tileCache[c.id];
+      if (!rec) return;
+      var el = rec.el;
       var visible = true;
       if (state.roleFilter !== "All" && c.roles.indexOf(state.roleFilter) === -1) visible = false;
-      if (q && c.name.toLowerCase().indexOf(q) === -1 &&
-          (c.nameZh || "").toLowerCase().indexOf(q) === -1 &&
-          c.id.toLowerCase().indexOf(q) === -1) visible = false;
-      el.hidden = !visible;
+      if (q && c._search.indexOf(q) === -1) visible = false;
+      var hidden = !visible;
+      if (rec.lastHidden !== hidden) {
+        el.hidden = hidden;
+        rec.lastHidden = hidden;
+      }
       if (visible) anyVisible = true;
       var cls = "tile";
       var badge = "";
+      var unavailable = false;
       if (fearless.has(c.id)) {
         cls += " fearless";
+        unavailable = true;
         badge = '<span class="fearless-badge">F·G' + fearless.get(c.id) + "</span>";
       } else if (used.has(c.id)) {
+        unavailable = true;
         if (pickedBy[c.id]) {
           cls += " used picked";
           badge = '<span class="picked-badge ' + pickedBy[c.id] + '">' +
             (pickedBy[c.id] === "blue" ? "B" : "R") + "</span>";
         } else if (bannedThisGame[c.id]) {
           cls += " used banned";
-          badge = '<span class="banned-badge">' + t("kind.ban") + "</span>";
+          badge = '<span class="banned-badge">' + banLabel + "</span>";
         } else {
           cls += " used";
         }
       }
       if (state.flashChamp === c.id) cls += state.flashCls;
-      el.className = cls;
-      el.title = champName(c.id) + " — " + c.roles.map(roleName).join("/");
-      el.querySelector(".badge-slot").innerHTML = badge;
-      el.querySelector(".tname").textContent = champName(c.id);
+      if (rec.lastCls !== cls) {
+        el.className = cls;
+        rec.lastCls = cls;
+      }
+      if (rec.lastDisabled !== unavailable) {
+        el.disabled = unavailable;
+        rec.lastDisabled = unavailable;
+      }
+      var display = champName(c.id);
+      var title = display + " — " + c.roles.map(roleName).join("/");
+      if (rec.lastTitle !== title) {
+        el.title = title;
+        rec.lastTitle = title;
+      }
+      if (rec.lastBadge !== badge) {
+        rec.badge.innerHTML = badge;
+        rec.lastBadge = badge;
+      }
+      if (rec.lastName !== display) {
+        rec.name.textContent = display;
+        rec.lastName = display;
+      }
     });
     $("grid-empty").hidden = anyVisible;
   }
@@ -810,10 +864,7 @@
   /* ---------------- scouting view ---------------- */
 
   function buildScoutTeamOptions() {
-    $("scout-team").innerHTML = state.scouting.teams.map(function (tm) {
-      return '<option value="' + esc(tm.id) + '">' + esc(tm.name) +
-        " (" + esc(tm.tag) + ")</option>";
-    }).join("");
+    $("scout-team").innerHTML = teamOptionsHTML();
   }
 
   function pct(x) { return Math.round(x * 100) + "%"; }
@@ -1061,10 +1112,7 @@
   function buildCopilotOptions() {
     $("copilot-opp").innerHTML =
       '<option value="">' + t("copilot.noneOpp") + "</option>" +
-      state.scouting.teams.map(function (tm) {
-        return '<option value="' + esc(tm.id) + '">' + esc(tm.name) +
-          " (" + esc(tm.tag) + ")</option>";
-      }).join("");
+      teamOptionsHTML();
   }
 
   function renderCopilot() {
@@ -1075,7 +1123,7 @@
       scoutingData: state.scouting,
       opponentId: $("copilot-opp").value || null,
       ourSide: $("copilot-side").value,
-      championIds: state.champions.map(function (c) { return c.id; }),
+      championIds: state.championIds,
       rolesOf: state.rolesOf,
       nameOf: champName
     });
@@ -1179,12 +1227,7 @@
    * Render **bold** as real emphasis; everything else stays literal
    * (escape first, so model output can never inject markup). */
   function renderNarration(out, text) {
-    var esc = String(text)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-    out.innerHTML = esc.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    out.innerHTML = esc(text).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   }
   function narrateInto(outId, btnId, facts) {
     var out = $(outId);
@@ -1247,9 +1290,11 @@
   // Demo controls are injected next to the header demo button's flow:
   var controlsHost = document.querySelector(".draft-controls");
   var stepBtn = document.createElement("button");
+  stepBtn.type = "button";
   stepBtn.id = "btn-demo-step"; stepBtn.className = "btn"; stepBtn.textContent = t("demo.step");
   stepBtn.style.display = "none";
   var autoBtn = document.createElement("button");
+  autoBtn.type = "button";
   autoBtn.id = "btn-demo-auto"; autoBtn.className = "btn btn-accent"; autoBtn.textContent = t("demo.autoplay");
   autoBtn.style.display = "none";
   controlsHost.appendChild(stepBtn);
@@ -1358,11 +1403,22 @@
   });
 
   // BYOK settings panel
+  function setSettingsOpen(open) {
+    $("ai-settings").hidden = !open;
+    $("btn-ai-settings").setAttribute("aria-expanded", open ? "true" : "false");
+  }
   $("btn-ai-settings").addEventListener("click", function () {
-    $("ai-settings").hidden = !$("ai-settings").hidden;
+    setSettingsOpen($("ai-settings").hidden);
   });
   $("btn-ai-settings-close").addEventListener("click", function () {
-    $("ai-settings").hidden = true;
+    setSettingsOpen(false);
+    $("btn-ai-settings").focus();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !$("ai-settings").hidden) {
+      setSettingsOpen(false);
+      $("btn-ai-settings").focus();
+    }
   });
   $("llm-preset").addEventListener("change", function (e) {
     applyPreset(e.target.value);

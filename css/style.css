@@ -194,19 +194,25 @@ html { scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--bg); }
 
 /* ---------- pool banner (the Fearless headline) ---------- */
 .pool-banner {
-  border: 1px solid rgba(232, 179, 60, .55); border-left: 3px solid var(--gold);
+  border: 1px solid rgba(232, 179, 60, .65); border-left: 4px solid var(--gold);
   border-radius: var(--r-l);
-  padding: 10px 16px; margin-bottom: 14px;
-  background: linear-gradient(90deg, #221a06, var(--card) 70%);
-  box-shadow: 0 0 26px -8px rgba(232, 179, 60, .35), var(--shadow-1);
-  font-size: 15px; display: flex; justify-content: space-between;
+  padding: 11px 16px; margin-bottom: 14px;
+  background: linear-gradient(90deg, rgba(232, 179, 60, .14), var(--card) 68%);
+  box-shadow: 0 0 28px -8px rgba(232, 179, 60, .42), var(--shadow-1);
+  font-size: 15.5px; display: flex; justify-content: space-between;
   align-items: center; gap: var(--sp-3); flex-wrap: wrap;
   font-variant-numeric: tabular-nums;
 }
-.pool-banner b { color: var(--gold); }
+.pool-banner b { color: var(--gold); font-weight: 800; letter-spacing: .2px; }
 .pool-banner .pool-meter { min-width: 220px; flex: 1; max-width: 420px; }
-.pool-meter .track { height: 8px; background: #2a3350; border-radius: 4px; overflow: hidden; }
-.pool-meter .fill { height: 100%; background: linear-gradient(90deg, #c1912a, var(--gold)); transition: width .4s var(--ease); }
+.pool-meter .track {
+  height: 10px; background: #222b44; border: 1px solid rgba(232, 179, 60, .25);
+  border-radius: 999px; overflow: hidden;
+}
+.pool-meter .fill {
+  height: 100%; background: linear-gradient(90deg, #c1912a, var(--gold) 70%, #f5cf6b);
+  transition: width .4s var(--ease);
+}
 
 /* ---------- draft layout ---------- */
 .draft-layout { display: grid; grid-template-columns: 244px 1fr 244px; gap: 14px; align-items: start; }
@@ -350,6 +356,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--bg); }
     box-shadow .18s var(--ease), opacity .2s var(--ease);
 }
 .tile:hover { border-color: var(--accent); transform: perspective(520px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-2px); box-shadow: var(--shadow-2), 0 0 16px rgba(0, 196, 179, .28); }
+.tile:focus-visible { border-color: var(--accent); z-index: 3; }
 /* Tiles are real <button>s (built once, updated in place): inherit the
    page font/color, stretch to their grid cell, and honor `hidden`. */
 button.tile { font: inherit; color: inherit; width: 100%; }
@@ -366,12 +373,20 @@ button.tile { font: inherit; color: inherit; width: 100%; }
 .tile.used.picked img { filter: saturate(.65); }
 .tile.used.banned { opacity: .42; }
 .tile.used.banned img { filter: grayscale(1) brightness(.6); }
-.tile.fearless { pointer-events: none; opacity: .5; }
-.tile.fearless img { filter: grayscale(1) brightness(.5); }
+/* Fearless-banned tiles dim only the portrait + label so the gold F·G#
+   badge stays at full contrast and readable at a glance. */
+.tile.fearless {
+  pointer-events: none;
+  background: rgba(36, 28, 7, .42);
+  border-color: rgba(232, 179, 60, .38);
+}
+.tile.fearless img, .tile.fearless .icon-fallback { filter: grayscale(1) brightness(.42); opacity: .58; }
+.tile.fearless .tname { color: var(--muted); opacity: .62; }
 .tile .fearless-badge {
   position: absolute; top: 3px; right: 3px; background: var(--gold); color: var(--gold-dim);
-  font-size: 9.5px; font-weight: 800; border-radius: 4px; padding: 1px 4px;
-  box-shadow: var(--shadow-1);
+  font-size: 10px; font-weight: 800; letter-spacing: .25px; border-radius: 4px; padding: 1px 5px;
+  border: 1px solid rgba(255, 232, 160, .45);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .65);
 }
 .tile .picked-badge {
   position: absolute; top: 3px; left: 3px; font-size: 9.5px; font-weight: 800;
@@ -498,15 +513,20 @@ table.tend .bar-cell { width: 45%; }
   transition: border-color .18s var(--ease);
 }
 .copilot-controls select:hover, .copilot-controls select:focus { border-color: var(--line-strong); }
-.copilot-headline { font-size: 14.5px; font-weight: 600; margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+.copilot-headline {
+  font-size: 15px; font-weight: 650; margin-bottom: 10px; padding-bottom: 8px;
+  border-bottom: 1px solid rgba(34, 45, 71, .65);
+  font-variant-numeric: tabular-nums;
+}
 .copilot-recs { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
 .rec {
   display: flex; gap: 10px; align-items: flex-start; background: var(--card-2);
   border: 1px solid var(--line); border-left: 3px solid var(--blue);
-  border-radius: var(--r-m); padding: 9px 11px;
+  border-radius: var(--r-m); padding: 10px 12px;
   animation: slotIn .22s var(--ease);
   transition: border-color .18s var(--ease), box-shadow .18s var(--ease);
 }
+.rec:first-child { border-color: rgba(163, 184, 224, .28); }
 .rec:hover { border-color: var(--line-strong); box-shadow: var(--shadow-1); }
 .rec.ban { border-left-color: var(--red); }
 .rec.watch { border-left-color: var(--gold); }
@@ -520,18 +540,21 @@ table.tend .bar-cell { width: 45%; }
   background: var(--accent); color: var(--accent-ink); font-weight: 800; font-size: 12px;
   display: flex; align-items: center; justify-content: center; margin-top: 2px;
 }
-.rec-body p { margin: 3px 0 0; font-size: 12.5px; color: var(--text-2); }
+.rec-body { min-width: 0; }
+.rec-top { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.rec-top b { font-size: 14px; color: var(--text); }
+.rec-body p { margin: 4px 0 0; font-size: 13px; line-height: 1.45; color: #d6dfee; }
 .rec-kind {
-  margin-left: 8px; font-size: 10.5px; font-weight: 800; border-radius: 4px; padding: 1px 6px;
-  background: var(--blue-dim); color: #bcd8fb; letter-spacing: .4px;
+  font-size: 10.5px; font-weight: 800; border-radius: 4px; padding: 1px 6px;
+  background: var(--blue-dim); color: #bcd8fb; letter-spacing: .5px; text-transform: uppercase;
 }
 .rec-kind.ban { background: var(--red-dim); color: #ffc4bf; }
 .rec-kind.watch { background: #4a3a10; color: var(--gold); }
 .copilot-warnings { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
 .copilot-warning {
-  border: 1px solid rgba(232, 179, 60, .6);
+  border: 1px solid rgba(232, 179, 60, .6); border-left: 3px solid var(--gold);
   background: linear-gradient(90deg, #221a06, var(--card-2));
-  border-radius: var(--r-m); padding: 8px 11px; font-size: 13px;
+  border-radius: var(--r-m); padding: 8px 11px; font-size: 13px; color: #f4e5b8; font-weight: 500;
 }
 
 /* ---------- pick/ban motion v2 (one-shot, transient classes) ----------
@@ -692,9 +715,14 @@ table.tend .bar-cell { width: 45%; }
 
 /* ---------- small screens ---------- */
 @media (max-width: 640px) {
+  .view { padding: 10px 12px 20px; }
   .tagline { white-space: normal; }
   .topbar { position: static; }
   #phase-label { font-size: 15px; }
+  .pool-banner { font-size: 14px; }
+  .pool-banner .pool-meter { min-width: 0; width: 100%; }
+  .copilot-recs, .brief-panel, .insights { grid-template-columns: 1fr; }
+  .champion-grid { grid-template-columns: repeat(auto-fill, minmax(68px, 1fr)); }
 }
 
 /* ---------- visual layer v3: starfield, hero 3D ring, tile tilt ----------
@@ -765,7 +793,8 @@ table.tend .bar-cell { width: 45%; }
   transform-style: preserve-3d;
   animation: showcaseSpin 72s linear infinite;
 }
-.showcase-stage:hover .showcase-rotor { animation-play-state: paused; }
+.showcase-stage:hover .showcase-rotor,
+.showcase-stage.is-paused .showcase-rotor { animation-play-state: paused; }
 @keyframes showcaseSpin {
   from { transform: rotateY(0deg); }
   to { transform: rotateY(360deg); }
@@ -815,8 +844,10 @@ table.tend .bar-cell { width: 45%; }
     0 0 26px rgba(0, 196, 179, .35),
     0 14px 28px -10px rgba(2, 6, 16, .7);
 }
-.showcase-card.is-fearless { opacity: .48; }
-.showcase-card.is-fearless img { filter: grayscale(1) brightness(.55); }
+.showcase-card.is-fearless { border-color: rgba(232, 179, 60, .42); }
+.showcase-card.is-fearless img, .showcase-card.is-fearless .icon-fallback { filter: grayscale(1) brightness(.48); opacity: .55; }
+.showcase-card.is-fearless .showcase-name,
+.showcase-card.is-fearless .showcase-stats { opacity: .52; }
 .showcase-card.is-fearless .showcase-badge {
   background: var(--gold); color: var(--gold-dim);
 }
@@ -858,8 +889,10 @@ table.tend .bar-cell { width: 45%; }
 
 /* ---------- coarse pointers: 44px touch targets ---------- */
 @media (pointer: coarse) {
-  .btn, .btn-small, .chip, .tab { min-height: 44px; }
-  .chip, .tab { display: inline-flex; align-items: center; }
+  .btn, .btn-small, .chip, .tab, .game-tab,
+  .setup input, .setup select, .copilot-controls select,
+  #grid-search, .settings-grid input, .settings-grid select { min-height: 44px; }
+  .chip, .tab, .game-tab { display: inline-flex; align-items: center; }
 }
 
 /* ---------- reduced motion ---------- */

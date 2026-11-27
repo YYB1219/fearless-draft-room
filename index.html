@@ -29,21 +29,21 @@
     <button id="btn-lang" class="btn btn-ghost lang-toggle" type="button" aria-label="Switch language">
       <span class="lang-opt" data-lang-opt="en">EN</span><span class="lang-sep">/</span><span class="lang-opt" data-lang-opt="zh">ZH</span>
     </button>
-    <button id="btn-ai-settings" class="btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="nav.aiSettings">AI settings (BYOK)</span></button>
-    <button id="btn-demo" class="btn btn-accent" data-i18n="nav.demo">▶ Load demo series (BO5)</button>
+    <button id="btn-ai-settings" class="btn" type="button" aria-expanded="false" aria-controls="ai-settings"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="nav.aiSettings">AI settings (BYOK)</span></button>
+    <button id="btn-demo" class="btn btn-accent" type="button" data-i18n="nav.demo">▶ Load demo series (BO5)</button>
   </div>
 </header>
 
 <nav class="tabs" role="tablist">
-  <button class="tab active" role="tab" aria-selected="true" data-view="draft" data-i18n="nav.draftTab">Draft Room</button>
-  <button class="tab" role="tab" aria-selected="false" data-view="scouting" data-i18n="nav.scoutingTab">Scouting &amp; Tendencies</button>
+  <button id="tab-draft" class="tab active" type="button" role="tab" aria-selected="true" aria-controls="view-draft" data-view="draft" data-i18n="nav.draftTab">Draft Room</button>
+  <button id="tab-scouting" class="tab" type="button" role="tab" aria-selected="false" aria-controls="view-scouting" data-view="scouting" data-i18n="nav.scoutingTab">Scouting &amp; Tendencies</button>
 </nav>
 
 <!-- ======================= BYOK AI SETTINGS ======================= -->
 <section id="ai-settings" class="card settings-card" hidden>
   <div class="summary-head">
     <h3 data-i18n="settings.title">AI narration settings — bring your own key (optional)</h3>
-    <button id="btn-ai-settings-close" class="btn btn-small" data-i18n="settings.close">Close</button>
+    <button id="btn-ai-settings-close" class="btn btn-small" type="button" data-i18n="settings.close">Close</button>
   </div>
   <p class="settings-note" data-i18n-html="settings.note">
     The Brief Generator and Draft Copilot run <b>fully locally</b> and need no key.
@@ -66,14 +66,14 @@
     </label>
   </div>
   <div class="settings-actions">
-    <button id="btn-llm-save" class="btn btn-accent" data-i18n="settings.save">Save settings</button>
-    <button id="btn-llm-clear" class="btn btn-danger" data-i18n="settings.clear">Clear</button>
-    <span id="llm-status" class="scout-meta"></span>
+    <button id="btn-llm-save" class="btn btn-accent" type="button" data-i18n="settings.save">Save settings</button>
+    <button id="btn-llm-clear" class="btn btn-danger" type="button" data-i18n="settings.clear">Clear</button>
+    <span id="llm-status" class="scout-meta" role="status" aria-live="polite"></span>
   </div>
 </section>
 
 <!-- ======================= DRAFT ROOM ======================= -->
-<main id="view-draft" class="view active">
+<main id="view-draft" class="view active" role="tabpanel" aria-labelledby="tab-draft">
   <!-- Hero showcase: a CSS-3D ring of the dataset's most-played
        champions (js/showcase.js). Purely decorative — it mirrors the
        live draft state but never feeds back into it. -->
@@ -104,11 +104,11 @@
     <label><span data-i18n="setup.blue">Blue team</span> <select id="setup-blue"></select></label>
     <label><span data-i18n="setup.red">Red team</span> <select id="setup-red"></select></label>
     <label><span data-i18n="setup.patch">Patch</span> <input id="setup-patch" type="text" data-i18n-ph="setup.patchPh" placeholder="e.g. 16.23"></label>
-    <button id="btn-new-series" class="btn" data-i18n="setup.newSeries">New series</button>
+    <button id="btn-new-series" class="btn" type="button" data-i18n="setup.newSeries">New series</button>
     <span class="series-score" id="series-score"></span>
   </section>
 
-  <section id="pool-banner" class="pool-banner"></section>
+  <section id="pool-banner" class="pool-banner" role="status" aria-live="polite"></section>
 
   <section class="draft-layout">
     <!-- BLUE -->
@@ -118,7 +118,7 @@
       <div class="slots bans" id="bans-blue"></div>
       <div class="slot-label" data-i18n="draft.picks">Picks</div>
       <div class="slots picks" id="picks-blue"></div>
-      <button class="btn btn-small win-btn" id="btn-win-blue">Mark game won</button>
+      <button class="btn btn-small win-btn" id="btn-win-blue" type="button">Mark game won</button>
     </aside>
 
     <!-- CENTER -->
@@ -158,11 +158,11 @@
             </label>
           </div>
         </div>
-        <div id="copilot-headline" class="copilot-headline" data-i18n="copilot.standby">Copilot standing by…</div>
+        <div id="copilot-headline" class="copilot-headline" aria-live="polite" data-i18n="copilot.standby">Copilot standing by…</div>
         <div id="copilot-recs" class="copilot-recs"></div>
-        <div id="copilot-warnings" class="copilot-warnings"></div>
+        <div id="copilot-warnings" class="copilot-warnings" aria-live="polite"></div>
         <div class="llm-row">
-          <button id="btn-copilot-llm" class="btn btn-small llm-btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 4l1.9 5.1L17 11l-5.1 1.9L10 18l-1.9-5.1L3 11l5.1-1.9L10 4z"/><path d="M19 3l.8 2.2L22 6l-2.2.8L19 9l-.8-2.2L16 6l2.2-.8L19 3z"/></svg><span data-i18n="llm.narrateBtn">AI narration (my model)</span></button>
+          <button id="btn-copilot-llm" class="btn btn-small llm-btn" type="button"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 4l1.9 5.1L17 11l-5.1 1.9L10 18l-1.9-5.1L3 11l5.1-1.9L10 4z"/><path d="M19 3l.8 2.2L22 6l-2.2.8L19 9l-.8-2.2L16 6l2.2-.8L19 3z"/></svg><span data-i18n="llm.narrateBtn">AI narration (my model)</span></button>
           <span class="hint llm-hint"></span>
         </div>
         <div id="copilot-llm-out" class="llm-out" hidden></div>
@@ -170,13 +170,13 @@
 
       <div class="grid-tools">
         <input id="grid-search" type="search" data-i18n-ph="grid.searchPh" placeholder="Search champions…">
-        <div class="role-filters" id="role-filters">
-          <button data-role="All" class="chip active" aria-pressed="true" data-i18n="role.All">All</button>
-          <button data-role="Top" class="chip" aria-pressed="false" data-i18n="role.Top">Top</button>
-          <button data-role="Jungle" class="chip" aria-pressed="false" data-i18n="role.Jungle">Jungle</button>
-          <button data-role="Mid" class="chip" aria-pressed="false" data-i18n="role.Mid">Mid</button>
-          <button data-role="ADC" class="chip" aria-pressed="false" data-i18n="role.ADC">ADC</button>
-          <button data-role="Support" class="chip" aria-pressed="false" data-i18n="role.Support">Support</button>
+        <div class="role-filters" id="role-filters" role="group">
+          <button type="button" data-role="All" class="chip active" aria-pressed="true" data-i18n="role.All">All</button>
+          <button type="button" data-role="Top" class="chip" aria-pressed="false" data-i18n="role.Top">Top</button>
+          <button type="button" data-role="Jungle" class="chip" aria-pressed="false" data-i18n="role.Jungle">Jungle</button>
+          <button type="button" data-role="Mid" class="chip" aria-pressed="false" data-i18n="role.Mid">Mid</button>
+          <button type="button" data-role="ADC" class="chip" aria-pressed="false" data-i18n="role.ADC">ADC</button>
+          <button type="button" data-role="Support" class="chip" aria-pressed="false" data-i18n="role.Support">Support</button>
         </div>
       </div>
       <div class="grid-scroll">
@@ -185,11 +185,11 @@
       <p id="grid-empty" style="color:var(--muted)" data-i18n="grid.noMatch" hidden>No champions match the current filter.</p>
 
       <div class="draft-controls">
-        <button id="btn-undo" class="btn" data-i18n="draft.undo">↩ Undo</button>
-        <button id="btn-swap-sides" class="btn" data-i18n="draft.swapSides">Swap sides ⇄</button>
-        <button id="btn-reset-game" class="btn" data-i18n="draft.resetGame">Reset game</button>
-        <button id="btn-next-game" class="btn btn-accent" disabled data-i18n="draft.nextGame">Next game →</button>
-        <button id="btn-reset-series" class="btn btn-danger" data-i18n="draft.resetSeries">Reset series</button>
+        <button id="btn-undo" class="btn" type="button" data-i18n="draft.undo">↩ Undo</button>
+        <button id="btn-swap-sides" class="btn" type="button" data-i18n="draft.swapSides">Swap sides ⇄</button>
+        <button id="btn-reset-game" class="btn" type="button" data-i18n="draft.resetGame">Reset game</button>
+        <button id="btn-next-game" class="btn btn-accent" type="button" disabled data-i18n="draft.nextGame">Next game →</button>
+        <button id="btn-reset-series" class="btn btn-danger" type="button" data-i18n="draft.resetSeries">Reset series</button>
       </div>
     </div>
 
@@ -200,7 +200,7 @@
       <div class="slots bans" id="bans-red"></div>
       <div class="slot-label" data-i18n="draft.picks">Picks</div>
       <div class="slots picks" id="picks-red"></div>
-      <button class="btn btn-small win-btn" id="btn-win-red">Mark game won</button>
+      <button class="btn btn-small win-btn" id="btn-win-red" type="button">Mark game won</button>
     </aside>
   </section>
 
@@ -221,16 +221,16 @@
 
   <section class="card summary-card">
     <div class="summary-head">
-      <h3 data-i18n="summary.title">Series summary &amp; export</h3>
-      <button id="btn-copy-export" class="btn btn-small" data-i18n="summary.copy">Copy draft history</button>
+      <h3 id="summary-heading" data-i18n="summary.title">Series summary &amp; export</h3>
+      <button id="btn-copy-export" class="btn btn-small" type="button" data-i18n="summary.copy">Copy draft history</button>
     </div>
     <div id="series-summary"></div>
-    <textarea id="export-text" readonly rows="9" spellcheck="false"></textarea>
+    <textarea id="export-text" readonly rows="9" spellcheck="false" aria-labelledby="summary-heading"></textarea>
   </section>
 </main>
 
 <!-- ======================= SCOUTING ======================= -->
-<section id="view-scouting" class="view">
+<section id="view-scouting" class="view" role="tabpanel" aria-labelledby="tab-scouting">
   <section class="setup card">
     <label><span data-i18n="scout.opponent">Opponent</span>
       <select id="scout-team"></select>
@@ -273,8 +273,8 @@
     <div class="summary-head">
       <h3><span data-i18n="brief.title">AI Brief — pre-match brief</span> <span class="hint" data-i18n="brief.titleHint">(generated locally from the aggregates above; every number carries its n)</span></h3>
       <div>
-        <button id="btn-brief-copy" class="btn btn-small" data-i18n="brief.copy">Copy brief</button>
-        <button id="btn-brief-llm" class="btn btn-small llm-btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 4l1.9 5.1L17 11l-5.1 1.9L10 18l-1.9-5.1L3 11l5.1-1.9L10 4z"/><path d="M19 3l.8 2.2L22 6l-2.2.8L19 9l-.8-2.2L16 6l2.2-.8L19 3z"/></svg><span data-i18n="llm.narrateBtn">AI narration (my model)</span></button>
+        <button id="btn-brief-copy" class="btn btn-small" type="button" data-i18n="brief.copy">Copy brief</button>
+        <button id="btn-brief-llm" class="btn btn-small llm-btn" type="button"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 4l1.9 5.1L17 11l-5.1 1.9L10 18l-1.9-5.1L3 11l5.1-1.9L10 4z"/><path d="M19 3l.8 2.2L22 6l-2.2.8L19 9l-.8-2.2L16 6l2.2-.8L19 3z"/></svg><span data-i18n="llm.narrateBtn">AI narration (my model)</span></button>
       </div>
     </div>
     <div id="brief-panel" class="brief-panel"></div>
@@ -283,7 +283,7 @@
   </section>
 </section>
 
-<div id="toast" class="toast" aria-live="polite" hidden></div>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
 <footer class="footer">
   <p id="footer-data"></p>
